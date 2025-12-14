@@ -1,8 +1,8 @@
 <script>
-    console.log("Rate.svelte");
+    import { popover } from "./popover.svelte.js";
 </script>
 
-<button> 🌼 Rate</button>
+<button onclick={popover.open}> 🌼 Rate</button>
 
 <style>
     button {

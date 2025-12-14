@@ -1,8 +1,16 @@
 import { mount } from "svelte";
 import App from "./views/App.svelte";
 import RateButton from "./views/RateButton.svelte";
+import Popover from "./views/Popover.svelte";
 
 console.log("[CRXJS] Hello world from content script!");
+
+const mountPopover = () => {
+  const body = document.querySelector("body");
+  const container = document.createElement("div");
+  body?.appendChild(container);
+  mount(Popover, { target: container });
+};
 
 function mountApp() {
   // const container = document.createElement("div");
@@ -12,7 +20,6 @@ function mountApp() {
   //   target: container,
   // });
 
-  console.log("find elements");
   const links = document.querySelectorAll('a[id*="issue_"][id*="_link"]');
   for (const element of links) {
     const id = element.id.split("_")[1];
@@ -21,10 +28,12 @@ function mountApp() {
     const openedBy = element.parentNode.querySelector(".opened-by");
     const parentOfOpenedBy = openedBy?.parentNode;
 
-    const target = document.createElement("span");
-    parentOfOpenedBy?.appendChild(target);
-    mount(RateButton, { target: target });
+    const container = document.createElement("span");
+    parentOfOpenedBy?.appendChild(container);
+    mount(RateButton, { target: container });
   }
+
+  mountPopover();
 }
 
 mountApp();
