@@ -1,12 +1,15 @@
 class Popover {
   isShown = $state(false);
+  params = $state({});
 
-  open = () => {
+  open = (params) => {
     this.isShown = true;
+    this.params = params;
   };
 
   close = () => {
     this.isShown = false;
+    this.params = {};
   };
 }
 

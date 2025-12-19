@@ -1,8 +1,14 @@
 <script>
     import { popover } from "./popover.svelte.js";
+
+    const { pullRequestURL } = $props();
+
+    const openPopover = () => {
+        popover.open({ pullRequestURL });
+    };
 </script>
 
-<button onclick={popover.open}> 🌼 Rate</button>
+<button onclick={openPopover}> 🌼 Rate</button>
 
 <style>
     button {

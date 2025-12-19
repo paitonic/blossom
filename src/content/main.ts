@@ -30,7 +30,11 @@ function mountApp() {
 
     const container = document.createElement("span");
     parentOfOpenedBy?.appendChild(container);
-    mount(RateButton, { target: container });
+
+    mount(RateButton, {
+      target: container,
+      props: { pullRequestURL: element.href },
+    });
   }
 
   mountPopover();
