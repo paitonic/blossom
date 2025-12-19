@@ -1,43 +1,80 @@
 import { mount } from "svelte";
-import App from "./views/App.svelte";
 import RateButton from "./views/RateButton.svelte";
 import Popover from "./views/Popover.svelte";
 
-console.log("[CRXJS] Hello world from content script!");
-
 const mountPopover = () => {
   const body = document.querySelector("body");
-  const container = document.createElement("div");
-  body?.appendChild(container);
-  mount(Popover, { target: container });
+
+  let target = document.querySelector(".blossom-extension-popup");
+  if (target) {
+    console.log("popup already mounted");
+  } else {
+    target = document.createElement("div");
+    target.className = "blossom-extension-popup";
+    body?.appendChild(target);
+    mount(Popover, { target });
+  }
 };
 
-function mountApp() {
-  // const container = document.createElement("div");
-  // container.id = "blossom-extension";
-  // document.body.appendChild(container);
-  // mount(App, {
-  //   target: container,
-  // });
-
+const mountExtension = () => {
+  console.log("mounting extension");
   const links = document.querySelectorAll('a[id*="issue_"][id*="_link"]');
   for (const element of links) {
     const id = element.id.split("_")[1];
     const title = element.innerText;
     // console.log(`issue ${id} ${title}`);
-    const openedBy = element.parentNode.querySelector(".opened-by");
-    const parentOfOpenedBy = openedBy?.parentNode;
+    const openedBy =
+      element.parentNode?.querySelector(".opened-by")?.parentNode;
+    if (!openedBy) {
+      throw new Error(
+        'blossom: could not find ".opened-by" element on Pull Requests page',
+      );
+    }
 
-    const container = document.createElement("span");
-    parentOfOpenedBy?.appendChild(container);
+    let target = element.parentNode?.querySelector(".blossom-extension");
+    if (target) {
+      throw new Error("blossom: extension is already mounted!");
+    } else {
+      target = document.createElement("span");
+      target.className = "blossom-extension-button";
+      openedBy.appendChild(target);
+    }
 
     mount(RateButton, {
-      target: container,
+      target: target,
       props: { pullRequestURL: element.href },
     });
   }
 
   mountPopover();
-}
+};
 
-mountApp();
+const main = () => {
+  mountExtension();
+
+  // When page navigation happens, GitHub replaces wntire <div> with all the content under <body>.
+  // This observes node changed on the <body> tag.
+  // When change is detected by the observer then the extension will mount.
+  // <body>
+  //    <div class="logged-in env-production page-responsive">
+  //    ...
+  // </body>
+  const observer = new MutationObserver((mutations) => {
+    for (const mutation of mutations) {
+      for (const node of mutation.addedNodes) {
+        console.log("node: ", node);
+        if (node.className === "logged-in env-production page-responsive") {
+          // the "div" under <body> has been replaced with new content
+          mountExtension();
+          return;
+        }
+      }
+    }
+  });
+
+  observer.observe(document.querySelector("body"), {
+    childList: true,
+  });
+};
+
+main();
