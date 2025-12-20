@@ -2,9 +2,9 @@ class KVStorage {
   constructor() {}
 
   kget = async (key, defaultValue) => {
+    console.log(`kget(${key})`);
     const kv = await chrome.storage.local.get(key);
     if (Object.keys(kv).length > 0) {
-      console.log("kget: ", key, kv);
       return Promise.resolve(kv[key]);
     } else {
       return Promise.resolve(defaultValue);
