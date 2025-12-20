@@ -1,37 +1,53 @@
 <script lang="ts">
-    import CrxLogo from "@/assets/crx.svg";
-    import svelteLogo from "@/assets/svelte.svg";
-    import viteLogo from "@/assets/vite.svg";
-    import HelloWorld from "@/components/HelloWorld.svelte";
+    import { storage } from "@/shared/storage.js";
+
+    let files = $state(null);
+
+    $effect(() => {
+        if (!files) {
+            return;
+        }
+
+        importJSON(files);
+    });
+
+    const exportJSON = async () => {
+        const items = await storage.kall();
+        if (!items) {
+            console.log("no items");
+        }
+
+        const fileContent = {
+            version: 1,
+            createdAt: new Date(),
+            data: items,
+        };
+
+        const blob = new Blob([JSON.stringify(fileContent, null, 2)], {
+            type: "application/json",
+        });
+
+        chrome.downloads.download({
+            url: URL.createObjectURL(blob),
+            filename: "blossom-extension.json",
+            saveAs: true,
+        });
+    };
+
+    const importJSON = async (files) => {
+        const file = files[0];
+        // TODO: check file.size // in bytes
+        const fileContent = JSON.parse(await file.text());
+
+        // TODO: this will overwrite any existing keys (this is force merge)
+        await storage.kset(fileContent.data);
+    };
 </script>
 
-<div>
-    <a href="https://vite.dev" target="_blank">
-        <img src={viteLogo} class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://svelte.dev" target="_blank">
-        <img src={svelteLogo} class="logo svelte" alt="Svelte logo" />
-    </a>
-    <a href="https://crxjs.dev/vite-plugin" target="_blank">
-        <img src={CrxLogo} class="logo crx" alt="crx logo" />
-    </a>
-</div>
-<HelloWorld msg="Vite + Svelte + CRXJS" />
+<button onclick={exportJSON}>Export</button>
+<hr />
+
+<input type="file" accept="application/json" bind:files />
 
 <style>
-    .logo {
-        height: 6em;
-        padding: 1.5em;
-        will-change: filter;
-        transition: filter 300ms;
-    }
-    .logo:hover {
-        filter: drop-shadow(0 0 2em #646cffaa);
-    }
-    .logo.svelte:hover {
-        filter: drop-shadow(0 0 2em #ff3e00aa);
-    }
-    .logo.crx:hover {
-        filter: drop-shadow(0 0 2em #f2bae4aa);
-    }
 </style>

@@ -1,6 +1,6 @@
 <script lang="ts">
     import { popover } from "./popover.svelte.js";
-    import { storage } from "./storage.svelte.js";
+    import { storage } from "@/shared/storage.js";
 
     let emptyForm = {
         category: "",

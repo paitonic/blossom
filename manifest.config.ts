@@ -20,7 +20,7 @@ export default defineManifest({
       matches: ["https://github.com/*"],
     },
   ],
-  permissions: ["sidePanel", "contentSettings", "storage"],
+  permissions: ["sidePanel", "contentSettings", "storage", "downloads"],
   side_panel: {
     default_path: "src/sidepanel/index.html",
   },
