@@ -5,12 +5,28 @@
     import IconClose from "./IconClose.svelte";
     import { onMount } from "svelte";
 
+    const addTagHotKeyList = ["Enter", " "];
+
     // inject component style into ShadowDOM
     onMount(() => {
         const style = document.createElement("style");
         style.textContent = css;
         const shadowRoot = popoverRef.parentNode;
         shadowRoot.appendChild(style);
+
+        const stopKeyPropagation = (event) => {
+            // GitHub listens for key presses
+            // Without this, key presses will trigger an event in GitHub's UI, e.g `a` opens "Assignee" popup
+            if (!addTagHotKeyList.includes(event.key)) {
+                event.stopPropagation();
+            }
+        };
+
+        popoverRef.addEventListener("keydown", stopKeyPropagation);
+
+        return () => {
+            popoverRef.removeEventListener("keydown", stopKeyPropagation);
+        };
     });
 
     const quickTags = ["chore", "bug", "feature", "hotfix"];
@@ -83,8 +99,10 @@
     });
 
     const addTag = (tagName) => {
-        if (tagName.length > 0 && !form.tags.includes(tagName)) {
-            form.tags.push(tagName);
+        const cleanTagName = tagName.trim();
+        if (cleanTagName.length > 0 && !form.tags.includes(cleanTagName)) {
+            form.tags.push(cleanTagName);
+            console.log($state.snapshot(form.tags));
         }
     };
 
@@ -97,9 +115,7 @@
             return;
         }
 
-        // GitHub uses hot keys
-        event.stopPropagation();
-        if (["Enter", " ", ","].includes(event.key)) {
+        if (addTagHotKeyList.includes(event.key)) {
             addTag(newTag);
             newTag = "";
         }
