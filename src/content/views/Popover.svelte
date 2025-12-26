@@ -90,17 +90,6 @@
             />
         </div>
         <div class="form-group">
-            <label for="created" class="form-label">Created</label>
-            <div style="position: relative">
-                <input
-                    id="created"
-                    class="form-input"
-                    type="date"
-                    value="2025-12-05"
-                />
-            </div>
-        </div>
-        <div class="form-group">
             <label for="tags" class="form-label">Tags</label>
             <div class="tags-input-container">
                 <span class="tag-pill">
@@ -184,18 +173,13 @@
         box-shadow: var(--shadow-xl);
         border: 1px solid var(--color-gray-200);
         width: 100%;
-        max-width: 500px;
-
+        max-width: 360px;
+        display: flex;
         flex-direction: column;
         max-height: 90vh;
     }
-
-    .modal[open] {
-        display: flex;
-    }
-
     .modal-header {
-        padding: 14px 32px;
+        padding: 16px 20px;
         border-bottom: 1px solid var(--color-gray-100);
         display: flex;
         align-items: center;
@@ -205,10 +189,10 @@
         border-top-right-radius: var(--radius-xl);
     }
     .modal-title {
-        font-size: 1.25rem;
-        font-weight: 700;
+        font-size: 1rem;
+        font-weight: 600;
         color: var(--color-gray-900);
-        letter-spacing: -0.025em;
+        letter-spacing: -0.01em;
     }
     .close-btn {
         background: none;
@@ -216,7 +200,7 @@
         color: var(--color-gray-400);
         cursor: pointer;
         border-radius: var(--radius-md);
-        padding: 6px;
+        padding: 4px;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -229,10 +213,11 @@
         background-color: var(--color-gray-100);
     }
     .modal-body {
-        padding: 24px 32px;
+        padding: 16px 20px;
         overflow-y: auto;
         display: flex;
         flex-direction: column;
+        gap: 16px;
     }
     .modal-body::-webkit-scrollbar {
         width: 6px;
@@ -250,12 +235,11 @@
     .form-group {
         display: flex;
         flex-direction: column;
-        gap: 4px;
-        margin: 8px 0;
+        gap: 6px;
     }
     .form-label {
-        font-size: 0.75rem;
-        font-weight: 700;
+        font-size: 0.7rem;
+        font-weight: 600;
         text-transform: uppercase;
         letter-spacing: 0.05em;
         color: var(--color-gray-500);
@@ -267,8 +251,8 @@
         border: 1px solid var(--color-gray-300);
         background-color: var(--color-white);
         color: var(--color-gray-900);
-        padding: 10px 14px;
-        font-size: 0.875rem;
+        padding: 8px 10px;
+        font-size: 0.85rem;
         transition: all 0.2s;
         box-shadow: var(--shadow-sm);
         font-family: inherit;
@@ -286,20 +270,20 @@
         color: var(--color-gray-400);
     }
     .form-textarea {
-        min-height: 80px;
+        min-height: 70px;
         resize: none;
-        line-height: 1.6;
+        line-height: 1.5;
     }
     .tags-input-container {
         width: 100%;
         border-radius: var(--radius-md);
         border: 1px solid var(--color-gray-300);
         background-color: var(--color-white);
-        padding: 8px;
-        min-height: 54px;
+        padding: 4px 6px;
+        min-height: 38px;
         display: flex;
         flex-wrap: wrap;
-        gap: 8px;
+        gap: 6px;
         align-items: center;
         transition: all 0.2s;
         box-shadow: var(--shadow-sm);
@@ -308,12 +292,12 @@
         display: inline-flex;
         align-items: center;
         gap: 4px;
-        padding: 4px 8px;
+        padding: 2px 6px;
         border-radius: var(--radius-sm);
         background-color: var(--color-gray-100);
         border: 1px solid var(--color-gray-200);
         font-size: 0.75rem;
-        font-weight: 600;
+        font-weight: 500;
         color: var(--color-gray-900);
     }
     .tag-remove {
@@ -332,20 +316,20 @@
     .tag-input-field {
         background: transparent;
         border: none;
-        padding: 4px;
-        font-size: 0.875rem;
+        padding: 2px;
+        font-size: 0.85rem;
         color: var(--color-gray-900);
-        min-width: 80px;
+        min-width: 60px;
         flex: 1;
         outline: none;
     }
     .suggestions-container {
         display: flex;
         flex-wrap: wrap;
-        gap: 8px;
+        gap: 6px;
     }
     .suggestion-chip {
-        padding: 6px 12px;
+        padding: 4px 8px;
         border-radius: var(--radius-md);
         border: 1px solid var(--color-gray-200);
         background-color: var(--color-white);
@@ -360,19 +344,19 @@
         color: var(--color-gray-900);
     }
     .modal-footer {
-        padding: 10px 32px;
+        padding: 12px 20px;
         border-top: 1px solid var(--color-gray-100);
         background-color: var(--color-white);
         display: flex;
         justify-content: flex-end;
-        gap: 12px;
+        gap: 8px;
         border-bottom-left-radius: var(--radius-xl);
         border-bottom-right-radius: var(--radius-xl);
     }
     .btn {
-        padding: 10px 20px;
+        padding: 8px 16px;
         border-radius: var(--radius-md);
-        font-size: 0.875rem;
+        font-size: 0.85rem;
         font-weight: 500;
         cursor: pointer;
         transition: all 0.2s;
