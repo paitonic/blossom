@@ -12,8 +12,9 @@ const mountPopover = () => {
     console.log("mounting popup");
     target = document.createElement("div");
     target.className = "blossom-extension-popup";
+    const shadowRoot = target.attachShadow({ mode: "open" });
     body?.appendChild(target);
-    mount(Popover, { target });
+    mount(Popover, { target: shadowRoot });
   }
 };
 
@@ -32,17 +33,19 @@ const mountExtension = () => {
       );
     }
 
+    let shadowRoot;
     let target = element.parentNode?.querySelector(".blossom-extension");
     if (target) {
       throw new Error("blossom: extension is already mounted!");
     } else {
       target = document.createElement("span");
       target.className = "blossom-extension-button";
+      shadowRoot = target.attachShadow({ mode: "open" });
       openedBy.appendChild(target);
     }
 
     mount(RateButton, {
-      target: target,
+      target: shadowRoot,
       props: { pullRequestURL: element.href },
     });
   }
