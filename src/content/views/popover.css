@@ -125,6 +125,7 @@ body {
     letter-spacing: 0.05em;
     color: var(--color-gray-500);
 }
+
 .form-input,
 .form-textarea {
     width: 100%;
@@ -137,6 +138,7 @@ body {
     transition: all 0.2s;
     box-shadow: var(--shadow-sm);
     font-family: inherit;
+    min-height: 38px;
 }
 .form-input:focus,
 .form-textarea:focus,

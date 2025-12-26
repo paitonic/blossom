@@ -13,17 +13,17 @@
         shadowRoot.appendChild(style);
     });
 
-    let x = document.querySelector("body");
-    console.log("x: ", x);
-
+    const quickTags = ["chore", "bug", "feature", "hotfix"];
     let emptyForm = {
         title: "",
         created: 0,
-        tags: "",
+        tags: [],
         notes: "",
     };
 
     let form = $state(structuredClone(emptyForm));
+    let newTag = $state("");
+
     let pullRequest = $derived.by(() => {
         // pullRequestURL: https://github.com/{USER}/{REPO}/pull/41941
         if (!popover.params.pullRequestURL) {
@@ -81,6 +81,29 @@
             }
         })();
     });
+
+    const addTag = (tagName) => {
+        if (tagName.length > 0 && !form.tags.includes(tagName)) {
+            form.tags.push(tagName);
+        }
+    };
+
+    const removeTag = (index) => {
+        form.tags.splice(index, 1);
+    };
+
+    const handleTagInput = (event) => {
+        if (event.repeat) {
+            return;
+        }
+
+        // GitHub uses hot keys
+        event.stopPropagation();
+        if (["Enter", " ", ","].includes(event.key)) {
+            addTag(newTag);
+            newTag = "";
+        }
+    };
 </script>
 
 <div popover="manual" class="modal" bind:this={popoverRef}>
@@ -97,43 +120,47 @@
             <input
                 id="title"
                 class="form-input"
-                placeholder="e.g. Fix navigation bug"
+                placeholder="e.g. Fix cache invalidation bug"
                 type="text"
-                value=""
+                bind:value={form.title}
             />
         </div>
         <div class="form-group">
             <label for="tags" class="form-label">Tags</label>
             <div class="tags-input-container">
-                <span class="tag-pill">
-                    users
-                    <button aria-label="Remove tag" class="tag-remove">
-                        <!-- <span class="material-symbols-outlined">close</span> -->
-                        <IconClose size="16px" />
-                    </button>
-                </span>
-                <span class="tag-pill">
-                    important
-                    <button aria-label="Remove tag" class="tag-remove">
-                        <!-- <span class="material-symbols-outlined">close</span> -->
-                        <IconClose size="16px" />
-                    </button>
-                </span>
+                {#each form.tags as tag, index}
+                    <span class="tag-pill">
+                        {tag}
+                        <button
+                            aria-label="Remove tag"
+                            class="tag-remove"
+                            onclick={() => removeTag(index)}
+                        >
+                            <!-- <span class="material-symbols-outlined">close</span> -->
+                            <IconClose size="16px" />
+                        </button>
+                    </span>
+                {/each}
                 <input
                     id="tags"
                     class="tag-input-field"
-                    placeholder="Type tag..."
+                    placeholder={form.tags.length == 0 ? "e.g cache" : ""}
                     type="text"
+                    onkeydown={handleTagInput}
+                    bind:value={newTag}
                 />
             </div>
         </div>
         <div class="form-group">
-            <label for="quick-tag" class="form-label">Quick Add</label>
+            <span class="form-label">Quick Add</span>
             <div class="suggestions-container">
-                <button id="quick-tag" class="suggestion-chip">bug</button>
-                <button class="suggestion-chip">feature</button>
-                <button class="suggestion-chip">chore</button>
-                <button class="suggestion-chip">refactor</button>
+                {#each quickTags as quickTag, index}
+                    <button
+                        id={`quick-tag-${index}`}
+                        class="suggestion-chip"
+                        onclick={() => addTag(quickTag)}>{quickTag}</button
+                    >
+                {/each}
             </div>
         </div>
         <div class="form-group">
@@ -142,6 +169,7 @@
                 id="notes"
                 class="form-textarea"
                 placeholder="Add any relevant details..."
+                bind:value={form.notes}
             ></textarea>
         </div>
     </div>
