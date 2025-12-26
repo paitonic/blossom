@@ -174,10 +174,14 @@
         border: 1px solid var(--color-gray-200);
         width: 100%;
         max-width: 360px;
-        display: flex;
         flex-direction: column;
         max-height: 90vh;
     }
+
+    .modal[open] {
+        display: flex;
+    }
+
     .modal-header {
         padding: 16px 20px;
         border-bottom: 1px solid var(--color-gray-100);

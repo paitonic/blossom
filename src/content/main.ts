@@ -9,6 +9,7 @@ const mountPopover = () => {
   if (target) {
     console.log("popup already mounted");
   } else {
+    console.log("mounting popup");
     target = document.createElement("div");
     target.className = "blossom-extension-popup";
     body?.appendChild(target);
