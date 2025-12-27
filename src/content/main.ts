@@ -33,6 +33,10 @@ const mountExtension = () => {
       );
     }
 
+    const openedAt = openedBy
+      .querySelector("relative-time")
+      ?.getAttribute("datetime");
+
     let target = element.parentNode?.querySelector(".blossom-extension");
     if (target) {
       throw new Error("blossom: extension is already mounted!");
@@ -44,7 +48,11 @@ const mountExtension = () => {
 
     mount(BlossomButton, {
       target,
-      props: { pullRequestURL: element.href },
+      props: {
+        pullRequestURL: element.href,
+        title,
+        openedAt,
+      },
     });
   }
 

@@ -1,10 +1,10 @@
 <script>
     import { popover } from "./popover.svelte.js";
 
-    const { pullRequestURL } = $props();
+    const props = $props();
 
     const openPopover = () => {
-        popover.open({ pullRequestURL });
+        popover.open(props);
     };
 </script>
 

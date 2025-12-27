@@ -32,7 +32,7 @@
     const quickTags = ["chore", "bug", "feature", "hotfix"];
     let emptyForm = {
         title: "",
-        created: 0,
+        openedAt: "",
         tags: [],
         notes: "",
     };
@@ -40,7 +40,7 @@
     let form = $state(structuredClone(emptyForm));
     let newTag = $state("");
 
-    let pullRequest = $derived.by(() => {
+    let pullRequestDetails = $derived.by(() => {
         // pullRequestURL: https://github.com/{USER}/{REPO}/pull/41941
         if (!popover.params.pullRequestURL) {
             return null;
@@ -50,15 +50,18 @@
             popover.params.pullRequestURL.split("/");
         const key = `${user}/${repo}/${pullRequestID}`;
 
+        console.log("openedAt: ", popover.params.openedAt);
         return {
             key,
             user,
             repo,
+            title: popover.params.title,
+            openedAt: popover.params.openedAt,
             pullRequestID,
         };
     });
 
-    const updateForm = (values) => {
+    const setForm = (values) => {
         Object.assign(form, values);
     };
 
@@ -71,7 +74,7 @@
     };
 
     const save = async () => {
-        await storage.kset(pullRequest?.key, form);
+        await storage.kset(pullRequestDetails?.key, form);
         popover.close();
     };
 
@@ -86,14 +89,18 @@
 
     $effect(() => {
         (async () => {
-            if (!pullRequest) {
+            if (!pullRequestDetails) {
                 return;
             }
-            const item = await storage.kget(pullRequest.key, null);
+            const item = await storage.kget(pullRequestDetails.key, null);
             if (item) {
-                updateForm(item);
+                setForm(item);
             } else {
-                resetForm();
+                setForm({
+                    ...emptyForm,
+                    title: pullRequestDetails.title,
+                    openedAt: pullRequestDetails.openedAt,
+                });
             }
         })();
     });
