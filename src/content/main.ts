@@ -1,5 +1,5 @@
 import { mount } from "svelte";
-import RateButton from "./views/RateButton.svelte";
+import BlossomButton from "./views/BlossomButton.svelte";
 import Popover from "./views/Popover.svelte";
 
 const mountPopover = () => {
@@ -33,19 +33,17 @@ const mountExtension = () => {
       );
     }
 
-    let shadowRoot;
     let target = element.parentNode?.querySelector(".blossom-extension");
     if (target) {
       throw new Error("blossom: extension is already mounted!");
     } else {
       target = document.createElement("span");
       target.className = "blossom-extension-button";
-      shadowRoot = target.attachShadow({ mode: "open" });
       openedBy.appendChild(target);
     }
 
-    mount(RateButton, {
-      target: shadowRoot,
+    mount(BlossomButton, {
+      target,
       props: { pullRequestURL: element.href },
     });
   }

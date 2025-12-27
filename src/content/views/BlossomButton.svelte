@@ -8,7 +8,7 @@
     };
 </script>
 
-<button onclick={openPopover}> 🌼 Rate</button>
+<button onclick={openPopover}> 🌼 Blossom</button>
 
 <style>
     button {
