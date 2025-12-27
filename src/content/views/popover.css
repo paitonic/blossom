@@ -75,6 +75,13 @@ body {
     color: var(--color-gray-900);
     letter-spacing: -0.01em;
 }
+
+.modal-title img {
+    width: 24px;
+    height: 24px;
+    vertical-align: bottom;
+}
+
 .close-btn {
     background: none;
     border: none;

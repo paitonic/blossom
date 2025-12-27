@@ -43,6 +43,8 @@ const mountExtension = () => {
     } else {
       target = document.createElement("span");
       target.className = "blossom-extension-button";
+      target.style.display = "inline-flex";
+      target.style.marginLeft = "4px";
       openedBy.appendChild(target);
     }
 

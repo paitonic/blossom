@@ -4,6 +4,9 @@
     import css from "@/content/views/popover.css?raw";
     import IconClose from "./IconClose.svelte";
     import { onMount } from "svelte";
+    import logo from "@/assets/blossom-128x128.png";
+
+    const logoURL = chrome.runtime.getURL(logo);
 
     const addTagHotKeyList = ["Enter", " "];
 
@@ -131,9 +134,10 @@
 
 <div popover="manual" class="modal" bind:this={popoverRef}>
     <div class="modal-header">
-        <h2 class="modal-title">🌼 Blossom</h2>
+        <h2 class="modal-title">
+            <img src={logoURL} alt="Blossom Extension Logo" /> Blossom
+        </h2>
         <button aria-label="Close modal" class="close-btn" onclick={cancel}>
-            <!-- <span class="material-symbols-outlined">close</span> -->
             <IconClose />
         </button>
     </div>
