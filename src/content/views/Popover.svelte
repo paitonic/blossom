@@ -1,6 +1,6 @@
 <script lang="ts">
     import { popover } from "./popover.svelte.js";
-    import { storage } from "@/shared/storage.js";
+    import { storage } from "@/shared/storage.svelte.js";
     import css from "@/content/views/popover.css?raw";
     import IconClose from "./IconClose.svelte";
     import { onMount } from "svelte";

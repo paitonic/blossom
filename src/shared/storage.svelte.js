@@ -18,9 +18,9 @@ class KVStorage {
   kset = async (key, value) => {
     if (value === undefined) {
       // key is an object { key1: value1, key2: value2 }
-      return chrome.storage.local.set(key);
+      return chrome.storage.local.set($state.snapshot(key));
     }
-    return chrome.storage.local.set({ [key]: value });
+    return chrome.storage.local.set($state.snapshot({ [key]: value }));
   };
 
   kquery = async () => {};
