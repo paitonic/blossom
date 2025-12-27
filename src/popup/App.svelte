@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { storage } from "@/shared/storage.js";
+    import { storage } from "@/shared/storage.svelte.js";
 
     let files = $state(null);
 
