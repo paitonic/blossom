@@ -10,8 +10,12 @@
     };
 </script>
 
-<img src={logoURL} alt="Blossom Extension Logo" />
-<button onclick={openPopover}>Blossom</button>
+<!-- <img src={logoURL} alt="Blossom Extension Logo" />
+<button onclick={openPopover}>Blossom</button> -->
+
+<button onclick={openPopover}>
+    <img src={logoURL} alt="Blossom Extension Logo" />
+</button>
 
 <style>
     button {

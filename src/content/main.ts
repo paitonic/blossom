@@ -20,6 +20,8 @@ const mountPopover = () => {
 
 const mountExtension = () => {
   console.log("mounting extension");
+
+  // mount on Pull Requests list page
   const links = document.querySelectorAll('a[id*="issue_"][id*="_link"]');
   for (const element of links) {
     const id = element.id.split("_")[1];
@@ -52,6 +54,53 @@ const mountExtension = () => {
       target,
       props: {
         pullRequestURL: element.href,
+        title,
+        openedAt,
+      },
+    });
+  }
+
+  // mount on Pull Request page
+  const firstComment = document.querySelector(
+    '.pull-discussion-timeline a[id*="issue-"][id*="-permalink"]',
+  );
+
+  if (firstComment) {
+    // const pullRequestPage = firstComment.parentNode;
+
+    const datetimeElement = document.querySelector(
+      'div[id^="pullrequest-"] relative-time',
+    );
+    const link = datetimeElement?.parentNode.href;
+    const title = document.querySelector(
+      "#partial-discussion-header .markdown-title",
+    ).innerText;
+    const openedAtElement = document.querySelector(
+      'div[id^="pullrequest-"] relative-time',
+    );
+    const openedAt = openedAtElement.getAttribute("datetime");
+
+    let target = firstComment.querySelector(".blossom-extension");
+    if (target) {
+      throw new Error("blossom: extension is already mounted!");
+    } else {
+      target = document.createElement("span");
+      target.className = "blossom-extension-button";
+      target.style.display = "inline-flex";
+      target.style.marginLeft = "4px";
+
+      const mountTo = document.querySelector(
+        'div[id^="pullrequest-"] .timeline-comment-actions',
+      );
+      mountTo?.prepend(target);
+    }
+
+    console.log("view pull request: ", link, title, openedAt);
+    mount(BlossomButton, {
+      target,
+      props: {
+        withLabel: false,
+        pullRequestURL: link,
         title,
         openedAt,
       },
