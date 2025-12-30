@@ -18,7 +18,10 @@ export default defineManifest((env) => {
       default_icon: {
         48: "blossom-48x48.png",
       },
-      default_popup: "src/popup/index.html",
+    },
+    background: {
+      service_worker: "src/background/index.ts",
+      type: "module",
     },
     content_scripts: [
       {
