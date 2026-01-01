@@ -4,7 +4,7 @@
     import css from "@/content/views/popover.css?raw";
     import IconClose from "./IconClose.svelte";
     import { onMount } from "svelte";
-    import logo from "@/assets/blossom-128x128.png";
+    import logo from "@public/blossom-128x128.png";
 
     const logoURL = chrome.runtime.getURL(logo);
 

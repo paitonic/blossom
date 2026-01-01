@@ -1,6 +1,6 @@
 <script>
     import { popover } from "./popover.svelte.js";
-    import logo from "@/assets/blossom-128x128.png";
+    import logo from "@public/blossom-128x128.png";
 
     const logoURL = chrome.runtime.getURL(logo);
     const props = $props();
@@ -10,27 +10,23 @@
     };
 </script>
 
-<!-- <img src={logoURL} alt="Blossom Extension Logo" />
-<button onclick={openPopover}>Blossom</button> -->
-
-<button onclick={openPopover}>
-    <img src={logoURL} alt="Blossom Extension Logo" />
-</button>
+<button
+    title="Open Blossom extension"
+    onclick={openPopover}
+    style:background-image={`url(${logoURL})`}
+></button>
 
 <style>
     button {
-        color: #59636e;
         border: none;
         background-color: transparent;
-        padding: 0 0 0 0.25rem;
+        background-size: contain;
+        padding: 0;
+        height: 16px;
+        width: 16px;
     }
 
     button:hover {
         color: #0969da;
-    }
-
-    img {
-        width: 16px;
-        height: 16px;
     }
 </style>

@@ -46,7 +46,7 @@ const mountExtension = () => {
       .querySelector("relative-time")
       ?.getAttribute("datetime");
 
-    let target = element.parentNode?.querySelector(".blossom-extension-button");
+    let target = element.parentNode?.querySelector(".blossom__button--list");
     if (target && mounts[element.href]) {
       // button was already mounted before
       // lets cleanup before re-mounting
@@ -54,9 +54,7 @@ const mountExtension = () => {
       target.replaceChildren();
     } else {
       target = document.createElement("span");
-      target.className = "blossom-extension-button";
-      target.style.display = "inline-flex";
-      target.style.marginLeft = "4px";
+      target.className = "blossom__button blossom__button--list";
       openedBy.appendChild(target);
     }
 
@@ -78,11 +76,6 @@ const mountExtension = () => {
   );
 
   if (firstComment) {
-    // const pullRequestPage = firstComment.parentNode;
-
-    const datetimeElement = document.querySelector(
-      'div[id^="pullrequest-"] relative-time',
-    );
     const link = window.location.href;
     const title = document.querySelector(
       "#partial-discussion-header .markdown-title",
@@ -92,14 +85,12 @@ const mountExtension = () => {
     );
     const openedAt = openedAtElement.getAttribute("datetime");
 
-    let target = firstComment.querySelector(".blossom-extension");
+    let target = firstComment.querySelector(".blossom__button--detail");
     if (target) {
       throw new Error("blossom: extension is already mounted!");
     } else {
       target = document.createElement("span");
-      target.className = "blossom-extension-button";
-      target.style.display = "inline-flex";
-      target.style.marginLeft = "4px";
+      target.className = "blossom__button blossom__button--detail";
 
       const mountTo = document.querySelector(
         'div[id^="pullrequest-"] .timeline-comment-actions',
@@ -131,6 +122,22 @@ const main = () => {
   // (2) Navigation API -- navigation event is good but it does not tell if element we are looking for exist in DOM yet.
   const style = document.createElement("style");
   style.textContent = `
+
+    .blossom__button {
+      display: inline-flex;
+    }
+
+    /* Pull requests list */
+    .blossom__button--list {
+      display: inline-flex;
+      margin-left: 0.25rem;
+    }
+
+    /* PR detailed view */
+    .blossom__button--detail {
+      margin-right: 0.25rem;
+    }
+
     @keyframes pageReady { from { opacity: 0.99; } to { opacity: 1; } }
 
     .js-navigation-container.js-active-navigation-container,
