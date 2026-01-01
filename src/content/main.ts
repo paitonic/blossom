@@ -4,6 +4,11 @@ import Popover from "./views/Popover.svelte";
 
 const mounts = {};
 
+const normalizeURL = (url) => {
+  const newURL = new URL(url);
+  return newURL.origin + newURL.pathname;
+};
+
 const mountPopover = () => {
   const body = document.querySelector("body");
 
@@ -58,7 +63,7 @@ const mountExtension = () => {
     const button = mount(BlossomButton, {
       target,
       props: {
-        pullRequestURL: element.href,
+        pullRequestURL: normalizeURL(element.href),
         title,
         openedAt,
       },
@@ -78,7 +83,7 @@ const mountExtension = () => {
     const datetimeElement = document.querySelector(
       'div[id^="pullrequest-"] relative-time',
     );
-    const link = datetimeElement?.parentNode.href;
+    const link = window.location.href;
     const title = document.querySelector(
       "#partial-discussion-header .markdown-title",
     ).innerText;
@@ -107,7 +112,7 @@ const mountExtension = () => {
       target,
       props: {
         withLabel: false,
-        pullRequestURL: link,
+        pullRequestURL: normalizeURL(link),
         title,
         openedAt,
       },
