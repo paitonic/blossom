@@ -1,6 +1,8 @@
-import { mount } from "svelte";
+import { mount, unmount } from "svelte";
 import BlossomButton from "./views/BlossomButton.svelte";
 import Popover from "./views/Popover.svelte";
+
+const mounts = {};
 
 const mountPopover = () => {
   const body = document.querySelector("body");
@@ -39,9 +41,12 @@ const mountExtension = () => {
       .querySelector("relative-time")
       ?.getAttribute("datetime");
 
-    let target = element.parentNode?.querySelector(".blossom-extension");
-    if (target) {
-      throw new Error("blossom: extension is already mounted!");
+    let target = element.parentNode?.querySelector(".blossom-extension-button");
+    if (target && mounts[element.href]) {
+      // button was already mounted before
+      // lets cleanup before re-mounting
+      unmount(mounts[element.href]);
+      target.replaceChildren();
     } else {
       target = document.createElement("span");
       target.className = "blossom-extension-button";
@@ -50,7 +55,7 @@ const mountExtension = () => {
       openedBy.appendChild(target);
     }
 
-    mount(BlossomButton, {
+    const button = mount(BlossomButton, {
       target,
       props: {
         pullRequestURL: element.href,
@@ -58,6 +63,8 @@ const mountExtension = () => {
         openedAt,
       },
     });
+
+    mounts[element.href] = button;
   }
 
   // mount on Pull Request page
@@ -111,31 +118,33 @@ const mountExtension = () => {
 };
 
 const main = () => {
-  mountExtension();
+  // This handles extension mounting on page load and re-mounting on page navigation.
+  // Browser will trigger "animationstart" event when CSS selector matched DOM element.
+  // When that event happens, we know the element we are looking for exist in DOM and we can mount the extension.
+  // Other ways to handle this have their own problems:
+  // (1) MoutationObserver -- have to watch the entire DOM tree
+  // (2) Navigation API -- navigation event is good but it does not tell if element we are looking for exist in DOM yet.
+  const style = document.createElement("style");
+  style.textContent = `
+    @keyframes pageReady { from { opacity: 0.99; } to { opacity: 1; } }
 
-  // When page navigation happens, GitHub replaces wntire <div> with all the content under <body>.
-  // This observes node changed on the <body> tag.
-  // When change is detected by the observer then the extension will mount.
-  // <body>
-  //    <div class="logged-in env-production page-responsive">
-  //    ...
-  // </body>
-  const observer = new MutationObserver((mutations) => {
-    for (const mutation of mutations) {
-      for (const node of mutation.addedNodes) {
-        console.log("node: ", node);
-        if (node.className === "logged-in env-production page-responsive") {
-          // the "div" under <body> has been replaced with new content
-          mountExtension();
-          return;
-        }
+    .js-navigation-container.js-active-navigation-container,
+    .pull-request-tab-content {
+        animation-duration: 0.001s;
+        animation-name: pageReady;
       }
-    }
-  });
+  `;
+  document.head.appendChild(style);
 
-  observer.observe(document.querySelector("body"), {
-    childList: true,
-  });
+  document.addEventListener(
+    "animationstart",
+    (event) => {
+      if (event.animationName === "pageReady") {
+        mountExtension();
+      }
+    },
+    true,
+  );
 };
 
 main();
