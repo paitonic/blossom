@@ -1,53 +1,53 @@
-<script lang="ts">
-    import { storage } from "@/shared/storage.svelte.js";
+<script>
+    import Journal from "@/dashboard/Journal.svelte";
+    import Insights from "@/dashboard/Insights.svelte";
+    import Tags from "@/dashboard/Tags.svelte";
+    import Settings from "@/dashboard/Settings.svelte";
 
-    let files = $state(null);
+    const tabs = [
+        { name: "Journal", icon: "edit_note", component: Journal },
+        { name: "Insights", icon: "insights", component: Insights },
+        { name: "Tags", icon: "label", component: Tags },
+        { name: "Settings", icon: "settings", component: Settings },
+    ];
 
-    $effect(() => {
-        if (!files) {
-            return;
-        }
+    let activeTab = $state(tabs[0]);
 
-        importJSON(files);
-    });
-
-    const exportJSON = async () => {
-        const items = await storage.kall();
-        if (!items) {
-            console.log("no items");
-        }
-
-        const fileContent = {
-            version: 1,
-            createdAt: new Date(),
-            data: items,
-        };
-
-        const blob = new Blob([JSON.stringify(fileContent, null, 2)], {
-            type: "application/json",
-        });
-
-        chrome.downloads.download({
-            url: URL.createObjectURL(blob),
-            filename: "blossom-extension.json",
-            saveAs: true,
-        });
-    };
-
-    const importJSON = async (files) => {
-        const file = files[0];
-        // TODO: check file.size // in bytes
-        const fileContent = JSON.parse(await file.text());
-
-        // TODO: this will overwrite any existing keys (this is force merge)
-        await storage.kset(fileContent.data);
+    const selectTab = (tab) => {
+        activeTab = tab;
     };
 </script>
 
-<button onclick={exportJSON}>Export</button>
-<hr />
+<div class="app-container">
+    <header class="app-header">
+        <div class="header-inner">
+            <div class="brand-section">
+                <span class="material-symbols-outlined logo-icon"
+                    >local_florist</span
+                >
+                <span class="logo-text">Blossom</span>
+            </div>
+            <nav class="nav-tabs">
+                {#each tabs as tab}
+                    <a
+                        class={activeTab.name === tab.name
+                            ? "nav-tab active"
+                            : "nav-tab"}
+                        href="#"
+                        onclick={() => selectTab(tab)}
+                    >
+                        <span class="material-symbols-outlined">{tab.icon}</span
+                        >
+                        {tab.name}
+                    </a>
+                {/each}
+            </nav>
+        </div>
+    </header>
 
-<input type="file" accept="application/json" bind:files />
-
-<style>
-</style>
+    <main class="main-content">
+        <div class="content-scrollable">
+            <activeTab.component />
+        </div>
+    </main>
+</div>
