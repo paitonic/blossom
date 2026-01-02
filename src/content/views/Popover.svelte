@@ -2,9 +2,10 @@
     import { popover } from "./popover.svelte.js";
     import { storage } from "@/shared/storage.svelte.js";
     import css from "@/content/views/popover.css?raw";
-    import IconClose from "./IconClose.svelte";
+    import IconClose from "@/content/views/IconClose.svelte";
     import { onMount } from "svelte";
     import logo from "@public/blossom-128x128.png";
+    import Rating from "./Rating.svelte";
 
     const logoURL = chrome.runtime.getURL(logo);
 
@@ -37,6 +38,7 @@
         title: "",
         openedAt: "",
         tags: [],
+        score: 3,
         notes: "",
     };
 
@@ -79,6 +81,10 @@
     const save = async () => {
         await storage.kset(pullRequestDetails?.key, form);
         popover.close();
+    };
+
+    const onRate = (score) => {
+        form.score = score;
     };
 
     let popoverRef: HTMLElement;
@@ -188,6 +194,12 @@
                         onclick={() => addTag(quickTag)}>{quickTag}</button
                     >
                 {/each}
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="form-rating" class="form-label">Rating</label>
+            <div id="form-rating" class="form-rating">
+                <Rating score={form.score} {onRate} />
             </div>
         </div>
         <div class="form-group">
