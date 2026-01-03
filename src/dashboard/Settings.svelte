@@ -43,7 +43,20 @@
     };
 </script>
 
-<button onclick={exportJSON}>Export</button>
-<hr />
+<div class="settings-container">
+    <h2>Settings</h2>
+    <p>Settings page is under construction.</p>
 
-<input type="file" accept="application/json" bind:files />
+    <button onclick={exportJSON}>Export</button>
+    <hr />
+
+    <input type="file" accept="application/json" bind:files />
+</div>
+
+<style>
+    .settings-container {
+        width: 100%;
+        max-width: 800px;
+        margin: 0 auto;
+    }
+</style>
