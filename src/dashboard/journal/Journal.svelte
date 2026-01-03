@@ -42,7 +42,7 @@
 </script>
 
 <div class="journal-container">
-    <div class="toolbar">
+    <!-- <div class="toolbar">
         <SearchBar />
         <div class="filters">
             <FilterButton icon="calendar_today" label="Date" />
@@ -50,9 +50,9 @@
             <div class="divider" />
             <SortButton />
         </div>
-    </div>
+    </div> -->
     <TaskList {tasks} />
-    <Pagination />
+    <!-- <Pagination /> -->
 </div>
 
 <style>
