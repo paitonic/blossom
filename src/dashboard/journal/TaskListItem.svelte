@@ -1,22 +1,23 @@
 <script lang="ts">
-    let { date, title, repo, tags, score, notes, open = false } = $props();
+    let { task } = $props();
+    let open = $state(false);
 </script>
 
 <details class="task-row-wrapper" {open}>
     <summary class="task-summary">
-        <div class="cell-date">{date}</div>
-        <div class="cell-title">{title}</div>
-        <div class="cell-repo">{repo}</div>
+        <div class="cell-date">{task.openedAt}</div>
+        <div class="cell-title" title={task.title}>{task.title}</div>
+        <div class="cell-repo">{task.user}/{task.repository}</div>
         <div class="cell-tags">
-            {#each tags as tag}
+            {#each task.tags as tag}
                 <span class="tag">{tag}</span>
             {/each}
         </div>
-        <div class="cell-score">
+        <div class="cell-rating">
             {#each { length: 5 } as _, i}
                 <span
                     class="material-symbols-outlined star-icon"
-                    class:filled={i < score}>star</span
+                    class:filled={i < task.rating}>star</span
                 >
             {/each}
         </div>
@@ -29,7 +30,7 @@
     <div class="row-details">
         <h4 class="notes-heading">Notes</h4>
         <p class="notes-text">
-            {notes}
+            {task.notes}
         </p>
     </div>
 </details>
@@ -117,7 +118,7 @@
         white-space: nowrap;
         font-weight: 600;
     }
-    .cell-score {
+    .cell-rating {
         display: flex;
         align-items: center;
         gap: 2px;

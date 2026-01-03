@@ -3,6 +3,7 @@
     import Insights from "./Insights.svelte";
     import Tags from "./Tags.svelte";
     import Settings from "./Settings.svelte";
+    import { storage } from "@/shared/storage.svelte";
 
     const tabs = [
         { name: "Journal", icon: "edit_note", component: Journal },
@@ -10,6 +11,16 @@
         { name: "Tags", icon: "label", component: Tags },
         { name: "Settings", icon: "settings", component: Settings },
     ];
+
+    let tasks = $state([]);
+    $effect(() => {
+        (async () => {
+            const kv = await storage.kall();
+            tasks = Object.keys(kv).map((key) => {
+                return kv[key];
+            });
+        })();
+    });
 
     let activeTab = $state(tabs[0]);
 
@@ -46,7 +57,11 @@
     </header>
     <main class="main-content">
         <div class="content-scrollable">
-            <activeTab.component />
+            {#if activeTab.component === Journal}
+                <activeTab.component {tasks} />
+            {:else}
+                <activeTab.component />
+            {/if}
         </div>
     </main>
 </div>

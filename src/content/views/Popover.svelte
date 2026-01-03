@@ -35,10 +35,13 @@
 
     const quickTags = ["chore", "bug", "feature", "hotfix"];
     let emptyForm = {
+        pullRequestID: "",
+        user: "",
+        repository: "",
         title: "",
         openedAt: "",
         tags: [],
-        score: 3,
+        rating: 3,
         notes: "",
     };
 
@@ -46,20 +49,28 @@
     let newTag = $state("");
 
     let pullRequestDetails = $derived.by(() => {
-        // pullRequestURL: https://github.com/{USER}/{REPO}/pull/41941
+        // pullRequestURL: https://github.com/{USER}/{REPOSITORY}/pull/41941
         if (!popover.params.pullRequestURL) {
             return null;
         }
 
-        let [_protocol, _empty, _domain, user, repo, _path, pullRequestID] =
-            popover.params.pullRequestURL.split("/");
-        const key = `${user}/${repo}/${pullRequestID}`;
+        let [
+            _protocol,
+            _empty,
+            _domain,
+            user,
+            repository,
+            _path,
+            pullRequestID,
+        ] = popover.params.pullRequestURL.split("/");
+        const key = `${user}/${repository}/${pullRequestID}`;
 
         console.log("openedAt: ", popover.params.openedAt);
+        console.log("popover.params.title: ", popover.params.title);
         return {
             key,
             user,
-            repo,
+            repository,
             title: popover.params.title,
             openedAt: popover.params.openedAt,
             pullRequestID,
@@ -83,8 +94,8 @@
         popover.close();
     };
 
-    const onRate = (score) => {
-        form.score = score;
+    const onRate = (rating) => {
+        form.rating = rating;
     };
 
     let popoverRef: HTMLElement;
@@ -109,6 +120,9 @@
                     ...emptyForm,
                     title: pullRequestDetails.title,
                     openedAt: pullRequestDetails.openedAt,
+                    user: pullRequestDetails.user,
+                    repository: pullRequestDetails.repository,
+                    pullRequestID: pullRequestDetails.pullRequestID,
                 });
             }
         })();
@@ -199,7 +213,7 @@
         <div class="form-group">
             <label for="form-rating" class="form-label">Rating</label>
             <div id="form-rating" class="form-rating">
-                <Rating score={form.score} {onRate} />
+                <Rating value={form.rating} {onRate} />
             </div>
         </div>
         <div class="form-group">

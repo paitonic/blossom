@@ -12,8 +12,9 @@
     <div class="header-cell">Rating</div>
     <div class="header-cell" />
 </div>
+
 {#each tasks as task, i}
-    <TaskListItem {...task} open={i === 0} />
+    <TaskListItem {task} />
 {/each}
 
 <style>

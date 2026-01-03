@@ -11,7 +11,7 @@ class KVStorage {
     }
   };
 
-  kall = async () => {
+  kall = () => {
     return chrome.storage.local.get(null);
   };
 
