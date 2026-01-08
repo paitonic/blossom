@@ -1,15 +1,23 @@
 <script lang="ts">
-    let { task } = $props();
+    let { openedAt, title, user, repository, tags, rating, notes } = $props();
     let open = $state(false);
+
+    const formatDate = (date) => {
+        return new Date(date).toLocaleDateString("en-GB", {
+            day: "2-digit", // "01"
+            month: "short", // "Sep" (MMM)
+            year: "numeric", // "2023" (YYYY)
+        });
+    };
 </script>
 
 <details class="task-row-wrapper" {open}>
     <summary class="task-summary">
-        <div class="cell-date">{task.openedAt}</div>
-        <div class="cell-title" title={task.title}>{task.title}</div>
-        <div class="cell-repo">{task.user}/{task.repository}</div>
+        <div class="cell-date">{formatDate(openedAt)}</div>
+        <div class="cell-title" {title}>{title}</div>
+        <div class="cell-repo">{user}/{repository}</div>
         <div class="cell-tags">
-            {#each task.tags as tag}
+            {#each tags as tag}
                 <span class="tag">{tag}</span>
             {/each}
         </div>
@@ -17,7 +25,7 @@
             {#each { length: 5 } as _, i}
                 <span
                     class="material-symbols-outlined star-icon"
-                    class:filled={i < task.rating}>star</span
+                    class:filled={i < rating}>star</span
                 >
             {/each}
         </div>
@@ -30,7 +38,7 @@
     <div class="row-details">
         <h4 class="notes-heading">Notes</h4>
         <p class="notes-text">
-            {task.notes}
+            {notes}
         </p>
     </div>
 </details>

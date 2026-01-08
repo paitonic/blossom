@@ -2,6 +2,18 @@
     import TaskListItem from "./TaskListItem.svelte";
 
     let { tasks } = $props();
+
+    const sortedTasks = $derived.by(() => {
+        return tasks.toSorted((a, b) => {
+            if (a.openedAt < b.openedAt) {
+                return 1;
+            } else if (a.openedAt > b.openedAt) {
+                return -1;
+            } else {
+                return 0;
+            }
+        });
+    });
 </script>
 
 <div class="task-list-header">
@@ -13,8 +25,8 @@
     <div class="header-cell" />
 </div>
 
-{#each tasks as task, i}
-    <TaskListItem {task} />
+{#each sortedTasks as task, i}
+    <TaskListItem {...task} />
 {/each}
 
 <style>
