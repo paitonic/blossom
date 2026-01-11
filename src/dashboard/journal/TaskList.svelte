@@ -21,7 +21,6 @@
     <div class="header-cell">Title</div>
     <div class="header-cell">Repository</div>
     <div class="header-cell">Tags</div>
-    <div class="header-cell">Rating</div>
     <div class="header-cell" />
 </div>
 

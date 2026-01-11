@@ -1,5 +1,5 @@
 <script lang="ts">
-    let { openedAt, title, user, repository, tags, rating, notes } = $props();
+    let { openedAt, title, user, repository, tags, notes } = $props();
     let open = $state(false);
 
     const formatDate = (date) => {
@@ -15,18 +15,10 @@
     <summary class="task-summary">
         <div class="cell-date">{formatDate(openedAt)}</div>
         <div class="cell-title" {title}>{title}</div>
-        <div class="cell-repo">{user}/{repository}</div>
+        <div class="cell-repo">{repository}</div>
         <div class="cell-tags">
             {#each tags as tag}
                 <span class="tag">{tag}</span>
-            {/each}
-        </div>
-        <div class="cell-rating">
-            {#each { length: 5 } as _, i}
-                <span
-                    class="material-symbols-outlined star-icon"
-                    class:filled={i < rating}>star</span
-                >
             {/each}
         </div>
         <div class="cell-action">
@@ -125,11 +117,6 @@
         color: var(--color-text-secondary);
         white-space: nowrap;
         font-weight: 600;
-    }
-    .cell-rating {
-        display: flex;
-        align-items: center;
-        gap: 2px;
     }
     .star-icon {
         font-size: 18px;
