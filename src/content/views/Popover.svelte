@@ -209,9 +209,9 @@
                 <div class="select-icon">
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
-                        height="20"
+                        height="18px"
                         viewBox="0 96 960 960"
-                        width="20"
+                        width="18px"
                         fill="currentColor"
                         ><path
                             d="M480 711 240 471l42.666-42.666L480 625.334l197.334-197.333L720 471 480 711Z"
@@ -232,7 +232,7 @@
                             class="tag-remove"
                             onclick={() => removeTag(index)}
                         >
-                            <svg xmlns="http://www.w3.org/2000/svg" height="16px" viewBox="0 -960 960 960" width="16px" fill="currentColor">
+                            <svg xmlns="http://www.w3.org/2000/svg" height="12px" viewBox="0 -960 960 960" width="12px" fill="currentColor">
                                 <path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/>
                             </svg>
                         </button>
@@ -241,7 +241,7 @@
                 <input
                     id="tags"
                     class="tag-input-field"
-                    placeholder={form.tags.length == 0 ? "e.g cache" : ""}
+                    placeholder={form.tags.length == 0 ? "Add tag..." : ""}
                     type="text"
                     onkeydown={handleTagInput}
                     bind:value={newTag}
@@ -249,48 +249,50 @@
             </div>
         </div>
 
-        <div class="form-group">
-            <span class="form-label">Challenge</span>
-            <div class="btn-group">
-                {#each challengeOptions as opt}
-                    <button
-                        class="btn-group-btn {form.challenge === opt ? 'active' : ''}"
-                        onclick={() => form.challenge = opt}
-                    >{opt}</button>
-                {/each}
+        <div class="compact-rows">
+            <div class="compact-row">
+                <label class="form-label">Challenge</label>
+                <div class="btn-group">
+                    {#each challengeOptions as opt}
+                        <button
+                            class="btn-group-btn {form.challenge === opt ? 'active' : ''}"
+                            onclick={() => form.challenge = opt}
+                        >{opt}</button>
+                    {/each}
+                </div>
+            </div>
+
+            <div class="compact-row">
+                <label class="form-label">Size</label>
+                <div class="btn-group">
+                    {#each sizeOptions as opt}
+                        <button
+                            class="btn-group-btn {form.size === opt
+                                ? 'active'
+                                : ''}"
+                            onclick={() => (form.size = opt)}>{opt}</button
+                        >
+                    {/each}
+                </div>
+            </div>
+
+            <div class="compact-row">
+                <label class="form-label">Impact</label>
+                <div class="btn-group">
+                    {#each impactOptions as opt}
+                        <button
+                            class="btn-group-btn {form.impact === opt
+                                ? 'active'
+                                : ''}"
+                            onclick={() => (form.impact = opt)}>{opt}</button
+                        >
+                    {/each}
+                </div>
             </div>
         </div>
 
-        <div class="form-group">
-            <span class="form-label">Size</span>
-            <div class="btn-group">
-                {#each sizeOptions as opt}
-                    <button
-                        class="btn-group-btn {form.size === opt
-                            ? 'active'
-                            : ''}"
-                        onclick={() => (form.size = opt)}>{opt}</button
-                    >
-                {/each}
-            </div>
-        </div>
-
-        <div class="form-group">
-            <span class="form-label">Impact</span>
-            <div class="btn-group">
-                {#each impactOptions as opt}
-                    <button
-                        class="btn-group-btn {form.impact === opt
-                            ? 'active'
-                            : ''}"
-                        onclick={() => (form.impact = opt)}>{opt}</button
-                    >
-                {/each}
-            </div>
-        </div>
-
-        <div class="form-group">
-            <span class="form-label">Reaction</span>
+        <div class="compact-row" style="padding-top: 0.25rem;">
+            <label class="form-label">Reaction</label>
             <div class="emoji-group">
                 {#each reactionOptions as opt}
                     <button
@@ -310,8 +312,8 @@
             <textarea
                 id="notes"
                 class="form-control form-textarea"
-                placeholder="Add additional context or documentation links..."
-                rows="4"
+                placeholder="Additional details..."
+                rows="1"
                 bind:value={form.notes}
             ></textarea>
         </div>
