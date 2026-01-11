@@ -163,40 +163,88 @@
 </script>
 
 <div popover="manual" class="modal" bind:this={popoverRef}>
-    <button aria-label="Close" class="close-btn" onclick={cancel}>
-        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor">
-            <path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/>
-        </svg>
-    </button>
+    <div class="modal-header">
+        <h2 class="modal-title">
+            <img src={logoURL} alt="Blossom Extension Logo" /> Blossom
+        </h2>
+        <button aria-label="Close modal" class="close-btn" onclick={cancel}>
+            <svg
+                xmlns="http://www.w3.org/2000/svg"
+                height="18px"
+                viewBox="0 -960 960 960"
+                width="18px"
+                fill="currentColor"
+            >
+                <path
+                    d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"
+                />
+            </svg>
+        </button>
+    </div>
 
-    <div class="form-content">
-        <div class="field-group">
-            <label for="title" class="label">Title</label>
+    <div class="modal-body">
+        <div class="form-group">
+            <label for="title" class="form-label">Title</label>
             <input
                 id="title"
-                class="input-text"
-                placeholder="Task Name"
+                class="uniform-input"
+                placeholder="e.g. Optimize database queries"
                 type="text"
                 bind:value={form.title}
             />
         </div>
 
-        <div class="field-group">
-            <label for="tags" class="label">Tags</label>
+        <div class="form-group">
+            <label for="type" class="form-label">Type</label>
+            <div class="select-wrapper">
+                <select
+                    id="type"
+                    class="uniform-input form-select"
+                    bind:value={form.type}
+                >
+                    {#each typeOptions as option}
+                        <option value={option.value}>{option.label}</option>
+                    {/each}
+                </select>
+                <div class="select-icon">
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        height="18px"
+                        viewBox="0 96 960 960"
+                        width="18px"
+                        fill="currentColor"
+                        ><path
+                            d="M480 711 240 471l42.666-42.666L480 625.334l197.334-197.333L720 471 480 711Z"
+                        /></svg
+                    >
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="tags" class="form-label">Tags</label>
             <div class="tags-container">
                 {#each form.tags as tag, index}
-                    <div class="tag-chip">
+                    <span class="tag-pill">
                         {tag}
                         <button
                             aria-label="Remove tag"
                             class="tag-remove"
                             onclick={() => removeTag(index)}
                         >
-                            <svg xmlns="http://www.w3.org/2000/svg" height="16px" viewBox="0 -960 960 960" width="16px" fill="currentColor">
-                                <path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/>
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                height="12px"
+                                viewBox="0 -960 960 960"
+                                width="12px"
+                                fill="currentColor"
+                            >
+                                <path
+                                    d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"
+                                />
                             </svg>
                         </button>
-                    </div>
+                    </span>
                 {/each}
                 <input
                     id="tags"
@@ -209,85 +257,79 @@
             </div>
         </div>
 
-        <div class="row-group">
-            <label for="type" class="label">Type</label>
-            <div class="select-wrapper">
-                <select
-                    id="type"
-                    class="form-select"
-                    bind:value={form.type}
-                >
-                    {#each typeOptions as option}
-                        <option value={option.value}>{option.label}</option>
+        <div class="metrics-container">
+            <div class="choice-group">
+                <span class="choice-label">Challenge</span>
+                <div class="btn-group">
+                    {#each challengeOptions as opt}
+                        <button
+                            class="btn-choice {form.challenge === opt
+                                ? 'active'
+                                : ''}"
+                            onclick={() => (form.challenge = opt)}>{opt}</button
+                        >
                     {/each}
-                </select>
-                <div class="select-icon">
-                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor"><path d="M480-360 280-560h400L480-360Z"/></svg>
+                </div>
+            </div>
+
+            <div class="choice-group">
+                <span class="choice-label">Size</span>
+                <div class="btn-group">
+                    {#each sizeOptions as opt}
+                        <button
+                            class="btn-choice {form.size === opt
+                                ? 'active'
+                                : ''}"
+                            onclick={() => (form.size = opt)}>{opt}</button
+                        >
+                    {/each}
+                </div>
+            </div>
+
+            <div class="choice-group">
+                <span class="choice-label">Impact</span>
+                <div class="btn-group">
+                    {#each impactOptions as opt}
+                        <button
+                            class="btn-choice {form.impact === opt
+                                ? 'active'
+                                : ''}"
+                            onclick={() => (form.impact = opt)}>{opt}</button
+                        >
+                    {/each}
+                </div>
+            </div>
+
+            <div class="choice-group">
+                <span class="choice-label">Reaction</span>
+                <div class="emoji-group">
+                    {#each reactionOptions as opt}
+                        <button
+                            class="emoji-btn {form.reaction === opt.value
+                                ? 'active'
+                                : ''}"
+                            title={opt.title}
+                            onclick={() => (form.reaction = opt.value)}
+                            >{opt.value}</button
+                        >
+                    {/each}
                 </div>
             </div>
         </div>
 
-        <div class="row-group">
-            <label class="label">Challenge</label>
-            <div class="segmented-control">
-                {#each challengeOptions as opt}
-                    <button
-                        class="segment {form.challenge === opt ? 'active' : ''}"
-                        onclick={() => form.challenge = opt}
-                    >{opt.toUpperCase()}</button>
-                {/each}
-            </div>
-        </div>
-
-        <div class="row-group">
-            <label class="label">Size</label>
-            <div class="segmented-control">
-                {#each sizeOptions as opt}
-                    <button
-                        class="segment {form.size === opt ? 'active' : ''}"
-                        onclick={() => form.size = opt}
-                    >{opt}</button>
-                {/each}
-            </div>
-        </div>
-
-        <div class="row-group">
-            <label class="label">Impact</label>
-            <div class="segmented-control">
-                {#each impactOptions as opt}
-                    <button
-                        class="segment {form.impact === opt ? 'active' : ''}"
-                        onclick={() => form.impact = opt}
-                    >{opt.toUpperCase()}</button>
-                {/each}
-            </div>
-        </div>
-
-        <div class="row-group">
-            <label class="label">Reaction</label>
-            <div class="reaction-group">
-                {#each reactionOptions as opt}
-                    <button
-                        class="reaction-btn {form.reaction === opt.value ? 'active' : ''}"
-                        title={opt.title}
-                        onclick={() => form.reaction = opt.value}
-                    >{opt.value}</button>
-                {/each}
-            </div>
-        </div>
-
-        <div class="field-group">
-            <label for="notes" class="label">Notes</label>
+        <div class="form-group">
+            <label for="notes" class="form-label">Notes</label>
             <textarea
                 id="notes"
-                class="input-textarea"
-                placeholder="Describe the issue..."
+                class="notes-textarea"
+                placeholder="Additional details..."
                 bind:value={form.notes}
             ></textarea>
         </div>
+    </div>
 
-        <div class="footer">
-            <button class="save-btn" onclick={save}>Save</button>
-        </div>
+    <div class="modal-footer">
+        <button class="btn btn-cancel" onclick={cancel}>Cancel</button>
+        <button class="btn btn-save" onclick={save}>Save</button>
     </div>
 </div>
