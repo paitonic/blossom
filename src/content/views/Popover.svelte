@@ -37,15 +37,13 @@
         repository: "",
         title: "",
         openedAt: "",
-        type: "feature",
-        challenge: "medium",
-        size: "medium",
-        impact: "high",
-        reaction: "positive",
+        type: "chore",
+        challenge: "low",
+        size: "small",
+        impact: "low",
+        reaction: "neutral",
         notes: "",
-        // Legacy fields kept for compatibility if needed, though not shown in UI
         tags: [],
-        rating: 3,
     };
     let form = $state(structuredClone(emptyForm));
     let newTag = $state("");
@@ -147,9 +145,9 @@
     // Options for selects and buttons
     const typeOptions = [
         { value: "chore", label: "Chore" },
+        { value: "feature", label: "Feature" },
         { value: "bug", label: "Bug" },
         { value: "hotfix", label: "Hotfix" },
-        { value: "feature", label: "Feature" },
     ];
     const challengeOptions = [
         { value: "low", label: "low", title: "Low" },
@@ -167,9 +165,9 @@
         { value: "high", label: "high", title: "High" },
     ];
     const reactionOptions = [
-        { value: "positive", label: "😀", title: "Positive" },
-        { value: "neutral", label: "😐", title: "Neutral" },
         { value: "negative", label: "☹️", title: "Negative" },
+        { value: "neutral", label: "😐", title: "Neutral" },
+        { value: "positive", label: "😀", title: "Positive" },
     ];
 </script>
 

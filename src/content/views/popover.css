@@ -287,8 +287,10 @@
     width: 2rem;
     height: 2rem;
     font-size: 1.125rem;
-    border-radius: 9999px;
-    background-color: var(--white);
+    border: none;
+    border-width: 1px;
+    border-radius: 50%;
+    background-color: transparent;
     cursor: pointer;
     transition: all 0.2s;
 }
