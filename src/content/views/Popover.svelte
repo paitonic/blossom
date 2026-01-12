@@ -38,10 +38,10 @@
         title: "",
         openedAt: "",
         type: "feature",
-        challenge: "Med",
-        size: "M",
-        impact: "High",
-        reaction: "😊",
+        challenge: "medium",
+        size: "medium",
+        impact: "high",
+        reaction: "positive",
         notes: "",
         // Legacy fields kept for compatibility if needed, though not shown in UI
         tags: [],
@@ -146,19 +146,30 @@
 
     // Options for selects and buttons
     const typeOptions = [
-        { value: "feature", label: "Feature Development" },
-        { value: "bug", label: "Bug Fix" },
-        { value: "refactor", label: "Refactor" },
-        { value: "maintenance", label: "Maintenance" },
-        { value: "research", label: "Research" },
+        { value: "chore", label: "Chore" },
+        { value: "bug", label: "Bug" },
+        { value: "hotfix", label: "Hotfix" },
+        { value: "feature", label: "Feature" },
     ];
-    const challengeOptions = ["Low", "Med", "High"];
-    const sizeOptions = ["S", "M", "L"];
-    const impactOptions = ["Low", "Med", "High"];
+    const challengeOptions = [
+        { value: "low", label: "low", title: "Low" },
+        { value: "medium", label: "med", title: "Medium" },
+        { value: "high", label: "high", title: "High" },
+    ];
+    const sizeOptions = [
+        { value: "small", label: "s", title: "Small" },
+        { value: "medium", label: "m", title: "Medium" },
+        { value: "large", label: "l", title: "Large" },
+    ];
+    const impactOptions = [
+        { value: "low", label: "low", title: "Low" },
+        { value: "medium", label: "med", title: "Medium" },
+        { value: "high", label: "high", title: "High" },
+    ];
     const reactionOptions = [
-        { value: "😊", title: "Positive" },
-        { value: "😐", title: "Neutral" },
-        { value: "☹️", title: "Negative" },
+        { value: "positive", label: "😀", title: "Positive" },
+        { value: "neutral", label: "😐", title: "Neutral" },
+        { value: "negative", label: "☹️", title: "Negative" },
     ];
 </script>
 
@@ -263,10 +274,12 @@
                 <div class="btn-group">
                     {#each challengeOptions as opt}
                         <button
-                            class="btn-choice {form.challenge === opt
+                            class="btn-choice {form.challenge === opt.value
                                 ? 'active'
                                 : ''}"
-                            onclick={() => (form.challenge = opt)}>{opt}</button
+                            title={opt.title}
+                            onclick={() => (form.challenge = opt.value)}
+                            >{opt.label}</button
                         >
                     {/each}
                 </div>
@@ -277,10 +290,12 @@
                 <div class="btn-group">
                     {#each sizeOptions as opt}
                         <button
-                            class="btn-choice {form.size === opt
+                            class="btn-choice {form.size === opt.value
                                 ? 'active'
                                 : ''}"
-                            onclick={() => (form.size = opt)}>{opt}</button
+                            title={opt.title}
+                            onclick={() => (form.size = opt.value)}
+                            >{opt.label}</button
                         >
                     {/each}
                 </div>
@@ -291,10 +306,12 @@
                 <div class="btn-group">
                     {#each impactOptions as opt}
                         <button
-                            class="btn-choice {form.impact === opt
+                            class="btn-choice {form.impact === opt.value
                                 ? 'active'
                                 : ''}"
-                            onclick={() => (form.impact = opt)}>{opt}</button
+                            title={opt.title}
+                            onclick={() => (form.impact = opt.value)}
+                            >{opt.label}</button
                         >
                     {/each}
                 </div>
@@ -310,7 +327,7 @@
                                 : ''}"
                             title={opt.title}
                             onclick={() => (form.reaction = opt.value)}
-                            >{opt.value}</button
+                            >{opt.label}</button
                         >
                     {/each}
                 </div>
