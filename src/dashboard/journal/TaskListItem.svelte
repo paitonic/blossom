@@ -37,14 +37,23 @@
     };
 
     const displaySize = (s) => sizeMap[s] || s;
+
+    const typeMap = {
+        feature: "⭐",
+        bug: "🐞",
+        chore: "⚙️",
+        hotfix: "🚒",
+    };
+
+    const displayType = (t) => typeMap[t] || t;
 </script>
 
 <details class="task-row-wrapper" {open}>
     <summary class="task-summary">
         <div class="cell-date">{formatDate(openedAt)}</div>
+        <div class="cell-text cell-type" title={type}>{displayType(type)}</div>
         <div class="cell-title" {title}>{title}</div>
         <div class="cell-repo">{repository}</div>
-        <div class="cell-text cell-type">{type}</div>
         <div class="cell-size">
             <span
                 class="size-pill"
@@ -57,7 +66,11 @@
             </span>
         </div>
         <div class="cell-challenge">
-            <div class="barometer" title="Challenge: {challenge}" data-level={challenge}>
+            <div
+                class="barometer"
+                title="Challenge: {challenge}"
+                data-level={challenge}
+            >
                 <div class="barometer-segment low"></div>
                 <div class="barometer-segment medium"></div>
                 <div class="barometer-segment high"></div>
@@ -117,7 +130,7 @@
     }
     .task-summary {
         display: grid;
-        grid-template-columns: 110px 2fr 140px 100px 50px 80px 80px 50px 40px;
+        grid-template-columns: 110px 50px 2fr 140px 50px 80px 80px 50px 40px;
         align-items: center;
         padding: var(--spacing-lg);
         cursor: pointer;
@@ -206,16 +219,28 @@
         opacity: 0.15;
         transition: opacity 0.2s ease;
     }
-    .barometer-segment.low { background-color: #10b981; }
-    .barometer-segment.medium { background-color: #f59e0b; }
-    .barometer-segment.high { background-color: #ef4444; }
+    .barometer-segment.low {
+        background-color: #10b981;
+    }
+    .barometer-segment.medium {
+        background-color: #f59e0b;
+    }
+    .barometer-segment.high {
+        background-color: #ef4444;
+    }
 
-    .barometer[data-level="low"] .barometer-segment.low { opacity: 1; }
+    .barometer[data-level="low"] .barometer-segment.low {
+        opacity: 1;
+    }
     .barometer[data-level="medium"] .barometer-segment.low,
-    .barometer[data-level="medium"] .barometer-segment.medium { opacity: 1; }
+    .barometer[data-level="medium"] .barometer-segment.medium {
+        opacity: 1;
+    }
     .barometer[data-level="high"] .barometer-segment.low,
     .barometer[data-level="high"] .barometer-segment.medium,
-    .barometer[data-level="high"] .barometer-segment.high { opacity: 1; }
+    .barometer[data-level="high"] .barometer-segment.high {
+        opacity: 1;
+    }
 
     .cell-tags {
         display: flex;
