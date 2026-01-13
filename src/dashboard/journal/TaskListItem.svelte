@@ -1,5 +1,17 @@
 <script lang="ts">
-    let { openedAt, title, user, repository, tags, notes } = $props();
+    let {
+        openedAt,
+        title,
+        user,
+        repository,
+        tags = [],
+        notes,
+        type = "-",
+        size = "-",
+        challenge = "-",
+        impact = "-",
+        reaction = "-",
+    } = $props();
     let open = $state(false);
 
     const formatDate = (date) => {
@@ -9,6 +21,14 @@
             year: "numeric", // "2023" (YYYY)
         });
     };
+
+    const reactionMap = {
+        positive: "😀",
+        neutral: "😐",
+        negative: "☹️",
+    };
+
+    const displayReaction = (r) => reactionMap[r] || r;
 </script>
 
 <details class="task-row-wrapper" {open}>
@@ -16,11 +36,11 @@
         <div class="cell-date">{formatDate(openedAt)}</div>
         <div class="cell-title" {title}>{title}</div>
         <div class="cell-repo">{repository}</div>
-        <div class="cell-tags">
-            {#each tags as tag}
-                <span class="tag">{tag}</span>
-            {/each}
-        </div>
+        <div class="cell-text cell-type">{type}</div>
+        <div class="cell-text cell-size">{size}</div>
+        <div class="cell-text cell-challenge">{challenge}</div>
+        <div class="cell-text cell-impact">{impact}</div>
+        <div class="cell-reaction">{displayReaction(reaction)}</div>
         <div class="cell-action">
             <span class="material-symbols-outlined expand-icon"
                 >expand_more</span
@@ -28,10 +48,24 @@
         </div>
     </summary>
     <div class="row-details">
-        <h4 class="notes-heading">Notes</h4>
-        <p class="notes-text">
-            {notes}
-        </p>
+        {#if tags && tags.length > 0}
+            <div class="detail-section">
+                <h4 class="detail-heading">Tags</h4>
+                <div class="cell-tags">
+                    {#each tags as tag}
+                        <span class="tag">{tag}</span>
+                    {/each}
+                </div>
+            </div>
+        {/if}
+        {#if notes}
+            <div class="detail-section">
+                <h4 class="detail-heading">Notes</h4>
+                <p class="notes-text">
+                    {notes}
+                </p>
+            </div>
+        {/if}
     </div>
 </details>
 
@@ -53,7 +87,7 @@
     }
     .task-summary {
         display: grid;
-        grid-template-columns: 110px 1.8fr 140px 1.5fr 110px 40px;
+        grid-template-columns: 110px 2fr 140px 100px 50px 80px 80px 50px 40px;
         align-items: center;
         padding: var(--spacing-lg);
         cursor: pointer;
@@ -92,12 +126,19 @@
         text-overflow: ellipsis;
         max-width: 100%;
     }
+    .cell-text {
+        font-size: 13px;
+        color: var(--color-text-secondary);
+        text-transform: uppercase;
+        font-weight: 500;
+    }
+    .cell-reaction {
+        font-size: 18px;
+    }
     .cell-tags {
         display: flex;
         flex-wrap: wrap;
         gap: 6px;
-        max-height: 64px;
-        overflow: hidden;
     }
     .tag {
         font-size: 12px;
@@ -108,25 +149,6 @@
         color: var(--color-text-secondary);
         white-space: nowrap;
         font-weight: 500;
-    }
-    .tag-more {
-        font-size: 11px;
-        padding: 2px 8px;
-        border-radius: var(--radius-full);
-        background-color: var(--color-bg-hover);
-        color: var(--color-text-secondary);
-        white-space: nowrap;
-        font-weight: 600;
-    }
-    .star-icon {
-        font-size: 18px;
-        color: var(--color-border);
-        font-variation-settings: "FILL" 0;
-        user-select: none;
-    }
-    .star-icon.filled {
-        color: var(--color-text-main);
-        font-variation-settings: "FILL" 1;
     }
     .cell-action {
         display: flex;
@@ -144,19 +166,28 @@
         padding: 0 var(--spacing-lg) var(--spacing-lg) var(--spacing-lg);
         padding-left: calc(110px + var(--spacing-lg) + var(--spacing-md));
         border-top: 1px solid transparent;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
     }
-    .notes-heading {
+    .detail-section {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+    }
+    .detail-heading {
         font-size: 12px;
         font-weight: 600;
         color: var(--color-text-muted);
-        margin-bottom: 6px;
         text-transform: uppercase;
         letter-spacing: 0.02em;
+        margin: 0;
     }
     .notes-text {
         font-size: 14px;
         line-height: 1.6;
         color: var(--color-text-secondary);
         max-width: 90%;
+        margin: 0;
     }
 </style>

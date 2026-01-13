@@ -20,7 +20,11 @@
     <div class="header-cell">Date</div>
     <div class="header-cell">Title</div>
     <div class="header-cell">Repository</div>
-    <div class="header-cell">Tags</div>
+    <div class="header-cell">Type</div>
+    <div class="header-cell">Size</div>
+    <div class="header-cell">Challenge</div>
+    <div class="header-cell">Impact</div>
+    <div class="header-cell">Reaction</div>
     <div class="header-cell" />
 </div>
 
@@ -31,7 +35,7 @@
 <style>
     .task-list-header {
         display: grid;
-        grid-template-columns: 110px 1.8fr 140px 1.5fr 110px 40px;
+        grid-template-columns: 110px 2fr 140px 100px 50px 80px 80px 50px 40px;
         gap: var(--spacing-md);
         padding: 0 var(--spacing-lg) var(--spacing-sm) var(--spacing-lg);
         margin-bottom: 4px;
