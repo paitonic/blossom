@@ -37,9 +37,27 @@
         <div class="cell-title" {title}>{title}</div>
         <div class="cell-repo">{repository}</div>
         <div class="cell-text cell-type">{type}</div>
-        <div class="cell-text cell-size">{size}</div>
-        <div class="cell-text cell-challenge">{challenge}</div>
-        <div class="cell-text cell-impact">{impact}</div>
+        <div class="cell-size">
+            <div class="size-indicator" title="Size: {size}" data-size={size}>
+                <div class="size-block small"></div>
+                <div class="size-block medium"></div>
+                <div class="size-block large"></div>
+            </div>
+        </div>
+        <div class="cell-challenge">
+            <div class="barometer" title="Challenge: {challenge}" data-level={challenge}>
+                <div class="barometer-segment low"></div>
+                <div class="barometer-segment medium"></div>
+                <div class="barometer-segment high"></div>
+            </div>
+        </div>
+        <div class="cell-impact">
+            <div class="barometer" title="Impact: {impact}" data-level={impact}>
+                <div class="barometer-segment low"></div>
+                <div class="barometer-segment medium"></div>
+                <div class="barometer-segment high"></div>
+            </div>
+        </div>
         <div class="cell-reaction">{displayReaction(reaction)}</div>
         <div class="cell-action">
             <span class="material-symbols-outlined expand-icon"
@@ -135,6 +153,59 @@
     .cell-reaction {
         font-size: 18px;
     }
+
+    /* Size Indicator */
+    .size-indicator {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        height: 16px;
+    }
+    .size-block {
+        background-color: var(--color-bg-body);
+        border: 1px solid var(--color-border);
+        border-radius: 2px;
+        transition: all 0.2s ease;
+    }
+    .size-block.small { width: 8px; height: 8px; }
+    .size-block.medium { width: 12px; height: 12px; }
+    .size-block.large { width: 16px; height: 16px; }
+
+    .size-indicator[data-size="small"] .size-block.small { background-color: var(--color-text-main); border-color: var(--color-text-main); }
+    .size-indicator[data-size="medium"] .size-block.small,
+    .size-indicator[data-size="medium"] .size-block.medium { background-color: var(--color-text-main); border-color: var(--color-text-main); }
+    .size-indicator[data-size="large"] .size-block.small,
+    .size-indicator[data-size="large"] .size-block.medium,
+    .size-indicator[data-size="large"] .size-block.large { background-color: var(--color-text-main); border-color: var(--color-text-main); }
+
+    /* Barometer for Challenge and Impact */
+    .barometer {
+        display: flex;
+        width: 60px;
+        height: 8px;
+        background-color: var(--color-bg-body);
+        border: 1px solid var(--color-border);
+        border-radius: 4px;
+        overflow: hidden;
+        gap: 1px;
+    }
+    .barometer-segment {
+        flex: 1;
+        height: 100%;
+        opacity: 0.15;
+        transition: opacity 0.2s ease;
+    }
+    .barometer-segment.low { background-color: #10b981; }
+    .barometer-segment.medium { background-color: #f59e0b; }
+    .barometer-segment.high { background-color: #ef4444; }
+
+    .barometer[data-level="low"] .barometer-segment.low { opacity: 1; }
+    .barometer[data-level="medium"] .barometer-segment.low,
+    .barometer[data-level="medium"] .barometer-segment.medium { opacity: 1; }
+    .barometer[data-level="high"] .barometer-segment.low,
+    .barometer[data-level="high"] .barometer-segment.medium,
+    .barometer[data-level="high"] .barometer-segment.high { opacity: 1; }
+
     .cell-tags {
         display: flex;
         flex-wrap: wrap;
