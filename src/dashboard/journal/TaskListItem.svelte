@@ -29,6 +29,14 @@
     };
 
     const displayReaction = (r) => reactionMap[r] || r;
+
+    const sizeMap = {
+        small: "S",
+        medium: "M",
+        large: "L",
+    };
+
+    const displaySize = (s) => sizeMap[s] || s;
 </script>
 
 <details class="task-row-wrapper" {open}>
@@ -38,11 +46,15 @@
         <div class="cell-repo">{repository}</div>
         <div class="cell-text cell-type">{type}</div>
         <div class="cell-size">
-            <div class="size-indicator" title="Size: {size}" data-size={size}>
-                <div class="size-block small"></div>
-                <div class="size-block medium"></div>
-                <div class="size-block large"></div>
-            </div>
+            <span
+                class="size-pill"
+                class:pill-small={size === "small"}
+                class:pill-medium={size === "medium"}
+                class:pill-large={size === "large"}
+                title="Size: {size}"
+            >
+                {displaySize(size)}
+            </span>
         </div>
         <div class="cell-challenge">
             <div class="barometer" title="Challenge: {challenge}" data-level={challenge}>
@@ -154,29 +166,28 @@
         font-size: 18px;
     }
 
-    /* Size Indicator */
-    .size-indicator {
-        display: flex;
+    /* Size Pill */
+    .size-pill {
+        display: inline-flex;
         align-items: center;
-        gap: 4px;
-        height: 16px;
+        justify-content: center;
+        width: 22px;
+        height: 22px;
+        border-radius: var(--radius-md);
+        font-size: 11px;
+        font-weight: 700;
+        text-transform: uppercase;
+        color: white;
     }
-    .size-block {
-        background-color: var(--color-bg-body);
-        border: 1px solid var(--color-border);
-        border-radius: 2px;
-        transition: all 0.2s ease;
+    .pill-small {
+        background-color: #9ca3af;
     }
-    .size-block.small { width: 8px; height: 8px; }
-    .size-block.medium { width: 12px; height: 12px; }
-    .size-block.large { width: 16px; height: 16px; }
-
-    .size-indicator[data-size="small"] .size-block.small { background-color: var(--color-text-main); border-color: var(--color-text-main); }
-    .size-indicator[data-size="medium"] .size-block.small,
-    .size-indicator[data-size="medium"] .size-block.medium { background-color: var(--color-text-main); border-color: var(--color-text-main); }
-    .size-indicator[data-size="large"] .size-block.small,
-    .size-indicator[data-size="large"] .size-block.medium,
-    .size-indicator[data-size="large"] .size-block.large { background-color: var(--color-text-main); border-color: var(--color-text-main); }
+    .pill-medium {
+        background-color: #3b82f6;
+    }
+    .pill-large {
+        background-color: #a855f7;
+    }
 
     /* Barometer for Challenge and Impact */
     .barometer {
