@@ -38,22 +38,39 @@
 
     const displaySize = (s) => sizeMap[s] || s;
 
-    const typeMap = {
-        feature: "⭐",
-        bug: "🐞",
-        chore: "⚙️",
-        hotfix: "🚒",
+    const getTypeDetails = (t) => {
+        const config = {
+            feature: { icon: "⭐", label: "Feature", class: "type-feature" },
+
+            bug: { icon: "🐞", label: "Bug", class: "type-bug" },
+
+            chore: { icon: "⚙️", label: "Chore", class: "type-chore" },
+
+            hotfix: { icon: "🚒", label: "Hotfix", class: "type-hotfix" },
+        };
+
+        return config[t] || { icon: "", label: t, class: "" };
     };
 
-    const displayType = (t) => typeMap[t] || t;
+    const typeDetails = $derived(getTypeDetails(type));
 </script>
 
 <details class="task-row-wrapper" {open}>
     <summary class="task-summary">
         <div class="cell-date">{formatDate(openedAt)}</div>
-        <div class="cell-text cell-type" title={type}>{displayType(type)}</div>
+
         <div class="cell-title" {title}>{title}</div>
+
         <div class="cell-repo">{repository}</div>
+
+        <div class="cell-type">
+            <span class="type-pill {typeDetails.class}">
+                <span class="type-icon">{typeDetails.icon}</span>
+
+                <span class="type-label">{typeDetails.label}</span>
+            </span>
+        </div>
+
         <div class="cell-size">
             <span
                 class="size-pill"
@@ -130,7 +147,7 @@
     }
     .task-summary {
         display: grid;
-        grid-template-columns: 110px 50px 2fr 140px 50px 80px 80px 50px 40px;
+        grid-template-columns: 110px 2fr 140px 90px 50px 80px 80px 50px 40px;
         align-items: center;
         padding: var(--spacing-lg);
         cursor: pointer;
@@ -177,6 +194,36 @@
     }
     .cell-reaction {
         font-size: 18px;
+    }
+
+    /* Type Pill */
+    .type-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 3px 8px;
+        border-radius: 12px;
+        font-size: 12px;
+        font-weight: 600;
+        text-transform: lowercase;
+        color: white;
+        width: fit-content;
+    }
+    .type-icon {
+        font-size: 12px;
+        line-height: 1;
+    }
+    .type-feature {
+        background-color: #a855f7; /* Purple */
+    }
+    .type-bug {
+        background-color: #ef4444; /* Red */
+    }
+    .type-chore {
+        background-color: #9ca3af; /* Gray */
+    }
+    .type-hotfix {
+        background-color: #f97316; /* Orange */
     }
 
     /* Size Pill */
