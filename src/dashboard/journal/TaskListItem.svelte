@@ -23,12 +23,14 @@
     };
 
     const reactionMap = {
-        positive: "😀",
-        neutral: "😐",
-        negative: "☹️",
+        positive: { icon: "thumb_up", class: "reaction-positive" },
+        neutral: { icon: "horizontal_rule", class: "reaction-neutral" },
+        negative: { icon: "thumb_down", class: "reaction-negative" },
     };
 
-    const displayReaction = (r) => reactionMap[r] || r;
+    const reactionDetails = $derived(
+        reactionMap[reaction] || { icon: reaction, class: "" },
+    );
 
     const sizeMap = {
         small: "S",
@@ -65,8 +67,6 @@
 
         <div class="cell-type">
             <span class="type-pill {typeDetails.class}">
-                <span class="type-icon">{typeDetails.icon}</span>
-
                 <span class="type-label">{typeDetails.label}</span>
             </span>
         </div>
@@ -100,7 +100,18 @@
                 <div class="barometer-segment high"></div>
             </div>
         </div>
-        <div class="cell-reaction">{displayReaction(reaction)}</div>
+        <div class="cell-reaction">
+            {#if reactionDetails.icon && reactionDetails.icon !== "-"}
+                <span
+                    class="material-symbols-outlined {reactionDetails.class}"
+                    style="font-size: 20px;"
+                >
+                    {reactionDetails.icon}
+                </span>
+            {:else}
+                <span class="no-reaction">-</span>
+            {/if}
+        </div>
         <div class="cell-action">
             <span class="material-symbols-outlined expand-icon"
                 >expand_more</span
@@ -217,13 +228,13 @@
         background-color: #a855f7; /* Purple */
     }
     .type-bug {
-        background-color: #ef4444; /* Red */
+        background-color: #f97316; /* Orange */
     }
     .type-chore {
         background-color: #9ca3af; /* Gray */
     }
     .type-hotfix {
-        background-color: #f97316; /* Orange */
+        background-color: #ef4444; /* Red */
     }
 
     /* Size Pill */
