@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200");
+
 :host {
     --gray-50: #f9fafb;
     --gray-100: #f3f4f6;
@@ -286,23 +288,36 @@
     justify-content: center;
     width: 2rem;
     height: 2rem;
-    font-size: 1.125rem;
-    border: none;
-    border-width: 1px;
+    font-size: 1.25rem;
+    border: 1px solid transparent;
     border-radius: 50%;
     background-color: transparent;
     cursor: pointer;
     transition: all 0.2s;
+    color: var(--gray-400);
 }
 
 .emoji-btn:hover:not(.active) {
     background-color: var(--gray-50);
+    color: var(--gray-700);
 }
 
 .emoji-btn.active {
-    border-color: var(--black);
     background-color: var(--gray-50);
-    box-shadow: 0 0 0 1px var(--black);
+    box-shadow: 0 0 0 1px currentColor;
+    border-color: currentColor;
+}
+
+.emoji-btn.active.positive {
+    color: #10b981;
+}
+
+.emoji-btn.active.negative {
+    color: #ef4444;
+}
+
+.emoji-btn.active.neutral {
+    color: var(--gray-700);
 }
 
 /* Textarea */
@@ -372,4 +387,18 @@
 .btn-save:hover {
     background-color: var(--gray-700);
     border-color: var(--gray-700);
+}
+
+.material-symbols-outlined {
+    font-family: "Material Symbols Outlined";
+    font-weight: normal;
+    font-style: normal;
+    font-size: 24px; /* Preferred icon size */
+    display: inline-block;
+    line-height: 1;
+    text-transform: none;
+    letter-spacing: normal;
+    word-wrap: normal;
+    white-space: nowrap;
+    direction: ltr;
 }

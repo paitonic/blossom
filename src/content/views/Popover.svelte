@@ -4,6 +4,9 @@
     import css from "@/content/views/popover.css?raw";
     import { onMount } from "svelte";
     import logo from "@public/blossom-128x128.png";
+    import IconSentimentSatisfied from "./IconSentimentSatisfied.svelte";
+    import IconSentimentNeutral from "./IconSentimentNeutral.svelte";
+    import IconSentimentDissatisfied from "./IconSentimentDissatisfied.svelte";
 
     const logoURL = chrome.runtime.getURL(logo);
 
@@ -165,9 +168,13 @@
         { value: "high", label: "high", title: "High" },
     ];
     const reactionOptions = [
-        { value: "negative", label: "☹️", title: "Negative" },
-        { value: "neutral", label: "😐", title: "Neutral" },
-        { value: "positive", label: "😀", title: "Positive" },
+        {
+            value: "negative",
+            icon: IconSentimentDissatisfied,
+            title: "Negative",
+        },
+        { value: "neutral", icon: IconSentimentNeutral, title: "Neutral" },
+        { value: "positive", icon: IconSentimentSatisfied, title: "Positive" },
     ];
 </script>
 
@@ -321,12 +328,13 @@
                     {#each reactionOptions as opt}
                         <button
                             class="emoji-btn {form.reaction === opt.value
-                                ? 'active'
+                                ? 'active ' + opt.value
                                 : ''}"
                             title={opt.title}
                             onclick={() => (form.reaction = opt.value)}
-                            >{opt.label}</button
                         >
+                            <opt.icon size="24px" />
+                        </button>
                     {/each}
                 </div>
             </div>
