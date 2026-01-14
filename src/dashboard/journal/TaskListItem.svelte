@@ -1,4 +1,8 @@
 <script lang="ts">
+    import IconSentimentSatisfied from "@/shared/icons/IconSentimentSatisfied.svelte";
+    import IconSentimentNeutral from "@/shared/icons/IconSentimentNeutral.svelte";
+    import IconSentimentDissatisfied from "@/shared/icons/IconSentimentDissatisfied.svelte";
+
     let {
         openedAt,
         title,
@@ -23,9 +27,12 @@
     };
 
     const reactionMap = {
-        positive: { icon: "thumb_up", class: "reaction-positive" },
-        neutral: { icon: "horizontal_rule", class: "reaction-neutral" },
-        negative: { icon: "thumb_down", class: "reaction-negative" },
+        positive: { icon: IconSentimentSatisfied, class: "reaction-positive" },
+        neutral: { icon: IconSentimentNeutral, class: "reaction-neutral" },
+        negative: {
+            icon: IconSentimentDissatisfied,
+            class: "reaction-negative",
+        },
     };
 
     const reactionDetails = $derived(
@@ -102,12 +109,9 @@
         </div>
         <div class="cell-reaction">
             {#if reactionDetails.icon && reactionDetails.icon !== "-"}
-                <span
-                    class="material-symbols-outlined {reactionDetails.class}"
-                    style="font-size: 20px;"
-                >
-                    {reactionDetails.icon}
-                </span>
+                <div class={reactionDetails.class}>
+                    <reactionDetails.icon size="20px" />
+                </div>
             {:else}
                 <span class="no-reaction">-</span>
             {/if}
@@ -204,8 +208,31 @@
         font-weight: 500;
     }
     .cell-reaction {
-        font-size: 18px;
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
     }
+    .reaction-positive,
+    .reaction-negative,
+    .reaction-neutral {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .reaction-positive {
+        color: #10b981; /* Green */
+    }
+    .reaction-negative {
+        color: #ef4444; /* Red */
+    }
+    .reaction-neutral {
+        color: var(--color-text-secondary);
+    }
+    .no-reaction {
+        color: var(--color-text-muted);
+        font-size: 14px;
+    }
+
 
     /* Type Pill */
     .type-pill {

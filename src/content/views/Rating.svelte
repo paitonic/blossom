@@ -1,8 +1,8 @@
 <script>
-    import IconStar from "@/content/views/IconStar.svelte";
+    import IconStar from "@/shared/icons/IconStar.svelte";
 
-    const { onRate, value } = $props();
-    const ratings = [1, 2, 3, 4, 5];
+    let { value = 0, onRate } = $props();
+
 </script>
 
 {#each ratings as x}

@@ -4,9 +4,9 @@
     import css from "@/content/views/popover.css?raw";
     import { onMount } from "svelte";
     import logo from "@public/blossom-128x128.png";
-    import IconSentimentSatisfied from "./IconSentimentSatisfied.svelte";
-    import IconSentimentNeutral from "./IconSentimentNeutral.svelte";
-    import IconSentimentDissatisfied from "./IconSentimentDissatisfied.svelte";
+    import IconSentimentSatisfied from "@/shared/icons/IconSentimentSatisfied.svelte";
+    import IconSentimentNeutral from "@/shared/icons/IconSentimentNeutral.svelte";
+    import IconSentimentDissatisfied from "@/shared/icons/IconSentimentDissatisfied.svelte";
 
     const logoURL = chrome.runtime.getURL(logo);
 
