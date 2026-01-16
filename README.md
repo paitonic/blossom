@@ -1,50 +1,75 @@
-# About
-Extension for self reflection on your work as software engineer thru rating your pull requests.
-In addition to this, it is an opportunity to fix some annoyences with GitHub, make the experience a little bit better.
+<div align="center">
 
-It is built for Chromium based browsers (Chrome, Edge etc.) with Svelte 5, Vite and CRXJS.
+<img src="public/blossom-128x128.png" alt="Blossom Extension Logo" width="100" height="100">
 
-# Why
-I started to build it because I wanted to see if I can get overall sense of which type of tasks I work on, where the time went into and, look at some pretty metrics.
+# Blossom
 
-# How
-This extension injects a button into GitHub's Pull Requests page that opens a form to let you fill details such as: 
-- tags - tag your PR with the skills you have learned, areas of code you worked on, or find any other use of tags
-- challenge - how challenging it was?
-- size - simple configuration change is a small change, search and replace across entire codebase is large
-- impact - business impact, while some changes go unnoticed others can help close deals 
-- reaction - overall experience (neutral, positive or negative), would you want more of this work? Did you enjoy? Have you learned something?
-- notes - general notes you would want to keep
+**A Chromium-based browser extension for self-reflection to help software engineers track their growth by rating their pull requests.**
 
-Clicking on the extension icon in the browser toolbar will open a dashboard in a new tab where you can see all your rated PRs, metrics and settings.
+[Link to Chrome Web Store] • [Website]
 
-# Permissions
+</div>
+
+---
+
+## Why
+I started to build it because I wanted to see what kind of work I spent my time on, how many tasks are challenging, how impactful they are, and how I feel about them.
+
+## How
+Injects a button directly into the GitHub Pull Request page. Clicking it opens a form to rate the PR based on specific metrics:
+* **Tags:** Categorize work by skills learned, code areas touched, etc.
+* **Challenge:** Technical difficulty.
+* **Size:** Distinguish between minor config changes and large-scale changes.
+* **Impact:** Measure the impact (e.g., unnoticed maintenance vs. deal-closing features).
+* **Reaction:** Record your sentiment (positive, neutral, negative). Did you enjoy it? Did you learn something?
+* **Notes:** Free-text field for context or reminders.
+
+### Dashboard
+Clicking the extension icon in the browser toolbar opens a dedicated dashboard in a new tab.
+
+## Permissions
 - contentSettings ???
 - storage
 - downloads -- TODO: should be optional
 
-# Project structure
-- manifest.config.ts - extension configuration
-- src/
-  - background/index.ts - responsible for opening the dashboard when the extension icon is clicked in the browser toolbar
-  - dashboard/ - the dashboard
-  - content/views/ - extension injection logic (aka content script), includes popover code with the form itself and the button that is reponsible for opening the popover
-  - shared/ - shared code like icons, storage module
+## Technology Stack
+* **Core:** Svelte 5
+* **Build Tooling:** Vite, CRXJS
+* **Target:** Chromium-based browsers (Chrome, Edge, Brave, etc.)
 
+## Project structure
+```text
+├── manifest.config.ts    # Extension manifest configuration
+├── src/
+│   ├── background/       # Service worker (responsible for opening the dashboard)
+│   ├── content/          # Content scripts (GitHub DOM injection)
+│   │   └── views/        # Popover, button and injection logic
+│   ├── dashboard/        # Dashboard
+│   └── shared/           # Shared utilities (Storage module, Icons)
+```
 
-# Commands
-
-Install dependencies
+## Development Guide
+### Setup
+1. Install dependencies
 ```bash
 npm install
 ```
 
-Run development server
+2. Start the development server (HMR enabled):
 ```bash
 npm run dev
 ```
 
-Build
+3. Load the extension in your browser:
+- Open chrome://extensions.
+- Enable Developer mode (toggle in the top right).
+- Click Load unpacked.
+- Select the dist folder created by the build process.
+- Run development server
+
+
+### Build
 ```bash
 npm run build
 ```
+This will generate the final assets in the dist folder and also a zipped build in `release/` directory.
