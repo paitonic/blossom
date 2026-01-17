@@ -2,6 +2,7 @@
     import IconSentimentSatisfied from "@/shared/icons/IconSentimentSatisfied.svelte";
     import IconSentimentNeutral from "@/shared/icons/IconSentimentNeutral.svelte";
     import IconSentimentDissatisfied from "@/shared/icons/IconSentimentDissatisfied.svelte";
+    import { COLORS } from "@/shared/colors.js";
 
     let {
         openedAt,
@@ -20,24 +21,19 @@
 
     const formatDate = (date) => {
         return new Date(date).toLocaleDateString("en-GB", {
-            day: "2-digit", // "01"
-            month: "short", // "Sep" (MMM)
-            year: "numeric", // "2023" (YYYY)
+            day: "2-digit",
+            month: "short",
+            year: "numeric",
         });
     };
 
     const reactionMap = {
-        positive: { icon: IconSentimentSatisfied, class: "reaction-positive" },
-        neutral: { icon: IconSentimentNeutral, class: "reaction-neutral" },
-        negative: {
-            icon: IconSentimentDissatisfied,
-            class: "reaction-negative",
-        },
+        positive: { icon: IconSentimentSatisfied },
+        neutral: { icon: IconSentimentNeutral },
+        negative: { icon: IconSentimentDissatisfied },
     };
 
-    const reactionDetails = $derived(
-        reactionMap[reaction] || { icon: reaction, class: "" },
-    );
+    const reactionDetails = $derived(reactionMap[reaction] || { icon: reaction });
 
     const sizeMap = {
         small: "S",
@@ -49,16 +45,12 @@
 
     const getTypeDetails = (t) => {
         const config = {
-            feature: { icon: "⭐", label: "Feature", class: "type-feature" },
-
-            bug: { icon: "🐞", label: "Bug", class: "type-bug" },
-
-            chore: { icon: "⚙️", label: "Chore", class: "type-chore" },
-
-            hotfix: { icon: "🚒", label: "Hotfix", class: "type-hotfix" },
+            feature: { icon: "⭐", label: "Feature" },
+            bug: { icon: "🐞", label: "Bug" },
+            chore: { icon: "⚙️", label: "Chore" },
+            hotfix: { icon: "🚒", label: "Hotfix" },
         };
-
-        return config[t] || { icon: "", label: t, class: "" };
+        return config[t] || { icon: "", label: t };
     };
 
     const typeDetails = $derived(getTypeDetails(type));
@@ -67,23 +59,20 @@
 <details class="task-row-wrapper" {open}>
     <summary class="task-summary">
         <div class="cell-date">{formatDate(openedAt)}</div>
-
         <div class="cell-title" {title}>{title}</div>
-
         <div class="cell-repo">{repository}</div>
-
         <div class="cell-type">
-            <span class="type-pill {typeDetails.class}">
+            <span
+                class="type-pill"
+                style="background-color: {COLORS.type[type] || '#cccccc'};"
+            >
                 <span class="type-label">{typeDetails.label}</span>
             </span>
         </div>
-
         <div class="cell-size">
             <span
                 class="size-pill"
-                class:pill-small={size === "small"}
-                class:pill-medium={size === "medium"}
-                class:pill-large={size === "large"}
+                style="background-color: {COLORS.size[size] || '#cccccc'};"
                 title="Size: {size}"
             >
                 {displaySize(size)}
@@ -94,6 +83,7 @@
                 class="barometer"
                 title="Challenge: {challenge}"
                 data-level={challenge}
+                style="--low-color: {COLORS.challenge.low}; --medium-color: {COLORS.challenge.medium}; --high-color: {COLORS.challenge.high};"
             >
                 <div class="barometer-segment low"></div>
                 <div class="barometer-segment medium"></div>
@@ -101,7 +91,12 @@
             </div>
         </div>
         <div class="cell-impact">
-            <div class="barometer" title="Impact: {impact}" data-level={impact}>
+            <div
+                class="barometer"
+                title="Impact: {impact}"
+                data-level={impact}
+                style="--low-color: {COLORS.impact.low}; --medium-color: {COLORS.impact.medium}; --high-color: {COLORS.impact.high};"
+            >
                 <div class="barometer-segment low"></div>
                 <div class="barometer-segment medium"></div>
                 <div class="barometer-segment high"></div>
@@ -109,7 +104,7 @@
         </div>
         <div class="cell-reaction">
             {#if reactionDetails.icon && reactionDetails.icon !== "-"}
-                <div class={reactionDetails.class}>
+                <div style="color: {COLORS.reaction[reaction] || 'currentColor'};">
                     <reactionDetails.icon size="20px" />
                 </div>
             {:else}
@@ -117,9 +112,7 @@
             {/if}
         </div>
         <div class="cell-action">
-            <span class="material-symbols-outlined expand-icon"
-                >expand_more</span
-            >
+            <span class="material-symbols-outlined expand-icon">expand_more</span>
         </div>
     </summary>
     <div class="row-details">
@@ -136,15 +129,14 @@
         {#if notes}
             <div class="detail-section">
                 <h4 class="detail-heading">Notes</h4>
-                <p class="notes-text">
-                    {notes}
-                </p>
+                <p class="notes-text">{notes}</p>
             </div>
         {/if}
     </div>
 </details>
 
 <style>
+    /* ... (other styles remain unchanged) */
     .task-row-wrapper {
         background-color: var(--color-bg-white);
         border: 1px solid var(--color-border);
@@ -212,27 +204,10 @@
         align-items: center;
         justify-content: flex-start;
     }
-    .reaction-positive,
-    .reaction-negative,
-    .reaction-neutral {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-    .reaction-positive {
-        color: #10b981; /* Green */
-    }
-    .reaction-negative {
-        color: #ef4444; /* Red */
-    }
-    .reaction-neutral {
-        color: var(--color-text-secondary);
-    }
     .no-reaction {
         color: var(--color-text-muted);
         font-size: 14px;
     }
-
 
     /* Type Pill */
     .type-pill {
@@ -247,22 +222,6 @@
         color: white;
         width: fit-content;
     }
-    .type-icon {
-        font-size: 12px;
-        line-height: 1;
-    }
-    .type-feature {
-        background-color: #a855f7; /* Purple */
-    }
-    .type-bug {
-        background-color: #f97316; /* Orange */
-    }
-    .type-chore {
-        background-color: #9ca3af; /* Gray */
-    }
-    .type-hotfix {
-        background-color: #ef4444; /* Red */
-    }
 
     /* Size Pill */
     .size-pill {
@@ -276,15 +235,6 @@
         font-weight: 700;
         text-transform: uppercase;
         color: white;
-    }
-    .pill-small {
-        background-color: #9ca3af;
-    }
-    .pill-medium {
-        background-color: #3b82f6;
-    }
-    .pill-large {
-        background-color: #a855f7;
     }
 
     /* Barometer for Challenge and Impact */
@@ -305,13 +255,13 @@
         transition: opacity 0.2s ease;
     }
     .barometer-segment.low {
-        background-color: #10b981;
+        background-color: var(--low-color);
     }
     .barometer-segment.medium {
-        background-color: #f59e0b;
+        background-color: var(--medium-color);
     }
     .barometer-segment.high {
-        background-color: #ef4444;
+        background-color: var(--high-color);
     }
 
     .barometer[data-level="low"] .barometer-segment.low {
