@@ -1,16 +1,21 @@
 <script>
     import DonutChart from "./DonutChart.svelte";
+    import SankeyChart from "./SankeyChart.svelte";
 
     const { tasks } = $props();
 
     let topTags = $derived.by(() => {
-        const tagCounts = tasks.flatMap(task => task.tags || []).reduce((acc, tag) => {
-            acc[tag] = (acc[tag] || 0) + 1;
-            return acc;
-        }, {});
+        const tagCounts = tasks
+            .flatMap((task) => task.tags || [])
+            .reduce((acc, tag) => {
+                acc[tag] = (acc[tag] || 0) + 1;
+                return acc;
+            }, {});
 
-        const sortedTags = Object.entries(tagCounts).sort(([, a], [, b]) => b - a);
-        
+        const sortedTags = Object.entries(tagCounts).sort(
+            ([, a], [, b]) => b - a,
+        );
+
         if (sortedTags.length === 0) {
             return [];
         }
@@ -44,9 +49,6 @@
 </script>
 
 <div class="insights-container">
-    <h2>Insights</h2>
-    <p>This page provides an overview of your work based on the ratings you've provided.</p>
-
     <div class="charts-grid">
         <DonutChart {tasks} field="type" title="By Type" />
         <DonutChart {tasks} field="impact" title="By Impact" />
@@ -61,8 +63,8 @@
             {#if topTags.length > 0}
                 <div class="tag-cloud">
                     {#each topTags as { tag, count, fontSize }}
-                        <span 
-                            class="tag-cloud-item" 
+                        <span
+                            class="tag-cloud-item"
                             style="font-size: {fontSize}px;"
                         >
                             {tag}<span class="tag-cloud-count">{count}</span>
@@ -90,6 +92,15 @@
             {/if}
         </div>
     </div>
+
+    <div class="sankey-grid">
+        <SankeyChart
+            {tasks}
+            fromField="type"
+            toField="reaction"
+            title="Sankey Diagram"
+        />
+    </div>
 </div>
 
 <style>
@@ -104,6 +115,9 @@
         flex-wrap: wrap;
         gap: 16px;
         margin-bottom: 24px;
+    }
+    .sankey-grid {
+        margin-top: 24px;
     }
     .bottom-grid {
         display: flex;
