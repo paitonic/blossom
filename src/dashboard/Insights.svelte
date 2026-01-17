@@ -50,11 +50,11 @@
 
 <div class="insights-container">
     <div class="charts-grid">
-        <DonutChart {tasks} field="type" title="By Type" />
-        <DonutChart {tasks} field="impact" title="By Impact" />
-        <DonutChart {tasks} field="size" title="By Size" />
-        <DonutChart {tasks} field="challenge" title="By Challenge" />
-        <DonutChart {tasks} field="reaction" title="By Reaction" />
+        <DonutChart {tasks} field="type" />
+        <DonutChart {tasks} field="impact" />
+        <DonutChart {tasks} field="size" />
+        <DonutChart {tasks} field="challenge" />
+        <DonutChart {tasks} field="reaction" />
     </div>
 
     <div class="bottom-grid">

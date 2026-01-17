@@ -3,7 +3,7 @@
     import * as echarts from "echarts";
     import { COLORS } from "@/shared/colors.js";
 
-    const { tasks, field, title } = $props();
+    const { tasks, field } = $props();
 
     const chartId = `chart-${field}-${Math.random().toString(36).substring(2, 9)}`;
 
@@ -53,7 +53,7 @@
                 color: chartColors,
                 series: [
                     {
-                        name: title,
+
                         type: "pie",
                         radius: ["50%", "70%"],
                         center: ["50%", "50%"],
@@ -86,7 +86,7 @@
 </script>
 
 <div class="chart-container">
-    <h3>{title}</h3>
+
     <div id={chartId} class="chart"></div>
 </div>
 
@@ -98,10 +98,7 @@
         padding: 16px;
         background-color: #fff; /* Added white background */
     }
-    .chart-container h3 {
-        margin: 0 0 16px;
-        text-align: center;
-    }
+
     .chart {
         width: 100%;
         height: 250px;
