@@ -27,30 +27,28 @@
 
     $effect(() => {
         if (data.length > 0 && chart) {
-            const chartColors = data.map((d) => COLORS[field]?.[d.name] || '#cccccc');
+            const chartColors = data.map(
+                (d) => COLORS[field]?.[d.name] || "#cccccc",
+            );
 
             chart.setOption({
                 title: {
-                    text: total,
-                    subtext: "Tasks",
+                    text: field.charAt(0).toUpperCase() + field.slice(1), // Capitalize the first letter
                     left: "center",
-                    top: "40%",
+                    top: "45%",
                     textStyle: {
-                        fontSize: 30,
-                    },
-                    subtextStyle: {
-                        fontSize: 14,
+                        fontSize: 20,
                     },
                 },
                 tooltip: {
                     trigger: "item",
-                    formatter: "{a} <br/>{b}: {c} ({d}%)",
+                    formatter: "{b}: {c} ({d}%)",
                 },
                 legend: {
                     orient: "horizontal",
                     bottom: 10,
                     data: data.map((d) => d.name),
-                    type: 'scroll'
+                    type: "scroll",
                 },
                 color: chartColors,
                 series: [
@@ -64,6 +62,10 @@
                             show: false,
                         },
                         data: data,
+                        itemStyle: {
+                            borderColor: "#fff",
+                            borderWidth: 2,
+                        },
                     },
                 ],
             });
@@ -79,7 +81,7 @@
 
         return () => {
             resizeObserver.disconnect();
-        }
+        };
     });
 </script>
 
@@ -94,6 +96,7 @@
         border: 1px solid #eee;
         border-radius: 8px;
         padding: 16px;
+        background-color: #fff; /* Added white background */
     }
     .chart-container h3 {
         margin: 0 0 16px;
