@@ -8,6 +8,7 @@
     "build": "vite build"
   },
   "dependencies": {
+    "echarts": "^6.0.0",
     "svelte": "^5.36.12"
   },
   "devDependencies": {

@@ -6,8 +6,8 @@
     import { storage } from "@/shared/storage.svelte";
 
     const tabs = [
-        { name: "Journal", icon: "edit_note", component: Journal },
         { name: "Insights", icon: "insights", component: Insights },
+        { name: "Journal", icon: "edit_note", component: Journal },
         { name: "Tags", icon: "label", component: Tags },
         { name: "Settings", icon: "settings", component: Settings },
     ];
@@ -57,7 +57,7 @@
     </header>
     <main class="main-content">
         <div class="content-scrollable">
-            {#if activeTab.component === Journal}
+            {#if activeTab.component === Journal || activeTab.component == Insights}
                 <activeTab.component {tasks} />
             {:else}
                 <activeTab.component />
