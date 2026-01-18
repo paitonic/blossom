@@ -6,8 +6,9 @@
     import { storage } from "@/shared/storage.svelte";
 
     const tabs = [
-        { name: "Insights", icon: "insights", component: Insights },
         { name: "Journal", icon: "edit_note", component: Journal },
+        { name: "Insights", icon: "insights", component: Insights },
+
         { name: "Tags", icon: "label", component: Tags },
         { name: "Settings", icon: "settings", component: Settings },
     ];

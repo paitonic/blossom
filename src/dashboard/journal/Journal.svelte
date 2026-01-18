@@ -4,6 +4,7 @@
     import SearchBar from "./SearchBar.svelte";
     import FilterButton from "./FilterButton.svelte";
     import SortButton from "./SortButton.svelte";
+    import JournalWidgets from "./JournalWidgets.svelte";
 
     let { tasks } = $props();
 </script>
@@ -18,6 +19,7 @@
             <SortButton />
         </div>
     </div> -->
+    <JournalWidgets {tasks} />
     <TaskList {tasks} />
     <!-- <Pagination /> -->
 </div>
