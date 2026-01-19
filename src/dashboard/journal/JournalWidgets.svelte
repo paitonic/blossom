@@ -42,10 +42,15 @@
             {#each byType as item}
                 <div class="chart-row">
                     <div class="chart-row-meta">
-                        <span class="chart-row-label">{item.name}</span><span
-                            class="chart-row-value"
-                            >{item.percentage.toFixed(0)}%</span
-                        >
+                        <span class="chart-row-label">{item.name}</span>
+                        <div class="chart-row-values">
+                            <span class="chart-row-value"
+                                >{item.percentage.toFixed(0)}%</span
+                            >
+                            <span class="chart-row-value-small"
+                                >{item.value}</span
+                            >
+                        </div>
                     </div>
                     <div class="bar-wrapper">
                         <div
@@ -64,10 +69,15 @@
             {#each byChallenge as item}
                 <div class="chart-row">
                     <div class="chart-row-meta">
-                        <span class="chart-row-label">{item.name}</span><span
-                            class="chart-row-value"
-                            >{item.percentage.toFixed(0)}%</span
-                        >
+                        <span class="chart-row-label">{item.name}</span>
+                        <div class="chart-row-values">
+                            <span class="chart-row-value"
+                                >{item.percentage.toFixed(0)}%</span
+                            >
+                            <span class="chart-row-value-small"
+                                >{item.value}</span
+                            >
+                        </div>
                     </div>
                     <div class="bar-wrapper">
                         <div
@@ -86,10 +96,15 @@
             {#each bySize as item}
                 <div class="chart-row">
                     <div class="chart-row-meta">
-                        <span class="chart-row-label">{item.name}</span><span
-                            class="chart-row-value"
-                            >{item.percentage.toFixed(0)}%</span
-                        >
+                        <span class="chart-row-label">{item.name}</span>
+                        <div class="chart-row-values">
+                            <span class="chart-row-value"
+                                >{item.percentage.toFixed(0)}%</span
+                            >
+                            <span class="chart-row-value-small"
+                                >{item.value}</span
+                            >
+                        </div>
                     </div>
                     <div class="bar-wrapper">
                         <div
@@ -108,10 +123,15 @@
             {#each byImpact as item}
                 <div class="chart-row">
                     <div class="chart-row-meta">
-                        <span class="chart-row-label">{item.name}</span><span
-                            class="chart-row-value"
-                            >{item.percentage.toFixed(0)}%</span
-                        >
+                        <span class="chart-row-label">{item.name}</span>
+                        <div class="chart-row-values">
+                            <span class="chart-row-value"
+                                >{item.percentage.toFixed(0)}%</span
+                            >
+                            <span class="chart-row-value-small"
+                                >{item.value}</span
+                            >
+                        </div>
                     </div>
                     <div class="bar-wrapper">
                         <div
@@ -130,10 +150,15 @@
             {#each byReaction as item}
                 <div class="chart-row">
                     <div class="chart-row-meta">
-                        <span class="chart-row-label">{item.name}</span><span
-                            class="chart-row-value"
-                            >{item.percentage.toFixed(0)}%</span
-                        >
+                        <span class="chart-row-label">{item.name}</span>
+                        <div class="chart-row-values">
+                            <span class="chart-row-value"
+                                >{item.percentage.toFixed(0)}%</span
+                            >
+                            <span class="chart-row-value-small"
+                                >{item.value}</span
+                            >
+                        </div>
                     </div>
                     <div class="bar-wrapper">
                         <div
@@ -152,9 +177,18 @@
             {#each topTags as item}
                 <div class="chart-row">
                     <div class="chart-row-meta">
-                        <span class="chart-row-label">{item.name}</span><span
-                            class="chart-row-value">{item.value}</span
+                        <span
+                            class="chart-row-label"
+                            style="text-transform: none;">{item.name}</span
                         >
+                        <div class="chart-row-values">
+                            <span class="chart-row-value"
+                                >{item.percentage.toFixed(0)}%</span
+                            >
+                            <span class="chart-row-value-small"
+                                >{item.value}</span
+                            >
+                        </div>
                     </div>
                     <div class="bar-wrapper">
                         <div
@@ -253,9 +287,24 @@
     .chart-row-value {
         font-size: 12px;
         font-family: monospace;
+        line-height: 1;
+    }
+
+    .chart-row-values {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        gap: 4px;
+    }
+
+    .chart-row-value-small {
+        font-size: 12px;
+        color: var(--color-text-muted);
+        font-family: monospace;
+        line-height: 1;
     }
     .bar-wrapper {
-        height: 6px;
+        height: 8px;
         width: 100%;
         background-color: var(--color-bg-body);
         border-radius: 2px;
