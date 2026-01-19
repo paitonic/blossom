@@ -1,5 +1,7 @@
 <script>
     import { COLORS } from "@/shared/colors.js";
+    import TopRepositories from "./TopRepositories.svelte";
+    import TopTags from "./TopTags.svelte";
 
     const { tasks } = $props();
 
@@ -32,7 +34,6 @@
     let bySize = $derived(getAggregations("size"));
     let byImpact = $derived(getAggregations("impact"));
     let byReaction = $derived(getAggregations("reaction"));
-    let topTags = $derived(getAggregations("tags").slice(0, 5));
 </script>
 
 <div class="stats-widgets-row">
@@ -171,41 +172,8 @@
             {/each}
         </div>
     </div>
-    <div class="widget-card">
-        <span class="widget-label">Top Tags</span>
-        <div class="widget-chart-container">
-            {#each topTags as item}
-                <div class="chart-row">
-                    <div class="chart-row-meta">
-                        <span
-                            class="chart-row-label"
-                            style="text-transform: none;">{item.name}</span
-                        >
-                        <div class="chart-row-values">
-                            <span class="chart-row-value"
-                                >{item.percentage.toFixed(0)}%</span
-                            >
-                            <span class="chart-row-value-small"
-                                >{item.value}</span
-                            >
-                        </div>
-                    </div>
-                    <div class="bar-wrapper">
-                        <div
-                            class="bar-fill"
-                            style="width: {item.percentage}%; background-color: {'#ccc'}"
-                        ></div>
-                    </div>
-                </div>
-            {/each}
-        </div>
-        <button
-            class="show-all-link"
-            onclick={() => {
-                /* TODO: implement show all tags */
-            }}>Show All</button
-        >
-    </div>
+    <TopTags {tasks} />
+    <TopRepositories {tasks} />
 </div>
 
 <style>
