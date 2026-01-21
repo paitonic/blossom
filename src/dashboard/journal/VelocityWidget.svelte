@@ -30,16 +30,16 @@
             (a, b) => Number(a) - Number(b),
         );
 
-        const last5WeeksKeys = allSortedWeeks.slice(-5);
+        const last16WeeksKeys = allSortedWeeks.slice(-16);
 
-        const last5WeeksData = last5WeeksKeys.reduce((acc, week) => {
+        const last16WeeksData = last16WeeksKeys.reduce((acc, week) => {
             acc[week] = byWeek[week];
             return acc;
         }, {});
 
-        const maxVelocity = Math.max(...Object.values(last5WeeksData), 0);
+        const maxVelocity = Math.max(...Object.values(last16WeeksData), 0);
 
-        return last5WeeksKeys.map((weekStartMs) => {
+        return last16WeeksKeys.map((weekStartMs) => {
             const weekStart = new Date(Number(weekStartMs));
             const value = byWeek[weekStartMs];
             return {
@@ -61,7 +61,7 @@
             <div class="chart-column">
                 <div class="bar-wrapper">
                     <div
-                        class="bar-fill black"
+                        class="bar-fill gray"
                         style="height: {item.percentage}%;"
                     >
                         {#if item.value > 0}
@@ -133,8 +133,8 @@
         transition: height 0.3s ease;
         position: relative;
     }
-    .bar-fill.black {
-        background-color: var(--color-primary-black);
+    .bar-fill.gray {
+        background-color: #9ca3af;
     }
     .bar-value {
         position: absolute;
