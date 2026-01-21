@@ -28,7 +28,7 @@
 
         const sortedWeeks = Object.keys(byWeek).sort(
             (a, b) => Number(a) - Number(b),
-        );
+        ).slice(-5);
 
         const maxVelocity = Math.max(...Object.values(byWeek), 0);
 
