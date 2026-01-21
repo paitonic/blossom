@@ -30,10 +30,18 @@
             (a, b) => Number(a) - Number(b),
         );
 
-        const last16WeeksKeys = allSortedWeeks.slice(-16);
+        if (allSortedWeeks.length === 0) return [];
 
-        const last16WeeksData = last16WeeksKeys.reduce((acc, week) => {
-            acc[week] = byWeek[week];
+        const latestWeekMs = Number(allSortedWeeks[allSortedWeeks.length - 1]);
+        const msPerWeek = 7 * 24 * 60 * 60 * 1000;
+        
+        // Generate last 16 weeks ending at latestWeekMs
+        const last16WeeksKeys = Array.from({ length: 16 }, (_, i) => {
+             return latestWeekMs - (15 - i) * msPerWeek;
+        });
+
+        const last16WeeksData = last16WeeksKeys.reduce((acc, weekMs) => {
+            acc[weekMs] = byWeek[weekMs] || 0;
             return acc;
         }, {});
 
@@ -41,7 +49,7 @@
 
         return last16WeeksKeys.map((weekStartMs) => {
             const weekStart = new Date(Number(weekStartMs));
-            const value = byWeek[weekStartMs];
+            const value = last16WeeksData[weekStartMs];
             return {
                 name: weekStart.toLocaleDateString("en-US", {
                     month: "short",
