@@ -2,6 +2,7 @@
     import { COLORS } from "@/shared/colors.js";
     import TopRepositories from "./TopRepositories.svelte";
     import TopTags from "./TopTags.svelte";
+    import VelocityWidget from "./VelocityWidget.svelte";
 
     const { tasks } = $props();
 
@@ -37,6 +38,7 @@
 </script>
 
 <div class="stats-widgets-row">
+    <VelocityWidget {tasks} />
     <div class="widget-card">
         <span class="widget-label">Type</span>
         <div class="widget-chart-container">
