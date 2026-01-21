@@ -26,13 +26,20 @@
             return acc;
         }, {});
 
-        const sortedWeeks = Object.keys(byWeek).sort(
+        const allSortedWeeks = Object.keys(byWeek).sort(
             (a, b) => Number(a) - Number(b),
-        ).slice(-5);
+        );
 
-        const maxVelocity = Math.max(...Object.values(byWeek), 0);
+        const last5WeeksKeys = allSortedWeeks.slice(-5);
 
-        return sortedWeeks.map((weekStartMs) => {
+        const last5WeeksData = last5WeeksKeys.reduce((acc, week) => {
+            acc[week] = byWeek[week];
+            return acc;
+        }, {});
+
+        const maxVelocity = Math.max(...Object.values(last5WeeksData), 0);
+
+        return last5WeeksKeys.map((weekStartMs) => {
             const weekStart = new Date(Number(weekStartMs));
             const value = byWeek[weekStartMs];
             return {
@@ -51,19 +58,18 @@
     <span class="widget-label">Velocity</span>
     <div class="widget-chart-container">
         {#each velocityByWeek as item}
-            <div class="chart-row">
-                <div class="chart-row-meta">
-                    <span class="chart-row-label">{item.name}</span>
-                    <div class="chart-row-values">
-                        <span class="chart-row-value-small">{item.value}</span>
-                    </div>
-                </div>
+            <div class="chart-column">
                 <div class="bar-wrapper">
                     <div
                         class="bar-fill black"
-                        style="width: {item.percentage}%;"
-                    ></div>
+                        style="height: {item.percentage}%;"
+                    >
+                        {#if item.value > 0}
+                            <span class="bar-value">{item.value}</span>
+                        {/if}
+                    </div>
                 </div>
+                <span class="chart-label">{item.name}</span>
             </div>
         {/each}
     </div>
@@ -95,56 +101,55 @@
     }
     .widget-chart-container {
         display: flex;
-        flex-direction: column;
-        gap: 8px;
-    }
-    .chart-row {
-        display: flex;
-        flex-direction: column;
-        gap: 4px;
-    }
-    .chart-row-meta {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
-    .chart-row-label {
-        font-size: 12px;
-        color: var(--color-text-secondary);
-        font-weight: 500;
-        text-transform: uppercase;
-    }
-    .chart-row-value {
-        font-size: 12px;
-        font-family: monospace;
-        line-height: 1;
-    }
-
-    .chart-row-values {
-        display: flex;
-        flex-direction: column;
+        flex-direction: row;
+        gap: 12px;
         align-items: flex-end;
-        gap: 4px;
+        flex: 1;
+        padding-top: 16px;
+        min-height: 100px;
     }
-
-    .chart-row-value-small {
-        font-size: 12px;
-        color: var(--color-text-muted);
-        font-family: monospace;
-        line-height: 1;
+    .chart-column {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+        flex: 1;
+        height: 100%;
     }
     .bar-wrapper {
-        height: 8px;
+        flex: 1;
         width: 100%;
         background-color: var(--color-bg-body);
-        border-radius: 2px;
-        overflow: hidden;
+        border-radius: 4px;
+        overflow: visible;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        position: relative;
     }
     .bar-fill {
-        height: 100%;
-        border-radius: 2px;
+        width: 100%;
+        border-radius: 4px;
+        transition: height 0.3s ease;
+        position: relative;
     }
     .bar-fill.black {
         background-color: var(--color-primary-black);
+    }
+    .bar-value {
+        position: absolute;
+        top: -16px;
+        left: 50%;
+        transform: translateX(-50%);
+        font-size: 10px;
+        font-family: monospace;
+        color: var(--color-text-secondary);
+    }
+    .chart-label {
+        font-size: 10px;
+        color: var(--color-text-muted);
+        font-weight: 600;
+        text-transform: uppercase;
+        text-align: center;
     }
 </style>
