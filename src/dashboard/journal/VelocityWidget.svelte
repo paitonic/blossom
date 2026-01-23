@@ -1,4 +1,6 @@
 <script>
+    import Tooltip from "@/components/Tooltip.svelte";
+
     const { tasks } = $props();
 
     const SIZE_MAP = {
@@ -63,7 +65,12 @@
 </script>
 
 <div class="widget-card">
-    <span class="widget-label">Velocity</span>
+    <div class="widget-header">
+        <span class="widget-label">Velocity</span>
+        <Tooltip position="right" text="Velocity measures the total 'size' of pull requests completed each week. Small=1, Medium=3, Large=5.">
+            <span class="material-symbols-outlined help-icon">help</span>
+        </Tooltip>
+    </div>
     <div class="widget-chart-container">
         {#each velocityByWeek as item}
             <div class="chart-column">
@@ -98,14 +105,28 @@
     .widget-card:hover {
         border-color: var(--color-border-hover);
     }
+    .widget-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid var(--color-bg-body);
+        padding-bottom: 4px;
+    }
     .widget-label {
         font-size: 12px;
         font-weight: 700;
         color: var(--color-text-muted);
         letter-spacing: 0.05em;
         text-transform: uppercase;
-        border-bottom: 1px solid var(--color-bg-body);
-        padding-bottom: 4px;
+    }
+    .help-icon {
+        font-size: 16px;
+        color: var(--color-text-muted);
+        cursor: help;
+        transition: color 0.2s ease;
+    }
+    .help-icon:hover {
+        color: var(--color-text-secondary);
     }
     .widget-chart-container {
         display: flex;
