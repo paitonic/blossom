@@ -3,6 +3,7 @@
 
     let sortBy = $state("positive"); // 'positive' | 'negative'
     let isDropdownOpen = $state(false);
+    let isFullScreen = $state(false);
 
     function getJoyStacks() {
         const stats = {};
@@ -31,7 +32,7 @@
             });
         });
 
-        return Object.entries(stats)
+        let result = Object.entries(stats)
             .filter(([_, data]) => data.total >= 3)
             .map(([name, data]) => ({
                 name,
@@ -46,8 +47,12 @@
                 } else {
                     return b.negativePct - a.negativePct;
                 }
-            })
-            .slice(0, 5);
+            });
+
+        if (!isFullScreen) {
+            result = result.slice(0, 5);
+        }
+        return result;
     }
 
     let joyStacks = $derived(getJoyStacks());
@@ -62,6 +67,11 @@
         isDropdownOpen = false;
     }
 
+    function toggleFullScreen() {
+        isFullScreen = !isFullScreen;
+        isDropdownOpen = false; // Close dropdown if open
+    }
+
     function handleWindowClick() {
         if (isDropdownOpen) {
             isDropdownOpen = false;
@@ -71,41 +81,52 @@
 
 <svelte:window onclick={handleWindowClick} />
 
-<div class="widget-card">
+<div class="widget-card {isFullScreen ? 'is-fullscreen' : ''}">
     <div class="widget-header">
         <span class="widget-label">Tags vs. Reaction</span>
-        <div class="sort-container">
+        <div class="header-controls">
+            <div class="sort-container">
+                <button
+                    class="control-button icon-only"
+                    onclick={toggleDropdown}
+                    aria-haspopup="true"
+                    aria-expanded={isDropdownOpen}
+                    title="Sort by {sortBy === 'positive'
+                        ? 'Most Positive'
+                        : 'Most Negative'}"
+                >
+                    <span class="material-symbols-outlined">sort</span>
+                </button>
+                {#if isDropdownOpen}
+                    <div class="dropdown-menu">
+                        <button
+                            class="dropdown-item {sortBy === 'positive'
+                                ? 'selected'
+                                : ''}"
+                            onclick={() => selectSort("positive")}
+                        >
+                            Top Positive
+                        </button>
+                        <button
+                            class="dropdown-item {sortBy === 'negative'
+                                ? 'selected'
+                                : ''}"
+                            onclick={() => selectSort("negative")}
+                        >
+                            Top Negative
+                        </button>
+                    </div>
+                {/if}
+            </div>
             <button
-                class="sort-button icon-only"
-                onclick={toggleDropdown}
-                aria-haspopup="true"
-                aria-expanded={isDropdownOpen}
-                title="Sort by {sortBy === 'positive'
-                    ? 'Most Positive'
-                    : 'Most Negative'}"
+                class="control-button icon-only"
+                onclick={toggleFullScreen}
+                title={isFullScreen ? "Minimize" : "Maximize"}
             >
-                <span class="material-symbols-outlined">sort</span>
+                <span class="material-symbols-outlined">
+                    {isFullScreen ? 'close_fullscreen' : 'open_in_full'}
+                </span>
             </button>
-            {#if isDropdownOpen}
-                <div class="dropdown-menu">
-                    <button
-                        class="dropdown-item {sortBy === 'positive'
-                            ? 'selected'
-                            : ''}"
-                        onclick={() => selectSort("positive")}
-                    >
-                        Top Positive
-                    </button>
-                    <button
-                        class="dropdown-item {sortBy === 'negative'
-                            ? 'selected'
-                            : ''}"
-                        onclick={() => selectSort("negative")}
-                    >
-                        Top Negative
-                    </button>
-                </div>
-            {/if}
         </div>
     </div>
     <div class="widget-chart-container">
@@ -191,6 +212,22 @@
         transition: border-color 0.2s ease;
         position: relative;
     }
+    .widget-card.is-fullscreen {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 90vw;
+        max-width: 800px;
+        height: auto;
+        max-height: 90vh;
+        z-index: 9999;
+        border-radius: var(--radius-lg);
+        border: 1px solid var(--color-border);
+        overflow-y: auto;
+        padding: 24px;
+        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04), 0 0 0 100vmax rgba(0, 0, 0, 0.5);
+    }
     .widget-card:hover {
         border-color: var(--color-border-hover);
     }
@@ -203,6 +240,11 @@
         position: relative;
         z-index: 10;
     }
+    .header-controls {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
     .widget-label {
         font-size: 12px;
         font-weight: 700;
@@ -213,7 +255,7 @@
     .sort-container {
         position: relative;
     }
-    .sort-button {
+    .control-button {
         background: none;
         border: none;
         cursor: pointer;
@@ -225,11 +267,11 @@
         transition: all 0.2s ease;
         border-radius: 4px;
     }
-    .sort-button:hover {
+    .control-button:hover {
         background-color: var(--color-bg-body);
         color: var(--color-text-main);
     }
-    .sort-button span {
+    .control-button span {
         font-size: 18px;
     }
     .dropdown-menu {
