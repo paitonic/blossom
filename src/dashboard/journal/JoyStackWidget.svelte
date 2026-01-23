@@ -1,6 +1,9 @@
 <script>
     const { tasks } = $props();
 
+    let sortBy = $state("positive"); // 'positive' | 'negative'
+    let isDropdownOpen = $state(false);
+
     function getJoyStacks() {
         const stats = {};
 
@@ -37,15 +40,74 @@
                 neutralPct: (data.neutral / data.total) * 100,
                 negativePct: (data.negative / data.total) * 100,
             }))
-            .sort((a, b) => b.positivePct - a.positivePct)
+            .sort((a, b) => {
+                if (sortBy === "positive") {
+                    return b.positivePct - a.positivePct;
+                } else {
+                    return b.negativePct - a.negativePct;
+                }
+            })
             .slice(0, 5);
     }
 
     let joyStacks = $derived(getJoyStacks());
+
+    function toggleDropdown(event) {
+        event.stopPropagation();
+        isDropdownOpen = !isDropdownOpen;
+    }
+
+    function selectSort(option) {
+        sortBy = option;
+        isDropdownOpen = false;
+    }
+
+    function handleWindowClick() {
+        if (isDropdownOpen) {
+            isDropdownOpen = false;
+        }
+    }
 </script>
 
+<svelte:window onclick={handleWindowClick} />
+
 <div class="widget-card">
-    <span class="widget-label">Reaction Distribution</span>
+    <div class="widget-header">
+        <span class="widget-label">Tags vs. Reaction</span>
+        <div class="sort-container">
+            <button
+                class="sort-button icon-only"
+                onclick={toggleDropdown}
+                aria-haspopup="true"
+                aria-expanded={isDropdownOpen}
+                title="Sort by {sortBy === 'positive'
+                    ? 'Most Positive'
+                    : 'Most Negative'}"
+            >
+                <span class="material-symbols-outlined">sort</span>
+            </button>
+            {#if isDropdownOpen}
+                <div class="dropdown-menu">
+                    <button
+                        class="dropdown-item {sortBy === 'positive'
+                            ? 'selected'
+                            : ''}"
+                        onclick={() => selectSort("positive")}
+                    >
+                        Top Positive
+                    </button>
+                    <button
+                        class="dropdown-item {sortBy === 'negative'
+                            ? 'selected'
+                            : ''}"
+                        onclick={() => selectSort("negative")}
+                    >
+                        Top Negative
+                    </button>
+                </div>
+            {/if}
+        </div>
+    </div>
     <div class="widget-chart-container">
         {#each joyStacks as item}
             <div class="chart-row">
@@ -132,14 +194,80 @@
     .widget-card:hover {
         border-color: var(--color-border-hover);
     }
+    .widget-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid var(--color-bg-body);
+        padding-bottom: 4px;
+        position: relative;
+        z-index: 10;
+    }
     .widget-label {
         font-size: 12px;
         font-weight: 700;
         color: var(--color-text-muted);
         letter-spacing: 0.05em;
         text-transform: uppercase;
-        border-bottom: 1px solid var(--color-bg-body);
-        padding-bottom: 4px;
+    }
+    .sort-container {
+        position: relative;
+    }
+    .sort-button {
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 4px;
+        color: var(--color-text-muted);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.2s ease;
+        border-radius: 4px;
+    }
+    .sort-button:hover {
+        background-color: var(--color-bg-body);
+        color: var(--color-text-main);
+    }
+    .sort-button span {
+        font-size: 18px;
+    }
+    .dropdown-menu {
+        position: absolute;
+        top: 100%;
+        right: 0;
+        margin-top: 4px;
+        background-color: var(--color-bg-white);
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius-lg);
+        box-shadow:
+            0 4px 6px -1px rgba(0, 0, 0, 0.1),
+            0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        padding: 4px;
+        min-width: 120px;
+        z-index: 20;
+        display: flex;
+        flex-direction: column;
+    }
+    .dropdown-item {
+        background: none;
+        border: none;
+        text-align: left;
+        padding: 6px 12px;
+        font-size: 11px;
+        color: var(--color-text-secondary);
+        cursor: pointer;
+        border-radius: 4px;
+        transition: all 0.15s ease;
+    }
+    .dropdown-item:hover {
+        background-color: var(--color-bg-body);
+        color: var(--color-text-main);
+    }
+    .dropdown-item.selected {
+        font-weight: 600;
+        color: var(--color-primary-black);
+        background-color: var(--color-bg-body);
     }
     .widget-chart-container {
         display: flex;
