@@ -34,10 +34,10 @@
 
         const latestWeekMs = Number(allSortedWeeks[allSortedWeeks.length - 1]);
         const msPerWeek = 7 * 24 * 60 * 60 * 1000;
-        
+
         // Generate last 16 weeks ending at latestWeekMs
         const last16WeeksKeys = Array.from({ length: 16 }, (_, i) => {
-             return latestWeekMs - (15 - i) * msPerWeek;
+            return latestWeekMs - (15 - i) * msPerWeek;
         });
 
         const last16WeeksData = last16WeeksKeys.reduce((acc, weekMs) => {
@@ -53,7 +53,7 @@
             return {
                 name: weekStart.toLocaleDateString("en-US", {
                     month: "short",
-                    day: "numeric",
+                    day: "2-digit",
                 }),
                 value,
                 percentage: maxVelocity > 0 ? (value / maxVelocity) * 100 : 0,
