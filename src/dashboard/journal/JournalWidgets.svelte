@@ -3,6 +3,7 @@
     import TopRepositories from "./TopRepositories.svelte";
     import TopTags from "./TopTags.svelte";
     import VelocityWidget from "./VelocityWidget.svelte";
+    import JoyStackWidget from "./JoyStackWidget.svelte";
 
     const { tasks } = $props();
 
@@ -175,6 +176,7 @@
         </div>
     </div>
     <TopTags {tasks} />
+    <JoyStackWidget {tasks} />
     <TopRepositories {tasks} />
 </div>
 
