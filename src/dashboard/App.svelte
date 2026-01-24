@@ -4,6 +4,7 @@
     import Tags from "./Tags.svelte";
     import Settings from "./Settings.svelte";
     import { storage } from "@/shared/storage.svelte";
+    import logo from "@public/blossom-128x128.png";
 
     const tabs = [
         { name: "Journal", icon: "edit_note", component: Journal },
@@ -34,9 +35,7 @@
     <header class="app-header">
         <div class="header-inner">
             <div class="brand-section">
-                <span class="material-symbols-outlined logo-icon"
-                    >local_florist</span
-                >
+                <img src={logo} alt="Blossom Logo" class="logo-img" />
                 <span class="logo-text">Blossom</span>
             </div>
             <nav class="nav-tabs">
@@ -102,21 +101,19 @@
         font-family: var(--font-family);
         background-color: var(--color-bg-body);
         color: var(--color-text-main);
-        height: 100vh;
-        overflow: hidden;
         -webkit-font-smoothing: antialiased;
     }
 
     .app-container {
         display: flex;
         flex-direction: column;
-        height: 100vh;
-        width: 100vw;
+        min-height: 100vh;
+        width: 100%;
     }
     .app-header {
         background-color: var(--color-bg-white);
         border-bottom: 1px solid var(--color-border);
-        padding-top: var(--spacing-xl);
+        padding-top: var(--spacing-lg);
         flex-shrink: 0;
     }
     .header-inner {
@@ -131,9 +128,10 @@
         gap: var(--spacing-sm);
         margin-bottom: var(--spacing-lg);
     }
-    .logo-icon {
-        font-size: 24px;
-        color: var(--color-text-main);
+    .logo-img {
+        width: 32px;
+        height: 32px;
+        object-fit: contain;
     }
     .logo-text {
         font-size: 18px;
@@ -184,12 +182,10 @@
         flex-direction: column;
         min-width: 0;
         background-color: var(--color-bg-body);
-        overflow: hidden;
     }
     .content-scrollable {
         flex: 1;
         padding: var(--spacing-xl) var(--spacing-lg);
-        overflow-y: auto;
         display: flex;
         flex-direction: column;
     }
