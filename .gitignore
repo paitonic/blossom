@@ -24,3 +24,5 @@ private/
 *.njsproj
 *.sln
 *.sw?
+
+INSTRUCTION.md
