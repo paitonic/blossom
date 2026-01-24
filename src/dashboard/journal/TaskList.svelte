@@ -35,7 +35,7 @@
 <style>
     .task-list-header {
         display: grid;
-        grid-template-columns: 110px 2fr 140px 90px 50px 80px 80px 50px 70px;
+        grid-template-columns: 110px 2fr 140px 90px 50px 80px 80px 50px 40px;
         gap: var(--spacing-md);
         padding: 0 var(--spacing-lg) var(--spacing-sm) var(--spacing-lg);
         margin-bottom: 4px;

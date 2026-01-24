@@ -165,7 +165,6 @@
                     </div>
                 {/if}
             </div>
-            <span class="material-symbols-outlined expand-icon">expand_more</span>
         </div>
     </summary>
     <div class="row-details">
@@ -207,7 +206,7 @@
     }
     .task-summary {
         display: grid;
-        grid-template-columns: 110px 2fr 140px 90px 50px 80px 80px 50px 70px;
+        grid-template-columns: 110px 2fr 140px 90px 50px 80px 80px 50px 40px;
         align-items: center;
         padding: var(--spacing-lg);
         cursor: pointer;
@@ -412,13 +411,6 @@
         background-color: #fef2f2;
     }
 
-    .expand-icon {
-        transition: transform 0.2s ease;
-    }
-    .task-row-wrapper[open] .expand-icon {
-        transform: rotate(180deg);
-        color: var(--color-text-main);
-    }
     .row-details {
         padding: 0 var(--spacing-lg) var(--spacing-lg) var(--spacing-lg);
         padding-left: calc(110px + var(--spacing-lg) + var(--spacing-md));
