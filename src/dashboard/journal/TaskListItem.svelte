@@ -54,7 +54,41 @@
     };
 
     const typeDetails = $derived(getTypeDetails(type));
+
+    let showMenu = $state(false);
+
+    const toggleMenu = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        showMenu = !showMenu;
+    };
+
+    const onOpen = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        showMenu = false;
+    };
+
+    const onEdit = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        showMenu = false;
+    };
+
+    const onDelete = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        showMenu = false;
+    };
+
+    const onWindowClick = () => {
+        if (showMenu) {
+            showMenu = false;
+        }
+    };
 </script>
+
+<svelte:window onclick={onWindowClick} />
 
 <details class="task-row-wrapper" {open}>
     <summary class="task-summary">
@@ -112,6 +146,25 @@
             {/if}
         </div>
         <div class="cell-action">
+            <div class="menu-container">
+                <button
+                    class="menu-btn"
+                    onclick={toggleMenu}
+                    aria-label="Options"
+                    class:active={showMenu}
+                >
+                    <span class="material-symbols-outlined">more_vert</span>
+                </button>
+                {#if showMenu}
+                    <div class="dropdown-menu">
+                        <button class="dropdown-item" onclick={onOpen}>Open</button>
+                        <button class="dropdown-item" onclick={onEdit}>Edit</button>
+                        <button class="dropdown-item delete" onclick={onDelete}
+                            >Delete</button
+                        >
+                    </div>
+                {/if}
+            </div>
             <span class="material-symbols-outlined expand-icon">expand_more</span>
         </div>
     </summary>
@@ -143,7 +196,7 @@
         border-radius: var(--radius-lg);
         margin-bottom: var(--spacing-sm);
         transition: all 0.2s ease;
-        overflow: hidden;
+        /* overflow: hidden; */
     }
     .task-row-wrapper:hover {
         border-color: var(--color-border-hover);
@@ -154,7 +207,7 @@
     }
     .task-summary {
         display: grid;
-        grid-template-columns: 110px 2fr 140px 90px 50px 80px 80px 50px 40px;
+        grid-template-columns: 110px 2fr 140px 90px 50px 80px 80px 50px 70px;
         align-items: center;
         padding: var(--spacing-lg);
         cursor: pointer;
@@ -295,8 +348,70 @@
     .cell-action {
         display: flex;
         justify-content: flex-end;
+        align-items: center;
+        gap: 4px;
         color: var(--color-text-muted);
     }
+    .menu-container {
+        position: relative;
+    }
+    .menu-btn {
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 4px;
+        border-radius: var(--radius-md);
+        color: var(--color-text-muted);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: background-color 0.2s;
+    }
+    .menu-btn:hover,
+    .menu-btn.active {
+        background-color: var(--color-bg-hover);
+        color: var(--color-text-main);
+    }
+    .menu-btn .material-symbols-outlined {
+        font-size: 20px;
+    }
+
+    .dropdown-menu {
+        position: absolute;
+        top: 100%;
+        right: 0;
+        z-index: 100;
+        background-color: var(--color-bg-white);
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius-lg);
+        box-shadow: var(--shadow-sm);
+        padding: 4px;
+        display: flex;
+        flex-direction: column;
+        min-width: 120px;
+    }
+
+    .dropdown-item {
+        background: none;
+        border: none;
+        text-align: left;
+        padding: 8px 12px;
+        font-size: 14px;
+        color: var(--color-text-main);
+        cursor: pointer;
+        border-radius: var(--radius-md);
+        transition: background-color 0.2s;
+    }
+    .dropdown-item:hover {
+        background-color: var(--color-bg-hover);
+    }
+    .dropdown-item.delete {
+        color: #ef4444;
+    }
+    .dropdown-item.delete:hover {
+        background-color: #fef2f2;
+    }
+
     .expand-icon {
         transition: transform 0.2s ease;
     }
