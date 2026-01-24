@@ -1,12 +1,26 @@
 import { mount, unmount } from "svelte";
 import BlossomButton from "./views/BlossomButton.svelte";
 import Popover from "./views/Popover.svelte";
+import { storage } from "@/shared/storage.svelte.js";
 
 const mounts = {};
 
 const normalizeURL = (url) => {
   const newURL = new URL(url);
   return newURL.origin + newURL.pathname;
+};
+
+const getPullRequestKey = (url) => {
+  let [
+    _protocol,
+    _empty,
+    _domain,
+    user,
+    repository,
+    _path,
+    pullRequestID,
+  ] = url.split("/");
+  return `${user}/${repository}/${pullRequestID}`;
 };
 
 const mountPopover = () => {
@@ -25,12 +39,27 @@ const mountPopover = () => {
   }
 };
 
-const mountExtension = () => {
+const mountExtension = async () => {
   console.log("mounting extension");
 
   // mount on Pull Requests list page
   const links = document.querySelectorAll('a[id*="issue_"][id*="_link"]');
+  const keys = [];
+  const linkData = [];
+
   for (const element of links) {
+    const url = normalizeURL(element.href);
+    const key = getPullRequestKey(url);
+    keys.push(key);
+    linkData.push({ element, url, key });
+  }
+
+  let ratings = {};
+  if (keys.length > 0) {
+    ratings = await storage.kbatch(keys);
+  }
+
+  for (const { element, url, key } of linkData) {
     const id = element.id.split("_")[1];
     const title = element.innerText;
     // console.log(`issue ${id} ${title}`);
@@ -61,9 +90,10 @@ const mountExtension = () => {
     const button = mount(BlossomButton, {
       target,
       props: {
-        pullRequestURL: normalizeURL(element.href),
+        pullRequestURL: url,
         title,
         openedAt,
+        rated: !!ratings[key],
       },
     });
 

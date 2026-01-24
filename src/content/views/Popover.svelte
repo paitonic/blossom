@@ -89,6 +89,9 @@
 
     const save = async () => {
         await storage.kset(pullRequestDetails?.key, form);
+        if (popover.onSave) {
+            popover.onSave();
+        }
         popover.close();
     };
 

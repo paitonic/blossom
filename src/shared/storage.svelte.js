@@ -11,6 +11,11 @@ class KVStorage {
     }
   };
 
+  kbatch = async (keys) => {
+    console.log(`kbatch(${keys.length} keys)`);
+    return chrome.storage.local.get(keys);
+  };
+
   kall = () => {
     return chrome.storage.local.get(null);
   };
