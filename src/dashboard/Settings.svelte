@@ -42,18 +42,28 @@
 
         const now = new Date();
         const yyyy = now.getFullYear();
-        const MM = String(now.getMonth() + 1).padStart(2, '0');
-        const dd = String(now.getDate()).padStart(2, '0');
-        const hh = String(now.getHours()).padStart(2, '0');
-        const mm = String(now.getMinutes()).padStart(2, '0');
-        const ss = String(now.getSeconds()).padStart(2, '0');
+        const MM = String(now.getMonth() + 1).padStart(2, "0");
+        const dd = String(now.getDate()).padStart(2, "0");
+        const hh = String(now.getHours()).padStart(2, "0");
+        const mm = String(now.getMinutes()).padStart(2, "0");
+        const ss = String(now.getSeconds()).padStart(2, "0");
         const filename = `blossom_${yyyy}-${MM}-${dd}_${hh}-${mm}-${ss}.json`;
 
-        chrome.downloads.download({
-            url: URL.createObjectURL(blob),
-            filename: filename,
-            saveAs: true,
-        });
+        const url = URL.createObjectURL(blob);
+        chrome.downloads.download(
+            {
+                url: url,
+                filename: filename,
+                saveAs: true,
+            },
+            () => {
+                // Revoke the object URL after a delay to allow the download to handle the blob
+                // This prevents memory leaks while ensuring the file is accessible during the save dialog
+                setTimeout(() => {
+                    URL.revokeObjectURL(url);
+                }, 60000);
+            },
+        );
     };
 
     const importJSON = async (files) => {
