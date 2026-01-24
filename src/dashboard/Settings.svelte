@@ -11,6 +11,19 @@
     });
 
     const exportJSON = async () => {
+        const hasPermission = await chrome.permissions.contains({
+            permissions: ["downloads"],
+        });
+        if (!hasPermission) {
+            const granted = await chrome.permissions.request({
+                permissions: ["downloads"],
+            });
+            if (!granted) {
+                // TODO: Show a message to the user explaining why the permission is needed
+                return;
+            }
+        }
+
         const items = await storage.kall();
         if (!items) {
             console.log("no items");

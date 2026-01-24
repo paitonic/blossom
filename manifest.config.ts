@@ -29,7 +29,8 @@ export default defineManifest((env) => {
         matches: ["https://github.com/*", ...fileAccessPermissions],
       },
     ],
-    permissions: ["contentSettings", "storage", "downloads"],
+    permissions: ["contentSettings", "storage"],
+    optional_permissions: ["downloads"],
     side_panel: {
       default_path: "src/sidepanel/index.html",
     },
