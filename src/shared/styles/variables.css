@@ -1,0 +1,16 @@
+:root, :host {
+    --gray-50: #f9fafb;
+    --gray-100: #f3f4f6;
+    --gray-200: #e5e7eb;
+    --gray-300: #d1d5db;
+    --gray-400: #9ca3af;
+    --gray-500: #6b7280;
+    --gray-700: #374151;
+    --gray-900: #111827;
+    --black: #000000;
+    --white: #ffffff;
+    --font-family: "Inter", sans-serif;
+    --shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    --radius-md: 0.375rem;
+    --radius-xl: 0.75rem;
+}

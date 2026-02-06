@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Mock GitHub PR List</title>
+    <style>
+        /* Minimal styles to mimic layout */
+        body { font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif; background: #f6f8fa; padding: 20px; }
+        .container { background: white; border: 1px solid #d0d7de; max-width: 900px; margin: 0 auto; padding: 20px; }
+        .js-navigation-container { border: 1px solid #d0d7de; border-radius: 6px; }
+        .box-row { border-top: 1px solid #d0d7de; padding: 12px; display: flex; }
+        .box-row:first-child { border-top: none; }
+        .flex-auto { flex: 1; }
+        
+        /* Specific classes from MHTML/Extension */
+        .Link--primary { font-weight: 600; color: #1f2328; text-decoration: none; font-size: 16px; }
+        .color-fg-muted { color: #656d76; }
+        .text-small { font-size: 12px; }
+        .mt-1 { margin-top: 4px; }
+        .opened-by { margin-left: 4px; }
+        
+        /* Button styling */
+        .blossom__button { vertical-align: middle; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Pull Requests</h1>
+        <div class="js-navigation-container js-active-navigation-container">
+            
+            <!-- PR Item 1 -->
+            <div class="box-row">
+                <div class="flex-auto">
+                    <a id="issue_101_link" class="Link--primary v-align-middle no-underline h4 js-navigation-open markdown-title" href="https://github.com/paitonic/blossom/pull/101">
+                        Feature: Add analytics dashboard
+                    </a>
+                    <div class="d-flex mt-1 text-small color-fg-muted">
+                        <span class="opened-by">
+                            #101 opened <relative-time datetime="2026-02-06T10:00:00Z">5 hours ago</relative-time> by paitonic
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PR Item 2 -->
+            <div class="box-row">
+                <div class="flex-auto">
+                    <a id="issue_102_link" class="Link--primary v-align-middle no-underline h4 js-navigation-open markdown-title" href="https://github.com/paitonic/blossom/pull/102">
+                        Bug: Fix race condition in storage
+                    </a>
+                    <div class="d-flex mt-1 text-small color-fg-muted">
+                        <span class="opened-by">
+                            #102 opened <relative-time datetime="2026-02-05T14:20:00Z">yesterday</relative-time> by paitonic
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</body>
+</html>
