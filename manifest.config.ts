@@ -10,6 +10,7 @@ export default defineManifest((env) => {
   return {
     manifest_version: 3,
     name: pkg.name,
+    description: "Turn GitHub Pull Requests into a personal work journal. Track tasks, see your stats, and reflect.",
     version: pkg.version,
     icons: {
       48: "blossom-48x48.png",

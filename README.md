@@ -11,7 +11,7 @@
 ---
 
 <div align="center">
-  <img src="public/blossom-screenshot.png" alt="Blossom Extension Screenshot" width="500">
+  <img src="public/blossom-form-screenshot.jpg" alt="Blossom Extension Screenshot" width="500">
 </div>
 
 > This project is an independent open-source extension and is not affiliated with, endorsed by, or approved by GitHub, Inc. GitHub is a trademark of GitHub, Inc.
