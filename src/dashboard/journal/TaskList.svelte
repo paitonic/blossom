@@ -29,9 +29,22 @@
 
 {#each sortedTasks as task, i}
     <TaskListItem {...task} onEdit={() => onEdit(task)} onDelete={() => onDelete(task)} />
+{:else}
+    <div class="empty-state">
+        No tasks found matching your search.
+    </div>
 {/each}
 
 <style>
+    .empty-state {
+        padding: 48px;
+        text-align: center;
+        color: var(--color-text-muted);
+        background-color: var(--color-bg-white);
+        border: 1px dashed var(--color-border);
+        border-radius: var(--radius-lg);
+        margin-top: 8px;
+    }
     .task-list-header {
         display: grid;
         grid-template-columns: 110px 2fr 90px 50px 80px 80px 50px 40px;

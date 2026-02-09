@@ -1,6 +1,15 @@
+<script lang="ts">
+    let { value = $bindable() } = $props();
+</script>
+
 <div class="search-bar-container">
+    <input
+        class="search-input"
+        placeholder="Search..."
+        type="text"
+        bind:value
+    />
     <span class="material-symbols-outlined search-icon">search</span>
-    <input class="search-input" placeholder="Search tasks..." type="text" />
 </div>
 
 <style>

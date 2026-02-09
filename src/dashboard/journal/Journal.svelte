@@ -10,6 +10,17 @@
 
     let { tasks, refresh } = $props();
 
+    let searchQuery = $state("");
+
+    let filteredTasks = $derived(
+        tasks.filter((task) => {
+            const query = searchQuery.toLowerCase();
+            const title = task.title ? task.title.toLowerCase() : "";
+            const notes = task.notes ? task.notes.toLowerCase() : "";
+            return title.includes(query) || notes.includes(query);
+        }),
+    );
+
     let editingTask = $state(null);
     let isModalOpen = $state(false);
 
@@ -60,16 +71,16 @@
 </script>
 
 <div class="journal-container">
-    <!-- <div class="toolbar">
-        <SearchBar />
-        <div class="filters">
+    <div class="toolbar">
+        <SearchBar bind:value={searchQuery} />
+        <!-- <div class="filters">
             <FilterButton icon="calendar_today" label="Date" />
             <FilterButton icon="label" label="Tags" />
             <div class="divider" />
             <SortButton />
-        </div>
-    </div> -->
-    <TaskList {tasks} onEdit={handleEdit} onDelete={handleDelete} />
+        </div> -->
+    </div>
+    <TaskList tasks={filteredTasks} onEdit={handleEdit} onDelete={handleDelete} />
     <!-- <Pagination /> -->
 
     <EditTaskModal
