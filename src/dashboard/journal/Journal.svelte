@@ -2,7 +2,7 @@
     import TaskList from "./TaskList.svelte";
     import Pagination from "./Pagination.svelte";
     import SearchBar from "./SearchBar.svelte";
-    import FilterButton from "./FilterButton.svelte";
+    import FilterDropdown from "./FilterDropdown.svelte";
     import SortButton from "./SortButton.svelte";
     import EditTaskModal from "./EditTaskModal.svelte";
     import ConfirmationModal from "@/dashboard/components/ConfirmationModal.svelte";
@@ -12,12 +12,71 @@
 
     let searchQuery = $state("");
 
+    let selectedTypes = $state([]);
+    let selectedChallenges = $state([]);
+    let selectedEfforts = $state([]);
+    let selectedImpacts = $state([]);
+    let selectedSentiments = $state([]);
+
+    const typeOptions = [
+        { value: "chore", label: "Chore" },
+        { value: "feature", label: "Feature" },
+        { value: "bug", label: "Bug" },
+        { value: "research", label: "Research" }
+    ];
+    const challengeOptions = [
+        { value: "easy", label: "Easy" },
+        { value: "medium", label: "Medium" },
+        { value: "hard", label: "Hard" },
+    ];
+    const effortOptions = [
+        { value: "xs", label: "XS" },
+        { value: "s", label: "S" },
+        { value: "m", label: "M" },
+        { value: "l", label: "L" },
+        { value: "xl", label: "XL" },
+    ];
+    const impactOptions = [
+        { value: "low", label: "Low" },
+        { value: "medium", label: "Medium" },
+        { value: "high", label: "High" },
+    ];
+    const sentimentOptions = [
+        { value: -1, label: "Negative" },
+        { value: 0, label: "Neutral" },
+        { value: 1, label: "Positive" },
+    ];
+
     let filteredTasks = $derived(
         tasks.filter((task) => {
             const query = searchQuery.toLowerCase();
             const title = task.title ? task.title.toLowerCase() : "";
             const notes = task.notes ? task.notes.toLowerCase() : "";
-            return title.includes(query) || notes.includes(query);
+            const matchesSearch = title.includes(query) || notes.includes(query);
+
+            const matchesType =
+                selectedTypes.length === 0 || selectedTypes.includes(task.type);
+            const matchesChallenge =
+                selectedChallenges.length === 0 ||
+                selectedChallenges.includes(task.challenge);
+            const matchesEffort =
+                selectedEfforts.length === 0 ||
+                selectedEfforts.includes(task.effort);
+            const matchesImpact =
+                selectedImpacts.length === 0 ||
+                selectedImpacts.includes(task.impact);
+            const matchesSentiment =
+                selectedSentiments.length === 0 ||
+                selectedSentiments.includes(task.sentiment);
+
+            return (
+                matchesSearch &&
+                matchesType &&
+                matchesChallenge &&
+                matchesEffort &&
+                matchesImpact &&
+                matchesSentiment
+            );
         }),
     );
 
@@ -72,13 +131,42 @@
 
 <div class="journal-container">
     <div class="toolbar">
-        <SearchBar bind:value={searchQuery} />
-        <!-- <div class="filters">
-            <FilterButton icon="calendar_today" label="Date" />
-            <FilterButton icon="label" label="Tags" />
-            <div class="divider" />
+        <div class="search-sort-row">
+            <SearchBar bind:value={searchQuery} />
             <SortButton />
-        </div> -->
+        </div>
+        <div class="filters">
+            <FilterDropdown
+                icon="category"
+                label="Type"
+                options={typeOptions}
+                bind:selected={selectedTypes}
+            />
+            <FilterDropdown
+                icon="landscape"
+                label="Challenge"
+                options={challengeOptions}
+                bind:selected={selectedChallenges}
+            />
+            <FilterDropdown
+                icon="schedule"
+                label="Effort"
+                options={effortOptions}
+                bind:selected={selectedEfforts}
+            />
+            <FilterDropdown
+                icon="trending_up"
+                label="Impact"
+                options={impactOptions}
+                bind:selected={selectedImpacts}
+            />
+            <FilterDropdown
+                icon="mood"
+                label="Sentiment"
+                options={sentimentOptions}
+                bind:selected={selectedSentiments}
+            />
+        </div>
     </div>
     <TaskList tasks={filteredTasks} onEdit={handleEdit} onDelete={handleDelete} />
     <!-- <Pagination /> -->
@@ -110,12 +198,12 @@
         flex-direction: column;
         gap: 16px;
     }
-    @media (min-width: 640px) {
-        .toolbar {
-            flex-direction: row;
-            align-items: center;
-            justify-content: space-between;
-        }
+    .search-sort-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        width: 100%;
     }
     .filters {
         display: flex;
@@ -123,22 +211,5 @@
         align-items: center;
         gap: 12px;
         width: 100%;
-    }
-    @media (min-width: 640px) {
-        .filters {
-            width: auto;
-        }
-    }
-    .divider {
-        height: 24px;
-        width: 1px;
-        background-color: var(--color-border);
-        margin: 0 4px;
-        display: none;
-    }
-    @media (min-width: 640px) {
-        .divider {
-            display: block;
-        }
     }
 </style>

@@ -53,8 +53,7 @@
             feature: { icon: "⭐", label: "Feature" },
             bug: { icon: "🐞", label: "Bug" },
             chore: { icon: "⚙️", label: "Chore" },
-            research: { icon: "🔍", label: "Research" },
-            hotfix: { icon: "🚒", label: "Hotfix" },
+            research: { icon: "🔍", label: "Research" }
         };
         return config[t] || { icon: "", label: t };
     };
