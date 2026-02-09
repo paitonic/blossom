@@ -12,6 +12,12 @@
 
     let searchQuery = $state("");
 
+    let sortOrder = $state("newest");
+
+    const toggleSort = () => {
+        sortOrder = sortOrder === "newest" ? "oldest" : "newest";
+    };
+
     let selectedTypes = $state([]);
     let selectedChallenges = $state([]);
     let selectedEfforts = $state([]);
@@ -133,7 +139,7 @@
     <div class="toolbar">
         <div class="search-sort-row">
             <SearchBar bind:value={searchQuery} />
-            <SortButton />
+            <SortButton {sortOrder} onToggle={toggleSort} />
         </div>
         <div class="filters">
             <FilterDropdown
@@ -168,7 +174,7 @@
             />
         </div>
     </div>
-    <TaskList tasks={filteredTasks} onEdit={handleEdit} onDelete={handleDelete} />
+    <TaskList tasks={filteredTasks} {sortOrder} onEdit={handleEdit} onDelete={handleDelete} />
     <!-- <Pagination /> -->
 
     <EditTaskModal

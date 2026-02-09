@@ -1,38 +1,61 @@
-<button class="sort-button">
-    <span class="material-symbols-outlined icon">sort</span>
-    <span>Sort: Newest</span>
-    <span class="material-symbols-outlined expand-icon">expand_more</span>
-</button>
+<script lang="ts">
+    let { sortOrder = "newest", onToggle } = $props();
+</script>
+
+<div class="segmented-control">
+    <button 
+        class="segment {sortOrder === 'newest' ? 'active' : ''}" 
+        onclick={() => sortOrder !== 'newest' && onToggle()}
+        type="button"
+        aria-label="Sort by newest"
+    >
+        Newest
+    </button>
+    <button 
+        class="segment {sortOrder === 'oldest' ? 'active' : ''}" 
+        onclick={() => sortOrder !== 'oldest' && onToggle()}
+        type="button"
+        aria-label="Sort by oldest"
+    >
+        Oldest
+    </button>
+</div>
 
 <style>
-    .sort-button {
+    .segmented-control {
         display: flex;
         align-items: center;
-        gap: 8px;
-        padding: 10px 12px;
-        background-color: var(--color-bg-white);
+        background-color: var(--gray-100, #f3f4f6);
         border: 1px solid var(--color-border);
         border-radius: var(--radius-md);
+        padding: 4px;
+        gap: 4px;
+    }
+    
+    .segment {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: none;
+        background: transparent;
+        padding: 6px 12px;
+        border-radius: 4px; /* Slightly smaller than container */
         font-size: 14px;
         font-weight: 500;
-        color: var(--color-text-secondary);
+        color: var(--color-text-muted);
+        cursor: pointer;
         transition: all 0.2s ease;
-        box-shadow: var(--shadow-sm);
     }
-    .sort-button:hover {
-        background-color: var(--color-bg-hover);
-        border-color: var(--color-border-hover);
-    }
-    .icon {
-        font-size: 18px;
-        color: var(--color-text-muted);
-        transition: color 0.2s ease;
-    }
-    .sort-button:hover .icon {
+
+    .segment:hover:not(.active) {
         color: var(--color-text-secondary);
+        background-color: rgba(0,0,0,0.05);
     }
-    .expand-icon {
-        font-size: 18px;
-        color: var(--color-text-muted);
+
+    .segment.active {
+        background-color: var(--color-bg-white);
+        color: var(--color-text-secondary);
+        box-shadow: var(--shadow-sm);
     }
 </style>

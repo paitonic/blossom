@@ -1,15 +1,20 @@
 <script lang="ts">
     import TaskListItem from "./TaskListItem.svelte";
 
-    let { tasks, onEdit, onDelete } = $props();
+    let { tasks, sortOrder = "newest", onEdit, onDelete } = $props();
 
     const sortedTasks = $derived.by(() => {
         return tasks.toSorted((a, b) => {
-            if (a.openedAt < b.openedAt) {
-                return 1;
-            } else if (a.openedAt > b.openedAt) {
-                return -1;
+            const dateA = a.openedAt;
+            const dateB = b.openedAt;
+
+            if (sortOrder === "newest") {
+                if (dateA < dateB) return 1;
+                if (dateA > dateB) return -1;
+                return 0;
             } else {
+                if (dateA < dateB) return -1;
+                if (dateA > dateB) return 1;
                 return 0;
             }
         });
