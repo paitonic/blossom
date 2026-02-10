@@ -5,7 +5,7 @@
 
   **Turn GitHub Pull Requests into a personal work journal. Track tasks, see your stats, and reflect.**
 
-  [Chrome Web Store] • [Website](https://github.com/paitonic/blossom)
+  [Chrome Web Store](https://chromewebstore.google.com/detail/fncgholebmpcappmmmfnpcbfandhjplj) • [Website](https://github.com/paitonic/blossom)
 </div>
 
 ---
