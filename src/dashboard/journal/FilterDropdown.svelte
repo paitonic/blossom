@@ -6,10 +6,13 @@
         icon,
         options,
         selected = $bindable([]),
+        searchable = false,
+        maxHeight = "300px",
     } = $props();
 
     let isOpen = $state(false);
     let dropdownRef = $state<HTMLElement>(null);
+    let searchQuery = $state("");
     let activeCount = $derived(selected.length);
 
     let selectedLabels = $derived(
@@ -19,8 +22,19 @@
             .join(", "),
     );
 
+    let filteredOptions = $derived(
+        searchable
+            ? options.filter((opt) =>
+                  opt.label.toLowerCase().includes(searchQuery.toLowerCase()),
+              )
+            : options,
+    );
+
     const toggleDropdown = () => {
         isOpen = !isOpen;
+        if (!isOpen) {
+            searchQuery = ""; // Reset search when closing
+        }
     };
 
     const toggleOption = (value: any) => {
@@ -38,6 +52,7 @@
             !dropdownRef.contains(event.target as Node)
         ) {
             isOpen = false;
+            searchQuery = "";
         }
     };
 
@@ -67,20 +82,43 @@
 
     {#if isOpen}
         <div class="dropdown-menu">
-            {#each options as option}
-                <button
-                    class="dropdown-item"
-                    class:selected={selected.includes(option.value)}
-                    onclick={() => toggleOption(option.value)}
-                >
-                    <span class="material-symbols-outlined selection-icon">
-                        {selected.includes(option.value)
-                            ? "check_box"
-                            : "check_box_outline_blank"}
-                    </span>
-                    <span class="item-label">{option.label}</span>
-                </button>
-            {/each}
+            {#if searchable}
+                <div class="search-container">
+                    <span class="material-symbols-outlined search-icon"
+                        >search</span
+                    >
+                    <input
+                        type="text"
+                        bind:value={searchQuery}
+                        placeholder="Search..."
+                        class="search-input"
+                        onclick={(e) => e.stopPropagation()}
+                    />
+                </div>
+            {/if}
+            <div
+                class="options-container"
+                style:max-height={maxHeight}
+                style:overflow-y="auto"
+            >
+                {#each filteredOptions as option}
+                    <button
+                        class="dropdown-item"
+                        class:selected={selected.includes(option.value)}
+                        onclick={() => toggleOption(option.value)}
+                    >
+                        <span class="material-symbols-outlined selection-icon">
+                            {selected.includes(option.value)
+                                ? "check_box"
+                                : "check_box_outline_blank"}
+                        </span>
+                        <span class="item-label">{option.label}</span>
+                    </button>
+                {/each}
+                {#if filteredOptions.length === 0}
+                    <div class="no-results">No results found</div>
+                {/if}
+            </div>
         </div>
     {/if}
 </div>
@@ -107,6 +145,8 @@
         cursor: pointer;
         user-select: none;
         white-space: nowrap;
+        max-width: 300px;
+        overflow: hidden;
     }
 
     .filter-button:hover {
@@ -135,6 +175,7 @@
         font-size: 18px;
         color: var(--color-text-muted);
         transition: transform 0.2s ease;
+        margin-left: auto;
     }
 
     .expand-icon.rotated {
@@ -146,7 +187,7 @@
         top: calc(100% + 4px);
         left: 0;
         z-index: 100;
-        min-width: 180px;
+        min-width: 220px;
         background-color: var(--color-bg-white);
         border: 1px solid var(--color-border);
         border-radius: var(--radius-md);
@@ -155,6 +196,49 @@
         display: flex;
         flex-direction: column;
         gap: 2px;
+    }
+
+    .search-container {
+        display: flex;
+        align-items: center;
+        padding: 8px;
+        border-bottom: 1px solid var(--color-border);
+        margin-bottom: 4px;
+    }
+
+    .search-icon {
+        font-size: 18px;
+        color: var(--color-text-muted);
+        margin-right: 8px;
+    }
+
+    .search-input {
+        width: 100%;
+        border: none;
+        outline: none;
+        font-size: 14px;
+        color: var(--color-text-primary);
+        background: transparent;
+    }
+
+    .options-container {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+    }
+
+    /* Custom scrollbar for options container */
+    .options-container::-webkit-scrollbar {
+        width: 6px;
+    }
+
+    .options-container::-webkit-scrollbar-track {
+        background: transparent;
+    }
+
+    .options-container::-webkit-scrollbar-thumb {
+        background-color: var(--color-border);
+        border-radius: 3px;
     }
 
     .dropdown-item {
@@ -194,5 +278,15 @@
 
     .item-label {
         flex: 1;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .no-results {
+        padding: 12px;
+        text-align: center;
+        color: var(--color-text-muted);
+        font-size: 14px;
     }
 </style>

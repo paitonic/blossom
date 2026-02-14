@@ -23,6 +23,7 @@
     let selectedEfforts = $state([]);
     let selectedImpacts = $state([]);
     let selectedSentiments = $state([]);
+    let selectedTags = $state([]);
 
     const typeOptions = [
         { value: "chore", label: "Chore" },
@@ -53,6 +54,12 @@
         { value: 1, label: "Positive" },
     ];
 
+    let tagOptions = $derived(
+        Array.from(new Set(tasks.flatMap((t) => t.tags || [])))
+            .sort()
+            .map((tag) => ({ value: tag, label: tag })),
+    );
+
     let filteredTasks = $derived(
         tasks.filter((task) => {
             const query = searchQuery.toLowerCase();
@@ -74,6 +81,10 @@
             const matchesSentiment =
                 selectedSentiments.length === 0 ||
                 selectedSentiments.includes(task.sentiment);
+            const matchesTags =
+                selectedTags.length === 0 ||
+                (task.tags &&
+                    task.tags.some((tag) => selectedTags.includes(tag)));
 
             return (
                 matchesSearch &&
@@ -81,7 +92,8 @@
                 matchesChallenge &&
                 matchesEffort &&
                 matchesImpact &&
-                matchesSentiment
+                matchesSentiment &&
+                matchesTags
             );
         }),
     );
@@ -171,6 +183,14 @@
                 label="Sentiment"
                 options={sentimentOptions}
                 bind:selected={selectedSentiments}
+            />
+            <FilterDropdown
+                icon="label"
+                label="Tags"
+                options={tagOptions}
+                bind:selected={selectedTags}
+                searchable={true}
+                maxHeight="250px"
             />
         </div>
     </div>
