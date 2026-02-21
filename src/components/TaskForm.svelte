@@ -74,6 +74,17 @@
 </div>
 
 <div class="form-group">
+    <label for="ticket" class="form-label">Ticket</label>
+    <input
+        id="ticket"
+        class="uniform-input"
+        placeholder="e.g. JIRA-123 or https://jira.com/browse/JIRA-123"
+        type="text"
+        bind:value={form.ticket}
+    />
+</div>
+
+<div class="form-group">
     <label for="type" class="form-label">Type</label>
     <div class="select-wrapper">
         <select

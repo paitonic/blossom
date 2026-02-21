@@ -21,6 +21,7 @@ I want to understand the categories of tasks I work on, identify which tasks wer
 
 ## How it works
 Blossom injects a button directly into the GitHub Pull Request page. Clicking it opens a form with the following fields:
+* **Ticket:** Reference to a task management system (e.g., JIRA).
 * **Tags:** Categorize tasks by skills learned, code areas touched, etc.
 * **Challenge:** Technical difficulty.
 * **Effort:** Time spent on this task, measured in t-shirt sizes.

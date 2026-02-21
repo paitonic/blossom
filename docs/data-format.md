@@ -2,21 +2,26 @@
 
 Blossom allows users to export and import their data as a JSON file. This document describes the structure and fields used in the exported data.
 
+## Version
+1.1
+
 ## Top-Level Structure
 
 The exported JSON file has the following top-level structure:
 
 ```json
 {
-  "version": "1.0",
   "createdAt": "2026-02-06T12:00:00.000Z",
   "data": {
+    "blossom:settings": {
+      "version": "MAJOR.MINOR"
+    }
     "user/repository/pullRequestID": { ... }
   }
 }
 ```
 
-- **version**: The version of the data format (currently "1.0").
+- **version**: The version of the data format.
 - **createdAt**: The ISO 8601 timestamp when the export was created.
 - **data**: An object where keys are pull request IDs and values are the task details.
 
@@ -37,6 +42,7 @@ Each task entry in the `data` object contains the following fields:
 | `user` | string | The GitHub username or organization owner of the repository. |
 | `repository` | string | The repository name. |
 | `title` | string | The title of the Pull Request. |
+| `ticket` | string | (Optional) The ticket URL or identifier (e.g., JIRA ticket). |
 | `openedAt` | string | ISO 8601 timestamp of when the PR was opened. |
 | `type` | string | The category of the task. |
 | `challenge` | string | The technical difficulty level. |

@@ -1,3 +1,4 @@
+VERSION = "1.1"
 const ORG = "superheroes";
 const PROJECTS = [
   "Batman",
@@ -97,11 +98,15 @@ function generateData() {
       pullRequestID: prId.toString(),
       repository: project,
       title: randomItem(TITLES),
-      type: randomItem(TYPES),
-      user: ORG,
-    };
+      entry.type = randomItem(TYPES);
+      entry.user = ORG;
 
-    if (isIncomplete) {
+      const hasTicket = Math.random() < 0.5;
+      if (hasTicket) {
+        entry.ticket = Math.random() < 0.5 ? `PROJ-${Math.floor(Math.random() * 1000)}` : `https://jira.com/browse/PROJ-${Math.floor(Math.random() * 1000)}`;
+      }
+
+      if (isIncomplete) {
       // Incomplete items requirements:
       // - notes field is empty
       // - tags field is an empty array
@@ -139,7 +144,7 @@ function generateData() {
   // or keep it wrapped if that's the preferred backup format.
   // The previous file returned a wrapped object. I'll stick to that but with new data.
   return {
-    version: "1.0", // Bump version to indicate new schema
+    version: VERSION, // Bump version to indicate new schema
     createdAt: new Date().toISOString(),
     data: data,
   };

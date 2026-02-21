@@ -13,6 +13,7 @@ The following types of information is collected strictly for the purpose of the 
     *   Pull Request ID
     *   Creation Date
 2.  **User-Generated Content:** The data you explicitly enter into the extension:
+    *   Ticket reference
     *   PR ratings (Challenge, Effort, Impact, Sentiment)
     *   Tags
     *   Personal notes

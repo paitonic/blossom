@@ -12,6 +12,7 @@
         pullRequestID,
         tags = [],
         notes,
+        ticket = "-",
         type = "-",
         effort = "-",
         challenge = "-",
@@ -189,6 +190,18 @@
             <h4 class="detail-heading">Repository</h4>
             <div class="cell-repo">{repository}</div>
         </div>
+        <div class="detail-section">
+            <h4 class="detail-heading">Ticket</h4>
+            {#if ticket && ticket !== "-"}
+                {#if ticket.startsWith("http")}
+                    <a href={ticket} target="_blank" class="ticket-link">{ticket}</a>
+                {:else}
+                    <div class="cell-repo">{ticket}</div>
+                {/if}
+            {:else}
+                <span class="no-reaction">-</span>
+            {/if}
+        </div>
         {#if notes}
             <div class="detail-section">
                 <h4 class="detail-heading">Notes</h4>
@@ -199,6 +212,15 @@
 </details>
 
 <style>
+    .ticket-link {
+        font-size: 14px;
+        color: var(--color-primary);
+        text-decoration: none;
+        word-break: break-all;
+    }
+    .ticket-link:hover {
+        text-decoration: underline;
+    }
     .task-row-wrapper {
         background-color: var(--color-bg-white);
         border: 1px solid var(--color-border);

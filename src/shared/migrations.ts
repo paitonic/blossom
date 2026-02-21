@@ -24,7 +24,7 @@ export async function migrate() {
       version: "1.0",
     };
     await storage.kset("blossom:settings", initialSettings);
-    
+
     // If we just initialized to 1.0, and that's not the latest, we proceed to migrate
     if (DATA_FORMAT_VERSION !== "1.0") {
       await runMigrationSequence("1.0");
