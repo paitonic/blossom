@@ -6,7 +6,7 @@
     let { form = $bindable() } = $props();
 
     let newTag = $state("");
-    const addTagHotKeyList = ["Enter", " "];
+    const addTagHotKeyList = ["Enter", " ", ","];
 
     const addTag = (tagName) => {
         const cleanTagName = tagName.trim();

@@ -19,7 +19,7 @@
         shadowRoot.appendChild(style);
 
         const stopKeyPropagation = (event) => {
-            const addTagHotKeyList = ["Enter", " "];
+            const addTagHotKeyList = ["Enter", " ", ","];
             // GitHub listens for key presses
             // Without this, key presses will trigger an event in GitHub's UI, e.g `a` opens "Assignee" popup
             if (!addTagHotKeyList.includes(event.key)) {
