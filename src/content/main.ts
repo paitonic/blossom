@@ -2,6 +2,7 @@ import { mount, unmount } from "svelte";
 import BlossomButton from "./views/BlossomButton.svelte";
 import Popover from "./views/Popover.svelte";
 import { storage } from "@/shared/storage.svelte.js";
+import { migrate } from "@/shared/migrations";
 
 const mountsPullRequestListPage = {};
 const mountsPullRequestPage = {};
@@ -193,7 +194,9 @@ const unmountAll = () => {
   }
 };
 
-const main = () => {
+const main = async () => {
+  await migrate();
+
   const style = document.createElement("style");
   style.textContent = `
     .blossom__button {

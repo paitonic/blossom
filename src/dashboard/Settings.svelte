@@ -1,5 +1,6 @@
 <script>
     import { storage } from "@/shared/storage.svelte.js";
+    import { DATA_FORMAT_VERSION, migrate } from "@/shared/migrations";
     let files = $state(null);
     let importStatus = $state(null); // 'success' | 'error' | null
 
@@ -27,7 +28,6 @@
         const items = await storage.kall();
 
         const fileContent = {
-            version: "1.0",
             createdAt: new Date(),
             data: items,
         };
@@ -68,6 +68,8 @@
             const fileContent = JSON.parse(await file.text());
 
             await storage.kset(fileContent.data);
+            await migrate();
+
             importStatus = "success";
             setTimeout(() => {
                 importStatus = null;

@@ -27,9 +27,11 @@
     let tasks = $state([]);
     const loadTasks = async () => {
         const kv = await storage.kall();
-        tasks = Object.keys(kv).map((key) => {
-            return kv[key];
-        });
+        tasks = Object.keys(kv)
+            .filter((key) => key !== "blossom:settings")
+            .map((key) => {
+                return kv[key];
+            });
     };
 
     $effect(() => {
