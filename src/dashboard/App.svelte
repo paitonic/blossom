@@ -61,6 +61,8 @@
         activeTabName = tab.name;
         localStorage.setItem("blossom_active_tab", tab.name);
     };
+
+    const version = chrome.runtime?.getManifest?.()?.version;
 </script>
 
 <div class="app-container">
@@ -68,7 +70,12 @@
         <div class="header-inner">
             <div class="brand-section">
                 <img src={logo} alt="Blossom Logo" class="logo-img" />
-                <span class="logo-text">Blossom</span>
+                <span class="logo-text">
+                    Blossom
+                    {#if version}
+                        <span class="version">v{version}</span>
+                    {/if}
+                </span>
             </div>
             <nav class="nav-tabs">
                 {#each tabs as tab}
@@ -170,6 +177,13 @@
         font-weight: 700;
         letter-spacing: -0.025em;
         color: var(--color-text-main);
+    }
+    .version {
+        font-size: 12px;
+        font-weight: 500;
+        color: var(--color-text-muted);
+        align-self: flex-end;
+        margin-bottom: 2px;
     }
     .nav-tabs {
         display: flex;
