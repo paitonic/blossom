@@ -1,43 +1,59 @@
 import { storage } from "./storage.svelte.js";
 
-export const DATA_FORMAT_VERSION = "1.0";
+export const DATA_FORMAT_VERSION = 2;
 
 /**
  * Migration functions indexed by the version they migrate TO.
- * Example: "1.1": (data) => { ... return migratedData; }
+ * Example: 2: (data) => { ... return migratedData; }
  */
-const MIGRATIONS: Record<string, (data: any) => any> = {
-  // Future migrations will be added here
+const MIGRATIONS: Record<number, (data: any) => any> = {
+  2: (data) => {
+    for (const key in data) {
+      if (key !== "blossom:settings" && !data[key].ticket) {
+        data[key].ticket = "";
+      }
+    }
+    return data;
+  },
 };
 
 /**
  * Ordered list of versions to ensure migrations are applied in the correct sequence.
  */
-const VERSION_ORDER = ["1.0"];
+const VERSION_ORDER = [1, 2];
 
 export async function migrate() {
   const settings = await storage.kget("blossom:settings");
 
-  if (!settings || !settings.version) {
+  // Handle legacy string versions or missing version
+  let currentVersion = settings?.version;
+  if (typeof currentVersion === "string") {
+    // Treat "1.0" and "1.1" as version 1
+    currentVersion = 1;
+    // Update version in settings to numeric immediately
+    await storage.kset("blossom:settings", { ...settings, version: 1 });
+  }
+
+  if (!currentVersion) {
     const initialSettings = {
       ...(settings || {}),
-      version: "1.0",
+      version: 1,
     };
     await storage.kset("blossom:settings", initialSettings);
 
-    // If we just initialized to 1.0, and that's not the latest, we proceed to migrate
-    if (DATA_FORMAT_VERSION !== "1.0") {
-      await runMigrationSequence("1.0");
+    // If we just initialized to 1, and that's not the latest, we proceed to migrate
+    if (DATA_FORMAT_VERSION !== 1) {
+      await runMigrationSequence(1);
     }
     return;
   }
 
-  if (settings.version !== DATA_FORMAT_VERSION) {
-    await runMigrationSequence(settings.version);
+  if (currentVersion !== DATA_FORMAT_VERSION) {
+    await runMigrationSequence(currentVersion);
   }
 }
 
-async function runMigrationSequence(currentVersion: string) {
+async function runMigrationSequence(currentVersion: number) {
   const startIndex = VERSION_ORDER.indexOf(currentVersion);
   const targetIndex = VERSION_ORDER.indexOf(DATA_FORMAT_VERSION);
 

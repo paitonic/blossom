@@ -39,6 +39,7 @@
         user: "",
         repository: "",
         title: "",
+        ticket: "",
         openedAt: "",
         type: "chore",
         challenge: "medium",

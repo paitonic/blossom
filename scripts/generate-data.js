@@ -1,4 +1,4 @@
-VERSION = "1.1"
+VERSION = 2
 const ORG = "superheroes";
 const PROJECTS = [
   "Batman",
@@ -98,15 +98,18 @@ function generateData() {
       pullRequestID: prId.toString(),
       repository: project,
       title: randomItem(TITLES),
-      entry.type = randomItem(TYPES);
-      entry.user = ORG;
+      type: randomItem(TYPES),
+      user: ORG,
+    };
 
-      const hasTicket = Math.random() < 0.5;
-      if (hasTicket) {
-        entry.ticket = Math.random() < 0.5 ? `PROJ-${Math.floor(Math.random() * 1000)}` : `https://jira.com/browse/PROJ-${Math.floor(Math.random() * 1000)}`;
-      }
+    const hasTicket = Math.random() < 0.5;
+    if (hasTicket) {
+      entry.ticket = Math.random() < 0.5
+        ? `PROJ-${Math.floor(Math.random() * 1000)}`
+        : `https://jira.com/browse/PROJ-${Math.floor(Math.random() * 1000)}`;
+    }
 
-      if (isIncomplete) {
+    if (isIncomplete) {
       // Incomplete items requirements:
       // - notes field is empty
       // - tags field is an empty array
@@ -140,11 +143,14 @@ function generateData() {
     data[key] = entry;
   }
 
+  data["blossom:settings"] = {
+    version: VERSION,
+  };
+
   // Return flat data for easy import/usage in the new format context
   // or keep it wrapped if that's the preferred backup format.
   // The previous file returned a wrapped object. I'll stick to that but with new data.
   return {
-    version: VERSION, // Bump version to indicate new schema
     createdAt: new Date().toISOString(),
     data: data,
   };

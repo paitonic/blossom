@@ -3,7 +3,7 @@
 Blossom allows users to export and import their data as a JSON file. This document describes the structure and fields used in the exported data.
 
 ## Version
-1.1
+2
 
 ## Top-Level Structure
 
@@ -14,14 +14,14 @@ The exported JSON file has the following top-level structure:
   "createdAt": "2026-02-06T12:00:00.000Z",
   "data": {
     "blossom:settings": {
-      "version": "MAJOR.MINOR"
-    }
+      "version": 2
+    },
     "user/repository/pullRequestID": { ... }
   }
 }
 ```
 
-- **version**: The version of the data format.
+- **version**: The numeric version of the data format.
 - **createdAt**: The ISO 8601 timestamp when the export was created.
 - **data**: An object where keys are pull request IDs and values are the task details.
 
