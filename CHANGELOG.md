@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.0.3
+
+### Changes
+- Add data migration functionality
+- Add "Ticket" field to PR tracking
+- Add pagination for the Journal
+- Improve tags input (create tags with comma)
+- Show storage usage in Settings
+- Show extension version in Dashboard
+
 ## 0.0.2
 
 ### Changes
