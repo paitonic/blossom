@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.0.3
+## 0.0.3 - 2026-02-22
 
 ### Changes
 - Add data migration functionality
@@ -10,7 +10,9 @@
 - Show storage usage in Settings
 - Show extension version in Dashboard
 
-## 0.0.2
+---
+
+## 0.0.2 - 2026-02-14
 
 ### Changes
 - Add tags filter
@@ -18,3 +20,7 @@
 - Add filter functionality
 - Add Dashboard - Journal screenshot for Chrome Web Store
 - Update link to Chrome Web Store
+
+---
+
+## 0.0.1 - 2026-02-06
