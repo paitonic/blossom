@@ -1,18 +1,68 @@
+<script lang="ts">
+    let { totalItems, pageSize, currentPage = $bindable() } = $props();
+
+    let totalPages = $derived(Math.ceil(totalItems / pageSize));
+
+    let startRange = $derived((currentPage - 1) * pageSize + 1);
+    let endRange = $derived(Math.min(currentPage * pageSize, totalItems));
+
+    const goToPage = (page: number) => {
+        if (page >= 1 && page <= totalPages) {
+            currentPage = page;
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    };
+
+    let pages = $derived.by(() => {
+        const items: (number | string)[] = [];
+        const delta = 1; // Number of pages to show around current page
+        
+        for (let i = 1; i <= totalPages; i++) {
+            if (i === 1 || i === totalPages || (i >= currentPage - delta && i <= currentPage + delta)) {
+                items.push(i);
+            } else if (items[items.length - 1] !== '...') {
+                items.push('...');
+            }
+        }
+        return items;
+    });
+</script>
+
 <div class="pagination-container">
     <div class="pagination-summary">
-        Showing <span class="font-medium">1-4</span> of
-        <span class="font-medium">128</span> tasks
+        Showing <span class="font-medium">{startRange}-{endRange}</span> of
+        <span class="font-medium">{totalItems}</span> tasks
     </div>
     <nav class="pagination-controls">
-        <button class="pagination-button" disabled>Previous</button>
+        <button
+            class="pagination-button"
+            disabled={currentPage === 1}
+            onclick={() => goToPage(currentPage - 1)}
+        >
+            Previous
+        </button>
         <div class="page-numbers">
-            <button class="page-number-button active">1</button>
-            <button class="page-number-button">2</button>
-            <button class="page-number-button">3</button>
-            <span class="ellipsis">...</span>
-            <button class="page-number-button">12</button>
+            {#each pages as page}
+                {#if page === '...'}
+                    <span class="ellipsis">...</span>
+                {:else}
+                    <button
+                        class="page-number-button"
+                        class:active={currentPage === page}
+                        onclick={() => goToPage(page as number)}
+                    >
+                        {page}
+                    </button>
+                {/if}
+            {/each}
         </div>
-        <button class="pagination-button">Next</button>
+        <button
+            class="pagination-button"
+            disabled={currentPage === totalPages}
+            onclick={() => goToPage(currentPage + 1)}
+        >
+            Next
+        </button>
     </nav>
 </div>
 
@@ -54,6 +104,7 @@
         transition: background-color 0.2s ease;
         font-size: 14px;
         font-weight: 500;
+        cursor: pointer;
     }
     .pagination-button:hover:not(:disabled) {
         background-color: var(--color-bg-hover);
@@ -66,7 +117,7 @@
         display: flex;
         align-items: center;
         gap: 4px;
-        margin: 0 8px;
+        margin: 0 4px;
     }
     .page-number-button {
         height: 32px;
@@ -81,6 +132,7 @@
         font-size: 14px;
         font-weight: 500;
         transition: all 0.2s ease;
+        cursor: pointer;
     }
     .page-number-button:hover {
         background-color: var(--color-bg-hover);

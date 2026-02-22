@@ -7,6 +7,7 @@
     import EditTaskModal from "./EditTaskModal.svelte";
     import ConfirmationModal from "@/dashboard/components/ConfirmationModal.svelte";
     import { storage } from "@/shared/storage.svelte";
+    import { MAX_TASKS_PER_PAGE } from "@/shared/constants";
 
     let { tasks, refresh } = $props();
 
@@ -24,6 +25,22 @@
     let selectedImpacts = $state([]);
     let selectedSentiments = $state([]);
     let selectedTags = $state([]);
+
+    let currentPage = $state(1);
+
+    // Reset to first page when any filter changes
+    $effect(() => {
+        // We use these values to trigger the effect
+        searchQuery;
+        selectedTypes;
+        selectedChallenges;
+        selectedEfforts;
+        selectedImpacts;
+        selectedSentiments;
+        selectedTags;
+        sortOrder;
+        currentPage = 1;
+    });
 
     const typeOptions = [
         { value: "chore", label: "Chore" },
@@ -96,6 +113,30 @@
                 matchesTags
             );
         }),
+    );
+
+    let sortedTasks = $derived.by(() => {
+        return filteredTasks.toSorted((a, b) => {
+            const dateA = a.openedAt;
+            const dateB = b.openedAt;
+
+            if (sortOrder === "newest") {
+                if (dateA < dateB) return 1;
+                if (dateA > dateB) return -1;
+                return 0;
+            } else {
+                if (dateA < dateB) return -1;
+                if (dateA > dateB) return 1;
+                return 0;
+            }
+        });
+    });
+
+    let paginatedTasks = $derived(
+        sortedTasks.slice(
+            (currentPage - 1) * MAX_TASKS_PER_PAGE,
+            currentPage * MAX_TASKS_PER_PAGE,
+        ),
     );
 
     let editingTask = $state(null);
@@ -194,8 +235,14 @@
             />
         </div>
     </div>
-    <TaskList tasks={filteredTasks} {sortOrder} onEdit={handleEdit} onDelete={handleDelete} />
-    <!-- <Pagination /> -->
+    <TaskList tasks={paginatedTasks} {sortOrder} onEdit={handleEdit} onDelete={handleDelete} />
+    {#if filteredTasks.length > MAX_TASKS_PER_PAGE}
+        <Pagination
+            totalItems={filteredTasks.length}
+            pageSize={MAX_TASKS_PER_PAGE}
+            bind:currentPage={currentPage}
+        />
+    {/if}
 
     <EditTaskModal
         bind:open={isModalOpen}

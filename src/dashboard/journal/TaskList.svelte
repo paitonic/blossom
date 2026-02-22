@@ -2,23 +2,6 @@
     import TaskListItem from "./TaskListItem.svelte";
 
     let { tasks, sortOrder = "newest", onEdit, onDelete } = $props();
-
-    const sortedTasks = $derived.by(() => {
-        return tasks.toSorted((a, b) => {
-            const dateA = a.openedAt;
-            const dateB = b.openedAt;
-
-            if (sortOrder === "newest") {
-                if (dateA < dateB) return 1;
-                if (dateA > dateB) return -1;
-                return 0;
-            } else {
-                if (dateA < dateB) return -1;
-                if (dateA > dateB) return 1;
-                return 0;
-            }
-        });
-    });
 </script>
 
 <div class="task-list-header">
@@ -32,7 +15,7 @@
     <div class="header-cell" />
 </div>
 
-{#each sortedTasks as task, i}
+{#each tasks as task, i}
     <TaskListItem {...task} onEdit={() => onEdit(task)} onDelete={() => onDelete(task)} />
 {:else}
     <div class="empty-state">
