@@ -1,4 +1,4 @@
-VERSION = 2
+const VERSION = 2
 const ORG = "superheroes";
 const PROJECTS = [
   "Batman",
