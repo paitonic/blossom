@@ -3,6 +3,64 @@
     import { DATA_FORMAT_VERSION, migrate } from "@/shared/migrations";
     let files = $state(null);
     let importStatus = $state(null); // 'success' | 'error' | null
+    let storageStats = $state({
+        used: 0,
+        quota: 0,
+        percentage: 0,
+    });
+
+    const updateStorageStats = async () => {
+        if (
+            typeof chrome !== "undefined" &&
+            chrome.storage &&
+            chrome.storage.local
+        ) {
+            const used = await new Promise((resolve) => {
+                chrome.storage.local.getBytesInUse(null, (bytes) => {
+                    resolve(bytes);
+                });
+            });
+            const quota = chrome.storage.local.QUOTA_BYTES || 5 * 1024 * 1024;
+            storageStats = {
+                used,
+                quota,
+                percentage: Math.min(
+                    100,
+                    Math.round((used / quota) * 100) || 0,
+                ),
+            };
+        }
+    };
+
+    $effect(() => {
+        updateStorageStats();
+
+        const handleStorageChange = (changes, areaName) => {
+            if (areaName === "local") {
+                updateStorageStats();
+            }
+        };
+
+        chrome.storage.onChanged.addListener(handleStorageChange);
+
+        return () => {
+            chrome.storage.onChanged.removeListener(handleStorageChange);
+        };
+    });
+
+    const formatMB = (bytes) => {
+        return (bytes / (1024 * 1024)).toFixed(2) + " MB";
+    };
+
+    const formatUsage = (bytes) => {
+        if (bytes < 1024) {
+            return bytes + " B";
+        }
+        if (bytes < 1024 * 1024) {
+            return (bytes / 1024).toFixed(2) + " KB";
+        }
+        return (bytes / (1024 * 1024)).toFixed(2) + " MB";
+    };
 
     $effect(() => {
         if (!files) {
@@ -89,6 +147,33 @@
             Manage your personal data, export backups or import from other
             devices.
         </p>
+    </div>
+
+    <div class="widget-card">
+        <span class="widget-label">Storage Usage</span>
+        <div class="card-content">
+            <p class="description">
+                Amount of storage space used by the extension.
+            </p>
+            <div class="storage-stats">
+                <div class="storage-info">
+                    <span class="storage-used"
+                        >{formatUsage(storageStats.used)} used of {formatMB(
+                            storageStats.quota,
+                        )}</span
+                    >
+                    <span class="storage-percentage"
+                        >{storageStats.percentage}%</span
+                    >
+                </div>
+                <div class="progress-bar-container">
+                    <div
+                        class="progress-bar-fill"
+                        style="width: {storageStats.percentage}%"
+                    ></div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <div class="widget-card">
@@ -267,5 +352,41 @@
 
     .material-symbols-outlined {
         font-size: 20px;
+    }
+
+    .storage-stats {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .storage-info {
+        display: flex;
+        justify-content: space-between;
+        font-size: 14px;
+        color: var(--color-text-secondary);
+        font-weight: 500;
+    }
+
+    .storage-percentage {
+        color: var(--color-text-main);
+        font-weight: 600;
+    }
+
+    .progress-bar-container {
+        width: 100%;
+        height: 8px;
+        background-color: var(--color-bg-body);
+        border-radius: var(--radius-full);
+        overflow: hidden;
+        border: 1px solid var(--color-border);
+    }
+
+    .progress-bar-fill {
+        height: 100%;
+        background-color: var(--color-primary-black);
+        border-radius: var(--radius-full);
+        transition: width 0.3s ease;
     }
 </style>
