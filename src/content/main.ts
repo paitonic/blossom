@@ -7,6 +7,7 @@ import { migrate } from "@/shared/migrations";
 
 const mountsPullRequestListPage = {};
 const mountsPullRequestPage = {};
+let popoverMount = null;
 
 const normalizeURL = (url) => {
   try {
@@ -55,8 +56,22 @@ const getPROpenedAt = () => {
 
 const mountPopover = () => {
   let host = document.getElementById("blossom-extension-popover");
-  if (host) {
+
+  if (host && popoverMount) {
     return;
+  }
+
+  if (host) {
+    host.remove();
+  }
+
+  if (popoverMount) {
+    try {
+      unmount(popoverMount);
+    } catch (e) {
+      // ignore
+    }
+    popoverMount = null;
   }
 
   host = document.createElement("div");
@@ -64,7 +79,7 @@ const mountPopover = () => {
   document.body.appendChild(host);
 
   const shadow = host.attachShadow({ mode: "open" });
-  mount(Popover, {
+  popoverMount = mount(Popover, {
     target: shadow,
   });
 };
@@ -185,6 +200,17 @@ const mountInPullRequestView = async () => {
 
 const unmountAll = () => {
   popover.close();
+
+  if (popoverMount) {
+    unmount(popoverMount);
+    popoverMount = null;
+  }
+
+  const host = document.getElementById("blossom-extension-popover");
+  if (host) {
+    host.remove();
+  }
+
   for (const k of Object.keys(mountsPullRequestListPage)) {
     unmount(mountsPullRequestListPage[k]);
     delete mountsPullRequestListPage[k];

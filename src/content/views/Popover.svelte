@@ -97,10 +97,20 @@
 
     let popoverRef: HTMLElement;
     $effect(() => {
+        if (!popoverRef) return;
+
         if (popover.isShown) {
-            popoverRef.showPopover();
+            try {
+                popoverRef.showPopover();
+            } catch (e) {
+                // Ignore errors if already shown or other state issues
+            }
         } else {
-            popoverRef.hidePopover();
+            try {
+                popoverRef.hidePopover();
+            } catch (e) {
+                // Ignore
+            }
         }
     });
 
