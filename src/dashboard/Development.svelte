@@ -143,12 +143,6 @@
         gap: var(--spacing-xl);
     }
 
-    h2 {
-        font-size: 24px;
-        font-weight: 600;
-        color: var(--color-text-main);
-    }
-
     h3 {
         font-size: 18px;
         font-weight: 500;

@@ -79,17 +79,16 @@
             </div>
             <nav class="nav-tabs">
                 {#each tabs as tab}
-                    <a
+                    <button
                         class={activeTab.name === tab.name
                             ? "nav-tab active"
                             : "nav-tab"}
-                        href="#"
                         onclick={() => selectTab(tab)}
                     >
                         <span class="material-symbols-outlined">{tab.icon}</span
                         >
                         {tab.name}
-                    </a>
+                    </button>
                 {/each}
             </nav>
         </div>

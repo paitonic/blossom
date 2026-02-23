@@ -55,7 +55,6 @@
             </div>
         {/each}
     </div>
-    <button class="show-all-link"> </button>
 </div>
 
 <style>
@@ -130,23 +129,5 @@
     .bar-fill {
         height: 100%;
         border-radius: 2px;
-    }
-    .show-all-link {
-        font-size: 10px;
-        color: var(--color-text-muted);
-        text-decoration: none;
-        text-transform: uppercase;
-        font-weight: 600;
-        align-self: flex-end;
-        margin-top: auto;
-        transition: color 0.2s ease;
-        background: none;
-        border: none;
-        padding: 0;
-        font: inherit;
-        cursor: pointer;
-    }
-    .show-all-link:hover {
-        color: var(--color-text-main);
     }
 </style>

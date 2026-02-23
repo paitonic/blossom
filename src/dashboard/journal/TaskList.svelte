@@ -12,7 +12,7 @@
     <div class="header-cell">Challenge</div>
     <div class="header-cell">Impact</div>
     <div class="header-cell">Sentiment</div>
-    <div class="header-cell" />
+    <div class="header-cell"></div>
 </div>
 
 {#each tasks as task, i}

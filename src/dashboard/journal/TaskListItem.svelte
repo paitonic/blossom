@@ -284,12 +284,6 @@
         text-overflow: ellipsis;
         max-width: 100%;
     }
-    .cell-text {
-        font-size: 13px;
-        color: var(--color-text-secondary);
-        text-transform: uppercase;
-        font-weight: 500;
-    }
     .cell-reaction {
         display: flex;
         align-items: center;

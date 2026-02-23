@@ -271,38 +271,9 @@
         border-radius: 2px;
         overflow: hidden;
     }
-    .bar-fill {
-        height: 100%;
-        border-radius: 2px;
-    }
-    .bar-fill.black {
-        background-color: var(--color-primary-black);
-    }
-    .bar-fill.dark-grey {
-        background-color: #4b5563;
-    }
-    .bar-fill.grey {
-        background-color: #9ca3af;
-    }
-    .bar-fill.light-grey {
-        background-color: #d1d5db;
-    }
-    .show-all-link {
-        font-size: 10px;
-        color: var(--color-text-muted);
-        text-decoration: none;
-        text-transform: uppercase;
-        font-weight: 600;
-        align-self: flex-end;
-        margin-top: auto;
-        transition: color 0.2s ease;
-        background: none;
-        border: none;
-        padding: 0;
-        font: inherit;
-        cursor: pointer;
-    }
-    .show-all-link:hover {
-        color: var(--color-text-main);
-    }
-</style>
+        .bar-fill {
+            height: 100%;
+            border-radius: 2px;
+        }
+    </style>
+    
