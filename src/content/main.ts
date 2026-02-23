@@ -1,6 +1,7 @@
 import { mount, unmount } from "svelte";
 import BlossomButton from "./views/BlossomButton.svelte";
 import Popover from "./views/Popover.svelte";
+import { popover } from "./views/popover.svelte.js";
 import { storage } from "@/shared/storage.svelte.js";
 import { migrate } from "@/shared/migrations";
 
@@ -183,6 +184,7 @@ const mountInPullRequestView = async () => {
 }
 
 const unmountAll = () => {
+  popover.close();
   for (const k of Object.keys(mountsPullRequestListPage)) {
     unmount(mountsPullRequestListPage[k]);
     delete mountsPullRequestListPage[k];
@@ -235,9 +237,9 @@ const main = async () => {
   document.addEventListener("turbo:load", mountExtension);
   document.addEventListener("turbo:render", mountExtension);
 
-  document.addEventListener("turbo:before-visit", () => {
-    unmountAll();
-  });
+  document.addEventListener("turbo:before-visit", unmountAll);
+  document.addEventListener("turbo:before-cache", unmountAll);
+  window.addEventListener("popstate", unmountAll);
 };
 
 main();
