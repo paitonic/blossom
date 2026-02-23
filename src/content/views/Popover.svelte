@@ -147,7 +147,9 @@
     </div>
 
     <div class="modal-body">
-        <TaskForm bind:form />
+        {#key pullRequestDetails?.key}
+            <TaskForm bind:form />
+        {/key}
     </div>
 
     <div class="modal-footer">
