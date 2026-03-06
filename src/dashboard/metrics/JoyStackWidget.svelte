@@ -125,9 +125,7 @@
                 onclick={toggleFullScreen}
                 title={isFullScreen ? "Minimize" : "Maximize"}
             >
-                <span class="material-symbols-outlined">
-                    {isFullScreen ? 'close_fullscreen' : 'open_in_full'}
-                </span>
+                <span class="material-symbols-outlined">{isFullScreen ? 'fullscreen_exit' : 'fullscreen'}</span>
             </button>
         </div>
     </div>
@@ -254,13 +252,15 @@
         justify-content: center;
         transition: all 0.2s ease;
         border-radius: 4px;
+        width: 28px;
+        height: 28px;
     }
     .control-button:hover {
         background-color: var(--color-bg-body);
         color: var(--color-text-main);
     }
     .control-button span {
-        font-size: 18px;
+        font-size: 20px;
     }
     .dropdown-menu {
         position: absolute;
