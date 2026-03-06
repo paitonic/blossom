@@ -1,30 +1,30 @@
 export const COLORS = {
   type: {
-    feature: "#a855f7", // Purple
-    bug: "#ef4444", // Red
-    chore: "#9ca3af", // Gray
-    research: "#06b6d4", // Cyan
+    feature: "#9333ea", // Purple
+    bug: "#dc2626", // Red
+    chore: "#4b5563", // Gray
+    research: "#0891b2", // Cyan
   },
   effort: {
-    xs: "#34d399", // Emerald (Fresh/Easy)
-    s: "#22d3ee", // Cyan (Bright/Active)
-    m: "#3b82f6", // Blue
-    l: "#a855f7", // Purple
-    xl: "#ec4899", // Pink
+    xs: "#059669", // Emerald (Fresh/Easy)
+    s: "#0891b2", // Cyan (Bright/Active)
+    m: "#2563eb", // Blue
+    l: "#9333ea", // Purple
+    xl: "#db2777", // Pink
   },
   challenge: {
-    easy: "#10b981", // Green
-    medium: "#f59e0b", // Yellow
-    hard: "#ef4444", // Red
+    easy: "#059669", // Green
+    medium: "#d97706", // Yellow
+    hard: "#dc2626", // Red
   },
   impact: {
-    low: "#10b981", // Green
-    medium: "#f59e0b", // Yellow
-    high: "#ef4444", // Red
+    low: "#059669", // Green
+    medium: "#d97706", // Yellow
+    high: "#dc2626", // Red
   },
   sentiment: {
-      "-1": "#EF4444", // negative
-      "0": "#9CA3AF", // neutral
-      "1": "#10B981", // positive
+      "-1": "#DC2626", // negative
+      "0": "#4B5563", // neutral
+      "1": "#059669", // positive
   },
 };

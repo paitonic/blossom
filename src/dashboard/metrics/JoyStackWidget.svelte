@@ -348,6 +348,9 @@
     .bar-segment.positive {
         background-color: #10b981; /* Green */
     }
+    .bar-segment.positive .segment-label {
+        color: #022c22;
+    }
     .bar-segment.neutral {
         background-color: #d1d5db; /* Grey */
     }
@@ -356,5 +359,8 @@
     }
     .bar-segment.negative {
         background-color: #ef4444; /* Red */
+    }
+    .bar-segment.negative .segment-label {
+        color: #450a0a;
     }
 </style>

@@ -113,7 +113,7 @@
         --color-border-hover: #d1d5db;
         --color-text-main: #111827;
         --color-text-secondary: #4b5563;
-        --color-text-muted: #9ca3af;
+        --color-text-muted: #6b7280;
         --color-primary-black: #111827;
         --color-bg-hover: #f3f4f6;
         --color-bg-nav-active: #111827;
