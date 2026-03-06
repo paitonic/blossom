@@ -1,5 +1,6 @@
 <script>
     import Tooltip from "@/components/Tooltip.svelte";
+    import EmptyState from "./EmptyState.svelte";
 
     const { tasks } = $props();
 
@@ -88,6 +89,8 @@
                 </div>
                 <span class="chart-label">{item.name}</span>
             </div>
+        {:else}
+            <EmptyState />
         {/each}
     </div>
 </div>

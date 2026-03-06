@@ -4,6 +4,7 @@
     import TopTags from "./TopTags.svelte";
     import VelocityWidget from "./VelocityWidget.svelte";
     import JoyStackWidget from "./JoyStackWidget.svelte";
+    import EmptyState from "./EmptyState.svelte";
 
     const { tasks } = $props();
 
@@ -71,6 +72,8 @@
                             ></div>
                         </div>
                     </div>
+                {:else}
+                    <EmptyState />
                 {/each}
             </div>
         </div>
@@ -98,6 +101,8 @@
                             ></div>
                         </div>
                     </div>
+                {:else}
+                    <EmptyState />
                 {/each}
             </div>
         </div>
@@ -125,6 +130,8 @@
                             ></div>
                         </div>
                     </div>
+                {:else}
+                    <EmptyState />
                 {/each}
             </div>
         </div>
@@ -152,6 +159,8 @@
                             ></div>
                         </div>
                     </div>
+                {:else}
+                    <EmptyState />
                 {/each}
             </div>
         </div>
@@ -179,6 +188,8 @@
                             ></div>
                         </div>
                     </div>
+                {:else}
+                    <EmptyState />
                 {/each}
             </div>
         </div>

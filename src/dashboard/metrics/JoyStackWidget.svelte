@@ -1,4 +1,6 @@
 <script>
+    import EmptyState from "./EmptyState.svelte";
+
     const { tasks } = $props();
 
     let sortBy = $state("positive"); // 'positive' | 'negative'
@@ -180,10 +182,9 @@
                     {/if}
                 </div>
             </div>
+        {:else}
+            <EmptyState message="No tags with 3+ occurrences" />
         {/each}
-        {#if joyStacks.length === 0}
-            <div class="empty-state">No tags with 3+ occurrences</div>
-        {/if}
     </div>
 </div>
 
@@ -355,10 +356,5 @@
     }
     .bar-segment.negative {
         background-color: #ef4444; /* Red */
-    }
-    .empty-state {
-        font-size: 12px;
-        color: var(--color-text-muted);
-        font-style: italic;
     }
 </style>

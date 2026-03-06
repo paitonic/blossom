@@ -1,5 +1,6 @@
 <script>
     import { COLORS } from "@/shared/colors.js";
+    import EmptyState from "./EmptyState.svelte";
 
     const { tasks } = $props();
 
@@ -53,6 +54,8 @@
                     ></div>
                 </div>
             </div>
+        {:else}
+            <EmptyState />
         {/each}
     </div>
 </div>
