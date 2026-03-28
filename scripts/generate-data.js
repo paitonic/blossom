@@ -1,4 +1,4 @@
-const VERSION = 2
+const VERSION = 3
 const ORG = "superheroes";
 const PROJECTS = [
   "Batman",
@@ -100,6 +100,7 @@ function generateData() {
       title: randomItem(TITLES),
       type: randomItem(TYPES),
       user: ORG,
+      author: randomItem(["batman", "superman", "wonderwoman", "flash", "aquaman"]),
     };
 
     const hasTicket = Math.random() < 0.5;

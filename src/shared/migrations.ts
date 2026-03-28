@@ -1,6 +1,6 @@
 import { storage } from "./storage.svelte.js";
 
-export const DATA_FORMAT_VERSION = 2;
+export const DATA_FORMAT_VERSION = 3;
 
 /**
  * Migration functions indexed by the version they migrate TO.
@@ -15,12 +15,20 @@ const MIGRATIONS: Record<number, (data: any) => any> = {
     }
     return data;
   },
+  3: (data) => {
+    for (const key in data) {
+      if (key !== "blossom:settings" && typeof data[key].author !== "string") {
+        data[key].author = "";
+      }
+    }
+    return data;
+  },
 };
 
 /**
  * Ordered list of versions to ensure migrations are applied in the correct sequence.
  */
-const VERSION_ORDER = [1, 2];
+const VERSION_ORDER = [1, 2, 3];
 
 export async function migrate() {
   const settings = await storage.kget("blossom:settings");

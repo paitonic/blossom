@@ -9,6 +9,7 @@
         title,
         user,
         repository,
+        author = "-",
         pullRequestID,
         tags = [],
         notes,
@@ -189,6 +190,10 @@
         <div class="detail-section">
             <h4 class="detail-heading">Repository</h4>
             <div class="cell-repo">{repository}</div>
+        </div>
+        <div class="detail-section">
+            <h4 class="detail-heading">Author</h4>
+            <p class="cell-author">{author}</p>
         </div>
         <div class="detail-section">
             <h4 class="detail-heading">Ticket</h4>
@@ -470,7 +475,8 @@
         letter-spacing: 0.02em;
         margin: 0;
     }
-    .notes-text {
+    .notes-text,
+    .cell-author {
         font-size: 14px;
         line-height: 1.6;
         color: var(--color-text-secondary);

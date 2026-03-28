@@ -38,6 +38,7 @@
         pullRequestID: "",
         user: "",
         repository: "",
+        author: "",
         title: "",
         ticket: "",
         openedAt: "",
@@ -72,6 +73,7 @@
             key,
             user,
             repository,
+            author: popover.params.author,
             title: popover.params.title,
             openedAt: popover.params.openedAt,
             pullRequestID,
@@ -129,6 +131,7 @@
                     openedAt: pullRequestDetails.openedAt,
                     user: pullRequestDetails.user,
                     repository: pullRequestDetails.repository,
+                    author: pullRequestDetails.author,
                     pullRequestID: pullRequestDetails.pullRequestID,
                 });
             }

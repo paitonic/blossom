@@ -54,6 +54,18 @@ const getPROpenedAt = () => {
   return new Date().toISOString();
 };
 
+const getPRAuthor = () => {
+    const selectors = [
+      '#diff-comparison-viewer-container div[class^="prc-PageHeader-Description"] a[data-hovercard-type="user"]'
+    ];
+
+    for (const selector of selectors) {
+      const el = document.querySelector(selector);
+      if (el && el.innerText.trim()) return el.innerText.trim();
+    }
+    return "-";
+}
+
 const mountPopover = () => {
   let host = document.getElementById("blossom-extension-popover");
 
@@ -120,6 +132,7 @@ const mountInPullRequestList = async () => {
     if (!openedBy) continue;
 
     const openedAt = openedBy.querySelector("relative-time")?.getAttribute("datetime");
+    const author = openedBy.querySelector('a[title^="Open pull requests created by"]')?.innerText || ''
     const title = element.innerText;
 
     let target = element.parentNode?.querySelector(".blossom__button--list");
@@ -146,6 +159,7 @@ const mountInPullRequestList = async () => {
         title,
         openedAt,
         rated: !!ratings[key],
+        author
       }
     });
 
@@ -173,6 +187,7 @@ const mountInPullRequestView = async () => {
 
   const title = getPRTitle();
   const openedAt = getPROpenedAt();
+  const author = getPRAuthor();
   const rating = await storage.kget(key);
 
   const mountTo = document.querySelector(
@@ -192,6 +207,7 @@ const mountInPullRequestView = async () => {
       title,
       openedAt,
       rated: !!rating,
+      author,
     },
   });
 

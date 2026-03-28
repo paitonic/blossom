@@ -11,6 +11,7 @@ The following types of information is collected strictly for the purpose of the 
     *   Repository Name
     *   Repository Owner/Organization
     *   Pull Request ID
+    *   Pull Request Author
     *   Creation Date
 2.  **User-Generated Content:** The data you explicitly enter into the extension:
     *   Ticket reference

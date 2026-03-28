@@ -1,6 +1,7 @@
 <script>
     import { COLORS } from "@/shared/colors.js";
     import TopRepositories from "./TopRepositories.svelte";
+    import TopAuthors from "./TopAuthors.svelte";
     import TopTags from "./TopTags.svelte";
     import VelocityWidget from "./VelocityWidget.svelte";
     import JoyStackWidget from "./JoyStackWidget.svelte";
@@ -196,6 +197,7 @@
         <TopTags {tasks} />
         <JoyStackWidget {tasks} />
         <TopRepositories {tasks} />
+        <TopAuthors {tasks} />
     </div>
 </div>
 
