@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blossom Promo Tile (440x280)</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .promo-tile {
+            width: 440px;
+            height: 280px;
+            background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+            display: flex;
+            position: relative;
+            overflow: hidden;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            color: white;
+            border-radius: 8px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+
+        /* Brand Section (Left) */
+        .brand-section {
+            flex: 1;
+            padding: 32px;
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .logo {
+            width: 64px;
+            height: 64px;
+            margin-bottom: 16px;
+            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.2));
+        }
+
+        .title {
+            font-size: 32px;
+            font-weight: 800;
+            margin: 0;
+            letter-spacing: -0.02em;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .tagline {
+            font-size: 14px;
+            opacity: 0.95;
+            line-height: 1.4;
+            margin-top: 8px;
+            max-width: 180px;
+        }
+
+        /* UI Preview Section (Right - Angled) */
+        .preview-window {
+            position: absolute;
+            right: -16px;
+            top: 35px;
+            width: 280px;
+            height: 220px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: -20px 20px 40px rgba(0, 0, 0, 0.3);
+            transform: perspective(1000px) rotateY(-20deg) rotateX(10deg);
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .preview-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        /* Decorative Element */
+        .decoration {
+            position: absolute;
+            bottom: -20px;
+            left: -20px;
+            width: 100px;
+            height: 100px;
+            background: rgba(255,255,255,0.15);
+            border-radius: 50%;
+            filter: blur(40px);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="promo-tile">
+        <div class="brand-section">
+            <img src="../public/blossom-128x128.png" class="logo" alt="Blossom Logo" />
+            <h1 class="title">Blossom</h1>
+            <p class="tagline">Track your GitHub contributions beyond <br>just code.</p>
+        </div>
+
+        <div class="preview-window">
+            <img src="../public/blossom-metrics-screenshot.png" class="preview-image" alt="Metrics Dashboard" />
+        </div>
+
+        <div class="decoration"></div>
+    </div>
+
+</body>
+</html>
