@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.0.5 - 2026-03-28
+
+### Changes
+- Add Pull Request author tracking
+- Add "Top Authors" widget to Metrics
+
+---
+
 ## 0.0.4 - 2026-03-06
 
 ### Changes
